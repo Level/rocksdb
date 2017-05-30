@@ -4,7 +4,8 @@
     , "conditions": [
           ["OS == 'win'", {
               "defines": [
-                  "_HAS_EXCEPTIONS=0"
+                  "_HAS_EXCEPTIONS=1"
+                , "OS_WIN=1"
               ]
             , "msvs_settings": {
                   "VCCLCompilerTool": {
@@ -13,6 +14,12 @@
                     , "ExceptionHandling": "2"
                     , "DisableSpecificWarnings": [ "4355", "4530" ,"4267", "4244", "4506" ]
                   }
+              , 'VCLinkerTool': {
+                    'AdditionalDependencies': [
+                        # SDK import libs.
+                        'rpcrt4.lib'
+                    ]
+                }
               }
           }, { # OS != 'win'
               'cflags!': [ '-fno-rtti' ]

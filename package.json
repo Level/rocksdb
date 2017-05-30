@@ -55,7 +55,7 @@
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "test": "(tape test/*-test.js | faucet) && prebuild-ci",
+    "test": "tape test/*-test.js && prebuild-ci",
     "rebuild": "prebuild --compile",
     "prebuild": "prebuild --all --strip --verbose"
   },
