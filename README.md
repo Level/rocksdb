@@ -48,7 +48,7 @@ There are multiple ways you can find help in using LevelDB in Node.js:
 Contributing
 ------------
 
-LevelDOWN is an **OPEN Open Source Project**. This means that:
+rocksdb is an **OPEN Open Source Project**. This means that:
 
 > Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
 
@@ -62,7 +62,7 @@ A large portion of the Windows support comes from code by [Krzysztof Kowalczyk](
 Prebuilt binaries
 -----------------
 
-`rocksdb` uses `prebuild` and `prebuild-install` for handling prebuilt binaries. See [this list](https://github.com/Level/rocksdb/releases) of supported prebuilt platform binaries. When installing LevelDOWN `prebuild-install` will install prebuilt binaries from GitHub if they exist and fallback to a compile step if they don't.
+`rocksdb` uses `prebuild` and `prebuild-install` for handling prebuilt binaries. See [this list](https://github.com/Level/rocksdb/releases) of supported prebuilt platform binaries. When installing rocksdb `prebuild-install` will install prebuilt binaries from GitHub if they exist and fallback to a compile step if they don't.
 
 If you are working on `rocksdb` and want to re-compile the C++ code it's enough to do `npm install`.
 
@@ -73,6 +73,7 @@ License &amp; copyright
 -------------------
 
 Copyright &copy; 2012-2017 **rocksdb** [contributors](https://github.com/level/community#contributors).
+Copyright &copy; 2012-2017 **LevelDown** [contributors](https://github.com/level/community#contributors).
 
 **rocksdb** is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
