@@ -1,6 +1,6 @@
 {
-  "name": "leveldown",
-  "description": "A Node.js LevelDB binding, primary backend for LevelUP",
+  "name": "rocksdb",
+  "description": "A Node.js RocksDB binding, a backend for LevelUP",
   "version": "1.6.0",
   "contributors": [
     "Rod Vagg <r@va.gg> (https://github.com/rvagg)",
@@ -20,9 +20,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/level/leveldown.git"
+    "url": "https://github.com/level/rocksdb.git"
   },
-  "homepage": "https://github.com/level/leveldown",
+  "homepage": "https://github.com/level/rocksdb",
   "keywords": [
     "leveldb",
     "level"
