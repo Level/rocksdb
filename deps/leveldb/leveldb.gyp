@@ -85,7 +85,10 @@
             ]
           , 'ccflags': [
                 '-pthread'
+                '-fexceptions'
             ]
+          , 'cflags!': [ '-fno-exceptions' ]
+          , 'cflags_cc!': [ '-fno-exceptions' ]
         }]
       , ['OS == "freebsd"', {
             'defines': [

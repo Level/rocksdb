@@ -40,7 +40,8 @@
           }]
         , ['OS == "linux"', {
               'cflags': []
-            , 'cflags!': [ '-fno-tree-vrp' ]
+            , 'cflags!': [ '-fno-tree-vrp', '-fno-exceptions' ]
+            , 'cflags_cc!': [ '-fno-exceptions' ]
           }]
         ]
       , "dependencies": [
