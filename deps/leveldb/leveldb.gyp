@@ -50,10 +50,27 @@
             ]
           , 'msvs_settings': {
                 'VCCLCompilerTool': {
-                    'RuntimeTypeInfo': 'false'
-                  , 'EnableFunctionLevelLinking': 'true'
+                    'EnableFunctionLevelLinking': 'true'
                   , 'ExceptionHandling': '2'
                   , 'DisableSpecificWarnings': [ '4355', '4530' ,'4267', '4244' ]
+                }
+            }
+          # Must define RuntimeTypeInfo per configuration to override
+          # the default setting (see nodejs/node-gyp#857 and #26).
+          , 'configurations': {
+                'Debug': {
+                    'msvs_settings': {
+                        'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true'
+                        }
+                    }
+                },
+                'Release': {
+                    'msvs_settings': {
+                        'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true'
+                        }
+                    }
                 }
             }
         }, { # OS != "win"
