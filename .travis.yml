@@ -12,6 +12,7 @@ addons:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX=g++-4.8; fi
   - export JOBS=max
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export JOBS=4; fi
 
 os:
   - osx
