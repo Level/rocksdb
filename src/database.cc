@@ -81,7 +81,7 @@ uint64_t Database::ApproximateSizeFromDatabase (const rocksdb::Range* range) {
 
 void Database::CompactRangeFromDatabase (const rocksdb::Slice* start,
                                          const rocksdb::Slice* end) {
-  const rocksdb::CompactRangeOptions options;
+  rocksdb::CompactRangeOptions options;
   db->CompactRange(options, start, end);
 }
 
