@@ -40,6 +40,7 @@ OpenWorker::OpenWorker (
   , uint32_t blockSize
   , uint32_t maxOpenFiles
   , uint32_t blockRestartInterval
+  , uint32_t maxFileSize
 ) : AsyncWorker(database, callback)
 {
   rocksdb::LevelDBOptions levelOptions;
@@ -62,9 +63,8 @@ OpenWorker::OpenWorker (
   // rocksdb::Options opts = ConvertOptions(levelOptions);
   // options = &opts;
 
-
-
   options = new rocksdb::Options(rocksdb::ConvertOptions(levelOptions));
+  options->max_log_file_size          = maxFileSize;
 /*
   options = new rocksdb::Options();
   options->create_if_missing = levelOptions.create_if_missing;

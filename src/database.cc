@@ -203,6 +203,7 @@ NAN_METHOD(Database::Open) {
     , "blockRestartInterval"
     , 16
   );
+  uint32_t maxFileSize = UInt32OptionValue(optionsObj, "maxFileSize", 2 << 20);
 
   database->blockCache = cacheSize ? rocksdb::NewLRUCache(cacheSize) :
                                      NULL;
@@ -220,6 +221,7 @@ NAN_METHOD(Database::Open) {
     , blockSize
     , maxOpenFiles
     , blockRestartInterval
+    , maxFileSize
   );
   // persist to prevent accidental GC
   v8::Local<v8::Object> _this = info.This();

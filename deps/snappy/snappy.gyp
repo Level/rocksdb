@@ -6,6 +6,7 @@
           , ['OS=="solaris"', {'os_include': 'solaris'}]
           , ['OS=="win"',     {'os_include': 'win32'}]
           , ['OS=="freebsd"', {'os_include': 'freebsd'}]
+          , ['OS=="openbsd"', {'os_include': 'openbsd'}]
         ]
     }
   , 'target_name': 'snappy'
@@ -14,11 +15,12 @@
   , 'standalone_static_library': 1
   , 'include_dirs': [
         '<(os_include)'
-      , 'snappy-1.1.1'
+      , 'snappy-1.1.4'
     ]
   , 'direct_dependent_settings': {
         'include_dirs': [
-            'snappy-1.1.1'
+        	'<(os_include)'
+          , 'snappy-1.1.4'
         ]
     }
   , 'defines': [
@@ -51,6 +53,12 @@
               , '-Wno-unused-function'
             ]
         }]
+      , ['OS == "openbsd"', {
+            'cflags': [
+                '-Wno-sign-compare'
+              , '-Wno-unused-function'
+            ]
+        }]
       , ['OS == "solaris"', {
             'cflags': [
                 '-Wno-sign-compare'
@@ -67,12 +75,12 @@
         }]
     ]
   , 'sources': [
-        'snappy-1.1.1/snappy-internal.h'
-      , 'snappy-1.1.1/snappy-sinksource.cc'
-      , 'snappy-1.1.1/snappy-sinksource.h'
-      , 'snappy-1.1.1/snappy-stubs-internal.cc'
-      , 'snappy-1.1.1/snappy-stubs-internal.h'
-      , 'snappy-1.1.1/snappy.cc'
-      , 'snappy-1.1.1/snappy.h'
+        'snappy-1.1.4/snappy-internal.h'
+      , 'snappy-1.1.4/snappy-sinksource.cc'
+      , 'snappy-1.1.4/snappy-sinksource.h'
+      , 'snappy-1.1.4/snappy-stubs-internal.cc'
+      , 'snappy-1.1.4/snappy-stubs-internal.h'
+      , 'snappy-1.1.4/snappy.cc'
+      , 'snappy-1.1.4/snappy.h'
     ]
 }]}

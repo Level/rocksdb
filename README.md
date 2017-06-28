@@ -15,8 +15,6 @@ rocksdb
 
 It is **strongly recommended** that you use LevelUP in preference to `rocksdb` unless you have measurable performance reasons to do so. LevelUP is optimised for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
 
-See the section on <a href="#safety">safety</a> below for details of known unsafe operations with `rocksdb`.
-
 <a name="platforms"></a>
 Tested & supported platforms
 ----------------------------
