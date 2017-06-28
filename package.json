@@ -58,7 +58,7 @@
     "install": "prebuild-install || node-gyp rebuild",
     "test": "tape test/*-test.js | tap-spec && prebuild-ci",
     "rebuild": "prebuild --compile",
-    "prebuild": "prebuild --all --strip --verbose"
+    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
   },
   "license": "MIT",
   "gypfile": true
