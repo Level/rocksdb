@@ -1,7 +1,7 @@
 {
   "name": "rocksdb",
   "description": "A Node.js RocksDB binding, a backend for LevelUP",
-  "version": "1.6.0",
+  "version": "1.0.0-pre",
   "contributors": [
     "Rod Vagg <r@va.gg> (https://github.com/rvagg)",
     "John Chesley <john@chesl.es> (https://github.com/chesles/)",
@@ -40,7 +40,6 @@
     "async": "^2.0.1",
     "delayed": "~1.0.1",
     "du": "~0.1.0",
-    "faucet": "0.0.1",
     "iota-array": "~1.0.0",
     "lexicographic-integer": "~1.1.0",
     "mkfiletree": "~1.0.1",
@@ -52,11 +51,12 @@
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "slump": "~2.0.0",
+    "tap-spec": "^4.1.1",
     "tape": "^4.5.1"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "test": "tape test/*-test.js && prebuild-ci",
+    "test": "tape test/*-test.js | tap-spec && prebuild-ci",
     "rebuild": "prebuild --compile",
     "prebuild": "prebuild --all --strip --verbose"
   },

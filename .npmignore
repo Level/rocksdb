@@ -5,12 +5,12 @@ test-data.tar
 test-data.db.tar
 deps/leveldb/leveldb-basho/
 deps/leveldb/leveldb-hyper/
-deps/leveldb/leveldb-rocksdb/
-deps/snappy/snappy-1.1.1/testdata/
+deps/snappy/*/testdata/
 leakydb
 bench/
 test/
-deps/leveldb/leveldb-1.17.0/doc/
+deps/leveldb/*/docs
+deps/leveldb/*/java
 README
 INSTALL
 NEWS
