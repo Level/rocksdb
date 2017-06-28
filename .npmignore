@@ -15,3 +15,5 @@ README
 INSTALL
 NEWS
 AUTHORS
+Dockerfile
+.dockerignore
