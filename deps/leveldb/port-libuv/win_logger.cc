@@ -3,6 +3,7 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 
 #include "win_logger.h"
+#include "rocksdb/env.h"
 
 #include <windows.h>
 

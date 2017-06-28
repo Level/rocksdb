@@ -28,7 +28,7 @@ test('test callback-less, 1-arg, destroy() throws', function (t) {
 test('test destroy non-existant directory', function (t) {
   leveldown.destroy('/1/2/3/4', function () {
     t.equal(arguments.length, 1, 'error object returned on callback')
-    t.equal(/^Error: IO error: \/1\/2\/3\/4\/LOCK: No such file or directory$/.test(arguments[0]), true)
+    t.equal(/.*IO error.*\/1\/2\/3\/4\/LOCK.*/.test(arguments[0]), true)
     t.end()
   })
 })

@@ -12,9 +12,9 @@
   , 'direct_dependent_settings': {
         'include_dirs': [
             'leveldb-<(ldbversion)/include/'
-          # , 'leveldb-<(ldbversion)/port/'
-          # , 'leveldb-<(ldbversion)/util'
-          # , 'leveldb-<(ldbversion)/'
+            # , 'leveldb-<(ldbversion)/port/'
+            # , 'leveldb-<(ldbversion)/util'
+            # , 'leveldb-<(ldbversion)/'
         ]
     }
   , 'defines': [
@@ -26,30 +26,51 @@
     ]
   , 'conditions': [
         ['OS == "win"', {
-            'conditions': [
-                ['MSVS_VERSION != "2015" and MSVS_VERSION != "2013"', {
-                     'include_dirs': [ 'leveldb-<(ldbversion)/port/win' ]
-                }]
-            ],
             'include_dirs': [
-                'port-libuv/'
+                 'leveldb-<(ldbversion)/port/win/'
+            #  ,  'port-libuv/'
             ]
           , 'defines': [
                 'LEVELDB_PLATFORM_UV=1'
+              , 'OS_WIN=1'
               , 'NOMINMAX=1'
-              , '_HAS_EXCEPTIONS=0'
+              , '_HAS_EXCEPTIONS=1'
             ]
           , 'sources': [
-                'port-libuv/port_uv.cc'
-              , 'port-libuv/env_win.cc'
-              , 'port-libuv/win_logger.cc'
+            #    'port-libuv/port_uv.cc'
+            #  , 'port-libuv/env_win.cc'
+            #  , 'port-libuv/win_logger.cc'
+               'leveldb-<(ldbversion)/port/win/port_win.cc'
+             , 'leveldb-<(ldbversion)/port/win/io_win.cc'
+             , 'leveldb-<(ldbversion)/port/win/xpress_win.cc'
+             , 'leveldb-<(ldbversion)/port/win/env_default.cc'
+             , 'leveldb-<(ldbversion)/port/win/env_win.cc'
+             , 'leveldb-<(ldbversion)/port/win/win_logger.cc'
+             , 'leveldb-<(ldbversion)/port/win/win_thread.cc'
             ]
           , 'msvs_settings': {
                 'VCCLCompilerTool': {
-                    'RuntimeTypeInfo': 'false'
-                  , 'EnableFunctionLevelLinking': 'true'
+                    'EnableFunctionLevelLinking': 'true'
                   , 'ExceptionHandling': '2'
                   , 'DisableSpecificWarnings': [ '4355', '4530' ,'4267', '4244' ]
+                }
+            }
+          # Must define RuntimeTypeInfo per configuration to override
+          # the default setting (see nodejs/node-gyp#857 and #26).
+          , 'configurations': {
+                'Debug': {
+                    'msvs_settings': {
+                        'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true'
+                        }
+                    }
+                },
+                'Release': {
+                    'msvs_settings': {
+                        'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true'
+                        }
+                    }
                 }
             }
         }, { # OS != "win"
@@ -203,7 +224,6 @@
       , 'leveldb-<(ldbversion)/memtable/hash_skiplist_rep.cc'
       , 'leveldb-<(ldbversion)/memtable/skiplistrep.cc'
       , 'leveldb-<(ldbversion)/memtable/vectorrep.cc'
-      , 'leveldb-<(ldbversion)/port/port_posix.cc'
       , 'leveldb-<(ldbversion)/port/port.h'
       , 'leveldb-<(ldbversion)/port/stack_trace.cc'
       , 'leveldb-<(ldbversion)/table/adaptive_table_factory.cc'
@@ -253,7 +273,6 @@
       , 'leveldb-<(ldbversion)/util/env.cc'
       , 'leveldb-<(ldbversion)/util/env_chroot.cc'
       , 'leveldb-<(ldbversion)/util/env_hdfs.cc'
-      , 'leveldb-<(ldbversion)/util/env_posix.cc'
       , 'leveldb-<(ldbversion)/util/event_logger.cc'
       , 'leveldb-<(ldbversion)/util/file_util.cc'
       , 'leveldb-<(ldbversion)/util/file_reader_writer.cc'

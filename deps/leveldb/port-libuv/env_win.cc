@@ -1,6 +1,6 @@
 /*
  * originally from http://code.google.com/r/kkowalczyk-leveldb/
- * code by Krzysztof Kowalczyk kkowalczyk kowalczyk@gmail.com 
+ * code by Krzysztof Kowalczyk kkowalczyk kowalczyk@gmail.com
  * See also http://blog.kowalczyk.info/software/leveldb-for-windows/index.html
  */
 
@@ -10,8 +10,8 @@
 #include <deque>
 #include <process.h>
 
-#include "leveldb/env.h"
-#include "leveldb/slice.h"
+#include "rocksdb/env.h"
+#include "rocksdb/slice.h"
 #include "port/port.h"
 #include "util/logging.h"
 #include "win_logger.h"
@@ -44,7 +44,7 @@ static Status IOError(const std::string& context, DWORD err = (DWORD)-1) {
   FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
       NULL, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
       (LPSTR)&err_msg, 0, NULL);
-    if (!err_msg) 
+    if (!err_msg)
         return Status::IOError(context);
     s = Status::IOError(context, err_msg);
     LocalFree(err_msg);
@@ -419,7 +419,7 @@ class WinEnv : public Env {
   WCHAR *GetPathParent(const WCHAR *path) {
       const WCHAR *last_sep = NULL;
       const WCHAR *tmp = path;
-      // find the last path separator 
+      // find the last path separator
       // (ignoring one at the end of the string)
       while (*tmp) {
           if (IsPathSep(*tmp)) {
@@ -491,8 +491,8 @@ class WinEnv : public Env {
     WCHAR *file_name = ToWcharPermissive(fname.c_str());
     if (file_name == NULL)
       return Status::InvalidArgument("Invalid file name");
-    HANDLE h = CreateFileW(file_name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,  
-                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,  NULL); 
+    HANDLE h = CreateFileW(file_name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                          OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,  NULL);
     free(file_name);
     if (h == INVALID_HANDLE_VALUE)
       return  IOError("GetFileSize " + fname);
