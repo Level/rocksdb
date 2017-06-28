@@ -16,7 +16,8 @@
     "Matteo Collina <matteo.collina@gmail.com> (https://github.com/mcollina)",
     "Pedro Teixeira <pedro.teixeira@gmail.com> (https://github.com/pgte)",
     "James Halliday <mail@substack.net> (https://github.com/substack)",
-    "Gordon Hall <gordonh@member.fsf.org> (https://github.com/bookchin)"
+    "Gordon Hall <gordonh@member.fsf.org> (https://github.com/bookchin)",
+    "Yichao 'Peak' Ji <peakji@gmail.com> (https://github.com/peakji)"
   ],
   "repository": {
     "type": "git",
@@ -32,7 +33,7 @@
     "abstract-leveldown": "~2.6.1",
     "bindings": "~1.2.1",
     "fast-future": "~1.0.2",
-    "nan": "~2.5.1",
+    "nan": "~2.6.1",
     "prebuild-install": "^2.1.0"
   },
   "devDependencies": {
@@ -49,7 +50,7 @@
     "prebuild": "^6.0.2",
     "prebuild-ci": "^2.0.0",
     "readfiletree": "~0.0.1",
-    "rimraf": "~2.5.0",
+    "rimraf": "^2.6.1",
     "slump": "~2.0.0",
     "tape": "^4.5.1"
   },
