@@ -1,7 +1,7 @@
 {
   "name": "rocksdb",
   "description": "A Node.js RocksDB binding, a backend for LevelUP",
-  "version": "1.0.0-pre",
+  "version": "1.0.0-pre1",
   "contributors": [
     "Rod Vagg <r@va.gg> (https://github.com/rvagg)",
     "John Chesley <john@chesl.es> (https://github.com/chesles/)",
