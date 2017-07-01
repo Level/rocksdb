@@ -24,7 +24,6 @@ Tested & supported platforms
   * **Solaris** (SmartOS & Nodejitsu)
   * **FreeBSD**
   * **Windows**
-    * Node 0.10 and above only, see [issue #5](https://github.com/level/levelup/issues/5) for more info
     * See installation instructions for *node-gyp* dependencies [here](https://github.com/TooTallNate/node-gyp#installation), you'll need these (free) components from Microsoft to compile and run any native Node add-on in Windows.
 
 <a name="api"></a>
@@ -56,7 +55,6 @@ See the [contribution guide](https://github.com/Level/community/blob/master/CONT
 
 A large portion of the Windows support comes from code by [Krzysztof Kowalczyk](http://blog.kowalczyk.info/) [@kjk](https://twitter.com/kjk), see his Windows LevelDB port [here](http://code.google.com/r/kkowalczyk-leveldb/). If you're using LevelUP on Windows, you should give him your thanks!
 
-
 Prebuilt binaries
 -----------------
 
@@ -70,7 +68,6 @@ If you don't want to use the `prebuild` for the platform you are installing on, 
 License &amp; copyright
 -------------------
 
-Copyright &copy; 2012-2017 **rocksdb** [contributors](https://github.com/level/community#contributors).
 Copyright &copy; 2012-2017 **LevelDown** [contributors](https://github.com/level/community#contributors).
 
 **rocksdb** is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
