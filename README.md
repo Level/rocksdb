@@ -8,6 +8,7 @@ rocksdb
 [![Build Status](https://secure.travis-ci.org/Level/rocksdb.png)](http://travis-ci.org/Level/rocksdb)
 [![AppVeyor build status](https://img.shields.io/appveyor/ci/Level/rocksdb.svg)](https://ci.appveyor.com/project/Level/rocksdb)
 [![dependencies](https://david-dm.org/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Level/rocksdb.svg)](https://greenkeeper.io/)
 
 [![NPM](https://nodei.co/npm/rocksdb.png?stars&downloads&downloadRank)](https://nodei.co/npm/rocksdb/) [![NPM](https://nodei.co/npm-dl/rocksdb.png?months=6&height=3)](https://nodei.co/npm/rocksdb/)
 
