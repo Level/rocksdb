@@ -3,7 +3,7 @@ rocksdb
 
 <img alt="LevelDB Logo" height="100" src="http://leveldb.org/img/logo.svg">
 
-**A Low-level Node.js RocksDB binding**
+> A Low-level Node.js RocksDB binding
 
 [![Build Status](https://secure.travis-ci.org/Level/rocksdb.png)](http://travis-ci.org/Level/rocksdb)
 [![AppVeyor build status](https://img.shields.io/appveyor/ci/Level/rocksdb.svg)](https://ci.appveyor.com/project/Level/rocksdb)
@@ -12,7 +12,7 @@ rocksdb
 
 [![NPM](https://nodei.co/npm/rocksdb.png?stars&downloads&downloadRank)](https://nodei.co/npm/rocksdb/) [![NPM](https://nodei.co/npm-dl/rocksdb.png?months=6&height=3)](https://nodei.co/npm/rocksdb/)
 
-`rocksdb` is based on the [LevelDown](https://github.com/level/leveldown) code, which it was extracted from [LevelUP](https://github.com/level/levelup) and now serves as a stand-alone binding for LevelDB.
+`rocksdb` is based on the [LevelDown](https://github.com/level/leveldown) code, which was extracted from [LevelUP](https://github.com/level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
 
 It is **strongly recommended** that you use LevelUP in preference to `rocksdb` unless you have measurable performance reasons to do so. LevelUP is optimised for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
 
@@ -46,7 +46,7 @@ There are multiple ways you can find help in using LevelDB in Node.js:
 Contributing
 ------------
 
-rocksdb is an **OPEN Open Source Project**. This means that:
+`rocksdb` is an **OPEN Open Source Project**. This means that:
 
 > Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
 
@@ -69,8 +69,8 @@ If you don't want to use the `prebuild` for the platform you are installing on, 
 License &amp; copyright
 -------------------
 
-Copyright &copy; 2012-2017 **LevelDown** [contributors](https://github.com/level/community#contributors).
+Copyright &copy; 2012-2017 `rocksdb` [contributors](https://github.com/level/community#contributors).
 
-**rocksdb** is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
+`rocksdb` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
-*LevelDOWN builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors. LevelDB and Snappy are both issued under the [New BSD Licence](http://opensource.org/licenses/BSD-3-Clause).*
+`rocksdb` builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors to the LevelDB fork by Facebook. LevelDB and Snappy are both issued under the [New BSD Licence](http://opensource.org/licenses/BSD-3-Clause).
