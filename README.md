@@ -1,16 +1,15 @@
 rocksdb
 =========
 
-<img alt="LevelDB Logo" height="100" src="http://leveldb.org/img/logo.svg">
-
 > A Low-level Node.js RocksDB binding
 
-[![Build Status](https://secure.travis-ci.org/Level/rocksdb.png)](http://travis-ci.org/Level/rocksdb)
-[![AppVeyor build status](https://img.shields.io/appveyor/ci/Level/rocksdb.svg)](https://ci.appveyor.com/project/Level/rocksdb)
-[![dependencies](https://david-dm.org/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
-[![Greenkeeper badge](https://badges.greenkeeper.io/Level/rocksdb.svg)](https://greenkeeper.io/)
-
-[![NPM](https://nodei.co/npm/rocksdb.png?stars&downloads&downloadRank)](https://nodei.co/npm/rocksdb/) [![NPM](https://nodei.co/npm-dl/rocksdb.png?months=6&height=3)](https://nodei.co/npm/rocksdb/)
+[![level badge][level-badge]](https://github.com/level/awesome)
+[![npm](https://img.shields.io/npm/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
+![Node version](https://img.shields.io/node/v/rocksdb.svg)
+[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?label=travis)](http://travis-ci.org/Level/rocksdb)
+[![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?label=appveyor)](https://ci.appveyor.com/project/Level/rocksdb)
+[![dependencies](https://img.shields.io/david/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
+[![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
 
 `rocksdb` is based on the [LevelDown](https://github.com/level/leveldown) code, which was extracted from [LevelUP](https://github.com/level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
 
@@ -74,3 +73,5 @@ Copyright &copy; 2012-2017 `rocksdb` [contributors](https://github.com/level/com
 `rocksdb` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
 `rocksdb` builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors to the LevelDB fork by Facebook. LevelDB and Snappy are both issued under the [New BSD Licence](http://opensource.org/licenses/BSD-3-Clause).
+
+[level-badge]: http://leveldb.org/img/badge.svg
