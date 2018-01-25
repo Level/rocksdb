@@ -37,5 +37,5 @@ test('test compactRange() frees disk space after key deletion', function (t) {
 })
 
 test('tearDown', function (t) {
-  db.close(testCommon.tearDown.bind(null, 2))
+  db.close(testCommon.tearDown.bind(null, t))
 })
