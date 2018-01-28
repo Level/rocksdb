@@ -15,7 +15,7 @@ module.exports.tearDown = function () {
 
 module.exports.all = function (leveldown) {
   module.exports.setUp()
-  module.exports.close(leveldown, test, testCommon)
+  module.exports.close(leveldown, test)
   module.exports.tearDown()
 }
 

@@ -3,7 +3,6 @@ const test         = require('tape')
     , path         = require('path')
     , mkfiletree   = require('mkfiletree')
     , readfiletree = require('readfiletree')
-    , testCommon   = require('abstract-leveldown/testCommon')
     , leveldown    = require('../')
     , makeTest     = require('./make')
 
@@ -58,7 +57,7 @@ makeTest('test destroy() cleans and removes leveldb-only dir', function (db, t, 
   db.close(function (err) {
     t.notOk(err, 'no error')
     leveldown.destroy(location, function () {
-      t.notOk(fs.existsSync(), 'directory completely removed')
+      t.notOk(fs.existsSync(location), 'directory completely removed')
       done(false)
     })
   })
