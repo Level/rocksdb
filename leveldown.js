@@ -1,11 +1,9 @@
 const util              = require('util')
     , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
-
     , binding           = require('bindings')('leveldown').leveldown
-
     , ChainedBatch      = require('./chained-batch')
     , Iterator          = require('./iterator')
-
+    , fs                = require('fs')
 
 function LevelDOWN (location) {
   if (!(this instanceof LevelDOWN))
@@ -100,7 +98,28 @@ LevelDOWN.destroy = function (location, callback) {
   if (typeof callback != 'function')
     throw new Error('destroy() requires a callback function argument')
 
-  binding.destroy(location, callback)
+  binding.destroy(location, function (err) {
+    if (err) return callback(err)
+
+    // On Windows, RocksDB silently fails to remove the directory because its
+    // Logger, which is instantiated on destroy(), has an open file handle on a
+    // LOG file. Destroy() removes this file but Windows won't actually delete
+    // it until the handle is released. This happens when destroy() goes out of
+    // scope, which disposes the Logger. So back in JS-land, we can again
+    // attempt to remove the directory. This is merely a workaround because
+    // arguably RocksDB should not instantiate a Logger or open a file at all.
+    fs.rmdir(location, function (err) {
+      if (err) {
+        // Ignore this error in case there are non-RocksDB files left.
+        if (err.code === 'ENOTEMPTY') return callback()
+        if (err.code === 'ENOENT') return callback()
+
+        return callback(err)
+      }
+
+      callback()
+    })
+  })
 }
 
 
