@@ -19,6 +19,7 @@ os:
   - linux
 
 node_js:
+  - 10
   - 9
   - 8
   - 6
