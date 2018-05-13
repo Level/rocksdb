@@ -1,8 +1,8 @@
-import * as Abstract from 'abstract-leveldown';
+import { AbstractLevelDOWN, AbstractIterator } from 'abstract-leveldown';
 
 declare namespace rocksdb {
   export interface RocksDB<TKey, TValue>
-    extends Abstract.LevelDOWN<
+    extends AbstractLevelDOWN<
     TKey,
     TValue,
     RocksDBOptions,
@@ -52,8 +52,8 @@ declare namespace rocksdb {
     sync?: boolean;
   }
 
-  export interface RocksDBIterator<TKey> extends Abstract.Iterator {
-    seek(key: TKey);
+  export interface RocksDBIterator<TKey> extends AbstractIterator {
+    seek(key: TKey): any;
     binding: any;
     cache: any;
     finished: any;
