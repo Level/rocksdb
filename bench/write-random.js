@@ -2,7 +2,7 @@ const leveldown   = require('../')
     , crypto      = require('crypto')
     , fs          = require('fs')
     , du          = require('du')
-    , uuid        = require('node-uuid')
+    , uuid        = require('uuid')
 
     , entryCount  = 10000000
     , concurrency = 10
