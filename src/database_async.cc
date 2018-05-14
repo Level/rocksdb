@@ -181,7 +181,7 @@ void ReadWorker::HandleOKCallback () {
       Nan::Null()
     , returnValue
   };
-  callback->Call(2, argv);
+  callback->Call(2, argv, async_resource);
 }
 
 /** DELETE WORKER **/
@@ -303,7 +303,7 @@ void ApproximateSizeWorker::HandleOKCallback () {
       Nan::Null()
     , returnValue
   };
-  callback->Call(2, argv);
+  callback->Call(2, argv, async_resource);
 }
 
 /** COMPACT RANGE WORKER **/
@@ -346,7 +346,7 @@ void CompactRangeWorker::HandleOKCallback () {
   v8::Local<v8::Value> argv[] = {
       Nan::Null()
   };
-  callback->Call(1, argv);
+  callback->Call(1, argv, async_resource);
 }
 
 } // namespace leveldown
