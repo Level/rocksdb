@@ -412,7 +412,7 @@ NAN_METHOD(Database::Batch) {
     worker->SaveToPersistent("database", _this);
     Nan::AsyncQueueWorker(worker);
   } else {
-    LD_RUN_CALLBACK(callback, 0, NULL);
+    LD_RUN_CALLBACK("rocksdb:db.batch", callback, 0, NULL);
   }
 }
 
