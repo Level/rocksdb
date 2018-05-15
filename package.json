@@ -50,6 +50,7 @@
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "slump": "~2.0.0",
+    "standard": "^11.0.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.5.1",
     "uuid": "^3.2.1",
@@ -57,7 +58,7 @@
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "test": "verify-travis-appveyor && tape test/*-test.js | tap-spec && prebuild-ci",
+    "test": "standard && verify-travis-appveyor && tape test/*-test.js | tap-spec && prebuild-ci",
     "rebuild": "prebuild --compile",
     "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
   },
@@ -65,5 +66,10 @@
   "gypfile": true,
   "engines": {
     "node": ">=4"
+  },
+  "standard": {
+    "ignore": [
+      "deps/*"
+    ]
   }
 }

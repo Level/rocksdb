@@ -1,28 +1,25 @@
-const test         = require('tape')
-    , testCommon   = require('abstract-leveldown/testCommon')
-    , fs           = require('fs')
-    , path         = require('path')
-    , mkfiletree   = require('mkfiletree')
-    , readfiletree = require('readfiletree')
-    , rimraf       = require('rimraf')
-    , leveldown    = require('../')
-    , makeTest     = require('./make')
+const test = require('tape')
+const testCommon = require('abstract-leveldown/testCommon')
+const fs = require('fs')
+const path = require('path')
+const mkfiletree = require('mkfiletree')
+const readfiletree = require('readfiletree')
+const rimraf = require('rimraf')
+const leveldown = require('../')
+const makeTest = require('./make')
 
 test('test argument-less destroy() throws', function (t) {
-  t.throws(
-      leveldown.destroy
-    , { name: 'Error', message: 'destroy() requires `location` and `callback` arguments' }
-    , 'no-arg destroy() throws'
-  )
+  t.throws(leveldown.destroy, {
+    name: 'Error',
+    message: 'destroy() requires `location` and `callback` arguments'
+  }, 'no-arg destroy() throws')
   t.end()
 })
 
 test('test callback-less, 1-arg, destroy() throws', function (t) {
-  t.throws(
-      leveldown.destroy.bind(null, 'foo')
-    , { name: 'Error', message: 'destroy() requires `location` and `callback` arguments' }
-    , 'callback-less, 1-arg destroy() throws'
-  )
+  t.throws(leveldown.destroy.bind(null, 'foo'), {
+    name: 'Error', message: 'destroy() requires `location` and `callback` arguments'
+  }, 'callback-less, 1-arg destroy() throws')
   t.end()
 })
 
@@ -67,8 +64,8 @@ test('test destroy non-existent parent directory', function (t) {
 
 test('test destroy non leveldb directory', function (t) {
   var tree = {
-      'foo': 'FOO'
-    , 'bar': { 'one': 'ONE', 'two': 'TWO', 'three': 'THREE' }
+    foo: 'FOO',
+    bar: { 'one': 'ONE', 'two': 'TWO', 'three': 'THREE' }
   }
 
   mkfiletree.makeTemp('destroy-test', tree, function (err, dir) {
