@@ -1,7 +1,7 @@
 assert = require('assert')
-RDB    = require('./build/Release/rdb').DBWrapper
-exec   = require('child_process').exec
-util   = require('util')
+RDB = require('./build/Release/rdb').DBWrapper
+exec = require('child_process').exec
+util = require('util')
 
 DB_NAME = '/tmp/rocksdbtest-' + process.getuid()
 
@@ -9,20 +9,19 @@ a = RDB()
 assert.equal(a.open(DB_NAME, ['b']), false)
 
 exec(
-    util.format(
-        "node -e \"RDB = require('./build/Release/rdb').DBWrapper; \
+  util.format(
+    "node -e \"RDB = require('./build/Release/rdb').DBWrapper; \
         a = RDB('%s'); a.createColumnFamily('b')\"",
-        DB_NAME
-    ).exitCode, null
+    DB_NAME
+  ).exitCode, null
 )
 
-
 exec(
-    util.format(
-        "node -e \"RDB = require('./build/Release/rdb').DBWrapper; \
+  util.format(
+    "node -e \"RDB = require('./build/Release/rdb').DBWrapper; \
         a = RDB('%s', ['b'])\"",
-        DB_NAME
-    ).exitCode, null
+    DB_NAME
+  ).exitCode, null
 )
 
 exec('rm -rf ' + DB_NAME)
@@ -68,7 +67,6 @@ assert.equal(a.put(1, 'a', 1), false)
 assert.equal(a.put(1, 1, 'a'), false)
 assert.equal(a.put(1, 1, 1), false)
 
-
 assert.equal(a.get(), null)
 assert.equal(a.get('a'), null)
 assert.equal(a.get('a', 'c'), null)
@@ -107,18 +105,17 @@ assert(a.delete('b', 'b'))
 assert.equal(a.get('b', 'b'), null)
 
 // Dump
-console.log("MARKER 1")
+console.log('MARKER 1')
 assert(a.dump())
 console.log("Should be no output between 'MARKER 1' and here\n")
 console.log('Next line should be "a" => "apple"')
 assert(a.dump('b'))
 
-console.log("\nMARKER 2")
+console.log('\nMARKER 2')
 assert.equal(a.dump('c'), false)
 console.log("Should be no output between 'MARKER 2' and here\n")
 
 // WriteBatch
-
 
 // Clean up test database
 exec('rm -rf ' + DB_NAME)
