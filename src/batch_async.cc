@@ -15,7 +15,7 @@ namespace leveldown {
 BatchWriteWorker::BatchWriteWorker (
     Batch* batch
   , Nan::Callback *callback
-) : AsyncWorker(NULL, callback)
+) : AsyncWorker(NULL, callback, "rocksdb:batch.write")
   , batch(batch)
 {};
 
