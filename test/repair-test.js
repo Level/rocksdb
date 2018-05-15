@@ -1,14 +1,14 @@
-const test         = require('tape')
-    , fs           = require('fs')
-    , path         = require('path')
-    , mkfiletree   = require('mkfiletree')
-    , readfiletree = require('readfiletree')
-    , leveldown    = require('../')
-    , makeTest     = require('./make')
+const test = require('tape'),
+  fs = require('fs'),
+  path = require('path'),
+  mkfiletree = require('mkfiletree'),
+  readfiletree = require('readfiletree'),
+  leveldown = require('../'),
+  makeTest = require('./make')
 
 test('test argument-less repair() throws', function (t) {
   t.throws(
-      leveldown.repair
+    leveldown.repair
     , { name: 'Error', message: 'repair() requires `location` and `callback` arguments' }
     , 'no-arg repair() throws'
   )
@@ -17,7 +17,7 @@ test('test argument-less repair() throws', function (t) {
 
 test('test callback-less, 1-arg, repair() throws', function (t) {
   t.throws(
-      leveldown.repair.bind(null, 'foo')
+    leveldown.repair.bind(null, 'foo')
     , { name: 'Error', message: 'repair() requires `location` and `callback` arguments' }
     , 'callback-less, 1-arg repair() throws'
   )
