@@ -1,8 +1,9 @@
 var leveldown = require('../')
+var path = require('path')
 
 var addr = '1111111111111111111114oLvT2'
 
-var db = leveldown(process.env.HOME + '/iterleak.db')
+var db = leveldown(path.join(process.env.HOME, 'iterleak.db'))
 var records = {
   'w/a/14r6JPSJNzBXXJEM2jnmoybQCw3arseKuY/primary': '00',
   'w/a/17nJuKqjTyAeujSJnPCebpSTEz1v9kjNKg/primary': '00',
