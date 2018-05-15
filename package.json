@@ -66,5 +66,10 @@
   "gypfile": true,
   "engines": {
     "node": ">=4"
+  },
+  "standard": {
+    "ignore": [
+      "deps/*"
+    ]
   }
 }
