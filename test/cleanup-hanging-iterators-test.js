@@ -1,5 +1,3 @@
-const test = require('tape')
-const leveldown = require('../')
 const makeTest = require('./make')
 
 makeTest('test ended iterator', function (db, t, done) {
