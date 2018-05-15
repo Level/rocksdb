@@ -1,3 +1,5 @@
+/* global gc */
+
 const BUFFERS = false
 
 var leveldown = require('..')
