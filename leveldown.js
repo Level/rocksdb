@@ -1,12 +1,14 @@
-const util = require('util'),
-  AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN,
-  binding = require('bindings')('leveldown').leveldown,
-  ChainedBatch = require('./chained-batch'),
-  Iterator = require('./iterator'),
-  fs = require('fs')
+const util = require('util')
+const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+const binding = require('bindings')('leveldown').leveldown
+const ChainedBatch = require('./chained-batch')
+const Iterator = require('./iterator')
+const fs = require('fs')
 
 function LevelDOWN (location) {
-  if (!(this instanceof LevelDOWN)) { return new LevelDOWN(location) }
+  if (!(this instanceof LevelDOWN)) {
+    return new LevelDOWN(location)
+  }
 
   AbstractLevelDOWN.call(this, location)
   this.binding = binding(location)
@@ -75,11 +77,15 @@ LevelDOWN.prototype._iterator = function (options) {
 }
 
 LevelDOWN.destroy = function (location, callback) {
-  if (arguments.length < 2) { throw new Error('destroy() requires `location` and `callback` arguments') }
-
-  if (typeof location !== 'string') { throw new Error('destroy() requires a location string argument') }
-
-  if (typeof callback !== 'function') { throw new Error('destroy() requires a callback function argument') }
+  if (arguments.length < 2) {
+    throw new Error('destroy() requires `location` and `callback` arguments')
+  }
+  if (typeof location !== 'string') {
+    throw new Error('destroy() requires a location string argument')
+  }
+  if (typeof callback !== 'function') {
+    throw new Error('destroy() requires a callback function argument')
+  }
 
   binding.destroy(location, function (err) {
     if (err) return callback(err)
@@ -106,11 +112,15 @@ LevelDOWN.destroy = function (location, callback) {
 }
 
 LevelDOWN.repair = function (location, callback) {
-  if (arguments.length < 2) { throw new Error('repair() requires `location` and `callback` arguments') }
-
-  if (typeof location !== 'string') { throw new Error('repair() requires a location string argument') }
-
-  if (typeof callback !== 'function') { throw new Error('repair() requires a callback function argument') }
+  if (arguments.length < 2) {
+    throw new Error('repair() requires `location` and `callback` arguments')
+  }
+  if (typeof location !== 'string') {
+    throw new Error('repair() requires a location string argument')
+  }
+  if (typeof callback !== 'function') {
+    throw new Error('repair() requires a callback function argument')
+  }
 
   binding.repair(location, callback)
 }

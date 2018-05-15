@@ -27,7 +27,7 @@ db.open({
   writeBufferSize: 4 << 20,
   maxOpenFiles: 8192
 }, function (err) {
-  if (err) { throw err }
+  if (err) throw err
 
   memory()
 
@@ -38,13 +38,13 @@ db.open({
   })
 
   batch.write(function (err) {
-    if (err) { throw err }
+    if (err) throw err
 
     // This will leak roughly 1mb per call.
     setTimeout(function self () {
       var i = 0
       ;(function next (err) {
-        if (err) { throw err }
+        if (err) throw err
         if (i++ >= 10000) {
           memory()
           return setTimeout(self, 1000)
@@ -82,12 +82,14 @@ function iterate (address, callback) {
     iter.next(function (err, key, value) {
       if (err) {
         return iter.end(function (e) {
-          if (e) { throw e }
+          if (e) throw e
           callback(err)
         })
       }
 
-      if (key === undefined) { return iter.end(callback) }
+      if (key === undefined) {
+        return iter.end(callback)
+      }
 
       next()
     })
