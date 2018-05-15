@@ -10,7 +10,7 @@ var common = require('abstract-leveldown/testCommon')
 var leveldown = require('../')
 var test = require('tape')
 
-var compressableData = new Buffer(Array.apply(null, Array(1024 * 100)).map(function () { return 'aaaaaaaaaa' }).join(''))
+var compressableData = Buffer.from(Array.apply(null, Array(1024 * 100)).map(function () { return 'aaaaaaaaaa' }).join(''))
 var multiples = 10
 var dataSize = compressableData.length * multiples
 
