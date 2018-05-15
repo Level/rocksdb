@@ -15,7 +15,7 @@ namespace leveldown {
 DestroyWorker::DestroyWorker (
     Nan::Utf8String* location
   , Nan::Callback *callback
-) : AsyncWorker(NULL, callback)
+) : AsyncWorker(NULL, callback, "rocksdb:destroy")
   , location(location)
 {};
 
@@ -33,7 +33,7 @@ void DestroyWorker::Execute () {
 RepairWorker::RepairWorker (
     Nan::Utf8String* location
   , Nan::Callback *callback
-) : AsyncWorker(NULL, callback)
+) : AsyncWorker(NULL, callback, "rocksdb:repair")
   , location(location)
 {};
 

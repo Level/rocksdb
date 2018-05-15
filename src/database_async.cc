@@ -41,7 +41,7 @@ OpenWorker::OpenWorker (
   , uint32_t maxOpenFiles
   , uint32_t blockRestartInterval
   , uint32_t maxFileSize
-) : AsyncWorker(database, callback)
+) : AsyncWorker(database, callback, "rocksdb:db.open")
 {
   rocksdb::LevelDBOptions levelOptions;
 
@@ -98,8 +98,8 @@ void OpenWorker::Execute () {
 CloseWorker::CloseWorker (
     Database *database
   , Nan::Callback *callback
-) : AsyncWorker(database, callback)
-{};
+) : AsyncWorker(database, callback, "rocksdb:db.close")
+{}
 
 CloseWorker::~CloseWorker () {}
 
@@ -119,9 +119,10 @@ void CloseWorker::WorkComplete () {
 IOWorker::IOWorker (
     Database *database
   , Nan::Callback *callback
+  , const char *resource_name
   , rocksdb::Slice key
   , v8::Local<v8::Object> &keyHandle
-) : AsyncWorker(database, callback)
+) : AsyncWorker(database, callback, resource_name)
   , key(key)
 {
   Nan::HandleScope scope;
@@ -147,7 +148,7 @@ ReadWorker::ReadWorker (
   , bool asBuffer
   , bool fillCache
   , v8::Local<v8::Object> &keyHandle
-) : IOWorker(database, callback, key, keyHandle)
+) : IOWorker(database, callback, "rocksdb:db.get", key, keyHandle)
   , asBuffer(asBuffer)
 {
   Nan::HandleScope scope;
@@ -192,7 +193,8 @@ DeleteWorker::DeleteWorker (
   , rocksdb::Slice key
   , bool sync
   , v8::Local<v8::Object> &keyHandle
-) : IOWorker(database, callback, key, keyHandle)
+  , const char *resource_name
+) : IOWorker(database, callback, resource_name, key, keyHandle)
 {
   Nan::HandleScope scope;
 
@@ -219,7 +221,7 @@ WriteWorker::WriteWorker (
   , bool sync
   , v8::Local<v8::Object> &keyHandle
   , v8::Local<v8::Object> &valueHandle
-) : DeleteWorker(database, callback, key, sync, keyHandle)
+) : DeleteWorker(database, callback, key, sync, keyHandle, "rocksdb:db.put")
   , value(value)
 {
   Nan::HandleScope scope;
@@ -247,7 +249,7 @@ BatchWorker::BatchWorker (
   , Nan::Callback *callback
   , rocksdb::WriteBatch* batch
   , bool sync
-) : AsyncWorker(database, callback)
+) : AsyncWorker(database, callback, "rocksdb:db.batch")
   , batch(batch)
 {
   options = new rocksdb::WriteOptions();
@@ -272,7 +274,7 @@ ApproximateSizeWorker::ApproximateSizeWorker (
   , rocksdb::Slice end
   , v8::Local<v8::Object> &startHandle
   , v8::Local<v8::Object> &endHandle
-) : AsyncWorker(database, callback)
+) : AsyncWorker(database, callback, "rocksdb:db.approximateSize")
   , range(start, end)
 {
   Nan::HandleScope scope;
@@ -315,7 +317,7 @@ CompactRangeWorker::CompactRangeWorker (
   , rocksdb::Slice end
   , v8::Local<v8::Object> &startHandle
   , v8::Local<v8::Object> &endHandle
-) : AsyncWorker(database, callback)
+) : AsyncWorker(database, callback, "rocksdb:db.compactRange")
 {
   Nan::HandleScope scope;
 

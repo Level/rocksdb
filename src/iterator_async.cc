@@ -19,7 +19,7 @@ NextWorker::NextWorker (
     Iterator* iterator
   , Nan::Callback *callback
   , void (*localCallback)(Iterator*)
-) : AsyncWorker(NULL, callback)
+) : AsyncWorker(NULL, callback, "rocksdb:iterator.next")
   , iterator(iterator)
   , localCallback(localCallback)
 {};
@@ -82,7 +82,7 @@ void NextWorker::HandleOKCallback () {
 EndWorker::EndWorker (
     Iterator* iterator
   , Nan::Callback *callback
-) : AsyncWorker(NULL, callback)
+) : AsyncWorker(NULL, callback, "rocksdb:iterator.end")
   , iterator(iterator)
 {};
 
