@@ -63,7 +63,7 @@ function start () {
   }
 
   function write () {
-    if (totalWrites++ == options.num) {
+    if (totalWrites++ === options.num) {
       db.close(function () {
         report(Date.now() - startTime)
       })
