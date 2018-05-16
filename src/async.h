@@ -19,7 +19,8 @@ public:
   AsyncWorker (
       leveldown::Database* database
     , Nan::Callback *callback
-  ) : Nan::AsyncWorker(callback), database(database) { }
+    , const char *resource_name
+  ) : Nan::AsyncWorker(callback, resource_name), database(database) { }
 
 protected:
   void SetStatus(rocksdb::Status status) {
