@@ -1,5 +1,4 @@
-rocksdb
-=========
+# rocksdb
 
 > A Low-level Node.js RocksDB binding
 
@@ -10,14 +9,14 @@ rocksdb
 [![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?label=appveyor)](https://ci.appveyor.com/project/Level/rocksdb)
 [![dependencies](https://img.shields.io/david/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
 [![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 `rocksdb` is based on the [LevelDown](https://github.com/level/leveldown) code, which was extracted from [LevelUP](https://github.com/level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
 
 It is **strongly recommended** that you use LevelUP in preference to `rocksdb` unless you have measurable performance reasons to do so. LevelUP is optimised for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
 
 <a name="platforms"></a>
-Tested & supported platforms
-----------------------------
+## Supported Platforms
 
   * **Linux** (including ARM platforms such as Raspberry Pi *and Kindle!*)
   * **Mac OS**
@@ -32,8 +31,7 @@ Tested & supported platforms
 `rocksdb` implements the same API of [LevelDown](https://github.com/level/leveldown#api).
 
 <a name="support"></a>
-Getting support
----------------
+## Getting Support
 
 There are multiple ways you can find help in using LevelDB in Node.js:
 
@@ -42,8 +40,7 @@ There are multiple ways you can find help in using LevelDB in Node.js:
  * **GitHub:** you're welcome to open an issue here on this GitHub repository if you have a question.
 
 <a name="contributing"></a>
-Contributing
-------------
+## Contributing
 
 `rocksdb` is an **OPEN Open Source Project**. This means that:
 
@@ -55,8 +52,7 @@ See the [contribution guide](https://github.com/Level/community/blob/master/CONT
 
 A large portion of the Windows support comes from code by [Krzysztof Kowalczyk](http://blog.kowalczyk.info/) [@kjk](https://twitter.com/kjk), see his Windows LevelDB port [here](http://code.google.com/r/kkowalczyk-leveldb/). If you're using LevelUP on Windows, you should give him your thanks!
 
-Prebuilt binaries
------------------
+## Prebuilt Binaries
 
 `rocksdb` uses `prebuild` and `prebuild-install` for handling prebuilt binaries. See [this list](https://github.com/Level/rocksdb/releases) of supported prebuilt platform binaries. When installing rocksdb `prebuild-install` will install prebuilt binaries from GitHub if they exist and fallback to a compile step if they don't.
 
@@ -65,10 +61,9 @@ If you are working on `rocksdb` and want to re-compile the C++ code it's enough 
 If you don't want to use the `prebuild` for the platform you are installing on, specify the `--build-from-source` flag when you install.
 
 <a name="license"></a>
-License &amp; copyright
--------------------
+## License
 
-Copyright &copy; 2012-2017 `rocksdb` [contributors](https://github.com/level/community#contributors).
+Copyright &copy; 2012-2018 `rocksdb` [contributors](https://github.com/level/community#contributors).
 
 `rocksdb` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
