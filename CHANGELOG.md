@@ -2,6 +2,26 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2018-05-21
+
+### Added
+* Add node 10 to Travis and AppVeyor (@ralphtheninja)
+* Add default export (@meirionhughes)
+* Add `standard` (@ralphtheninja)
+
+### Changed
+* Upgrade to `nan@2.10.0` (@ralphtheninja)
+* Upgrade to `prebuild-install@4.0.0` (@ralphtheninja)
+* Upgrade to `verify-travis-appveyor@3.0.0` (@ralphtheninja)
+* Replace deprecated `node-uuid` with `uuid` (@ralphtheninja)
+
+### Fixed
+* Fix nan deprecation warnings (@ralphtheninja)
+
+### Removed
+* Remove node 4 from Travis and AppVeyor (@ralphtheninja)
+* Remove TypeScript typings (@meirionhughes, @ralphtheninja)
+
 ## [2.0.0] - 2018-02-12
 
 ### Added
@@ -43,7 +63,8 @@
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
 
-[Unreleased]: https://github.com/level/rocksdb/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/level/rocksdb/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/level/rocksdb/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/level/rocksdb/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/level/rocksdb/compare/v1.0.0...v1.0.1
