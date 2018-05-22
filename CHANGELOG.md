@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [3.0.1] - 2018-05-22
+
+### Added
+* Add upgrade guide (@ralphtheninja)
+
+### Changed
+* Upgrade to `abstract-leveldown@~5.0.0` (@ralphtheninja)
+
 ## [3.0.0] - 2018-05-21
 
 ### Added
@@ -63,7 +71,8 @@
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
 
-[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/level/rocksdb/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/level/rocksdb/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/level/rocksdb/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/level/rocksdb/compare/v1.0.1...v1.1.0
