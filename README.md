@@ -65,7 +65,7 @@ If you don't want to use the `prebuild` for the platform you are installing on, 
 <a name="license"></a>
 ## License
 
-Copyright &copy; 2012-2018 `rocksdb` [contributors](https://github.com/level/community#contributors).
+Copyright &copy; 2012-present `rocksdb` [contributors](https://github.com/level/community#contributors).
 
 `rocksdb` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
 
