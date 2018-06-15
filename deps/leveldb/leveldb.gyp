@@ -19,6 +19,7 @@
     }
   , 'defines': [
         'SNAPPY=1'
+      , 'PORTABLE=1'
     ]
   , 'include_dirs': [
         'leveldb-<(ldbversion)/'
