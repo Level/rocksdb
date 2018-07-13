@@ -3,12 +3,13 @@
 const BUFFERS = false
 const CHAINED = false
 
-var leveldown = require('..')
-var crypto = require('crypto')
-var assert = require('assert')
-var writeCount = 0
-var rssBase
-var db
+const testCommon = require('./common')
+const crypto = require('crypto')
+const assert = require('assert')
+
+let writeCount = 0
+let rssBase
+let db
 
 function print () {
   if (writeCount % 100 === 0) {
@@ -73,10 +74,8 @@ var run = CHAINED
     print()
   }
 
-leveldown.destroy('./leakydb', function () {
-  db = leveldown('./leakydb')
-  db.open({ xcacheSize: 0, xmaxOpenFiles: 10 }, function () {
-    rssBase = process.memoryUsage().rss
-    run()
-  })
+db = testCommon.factory()
+db.open({ xcacheSize: 0, xmaxOpenFiles: 10 }, function () {
+  rssBase = process.memoryUsage().rss
+  run()
 })

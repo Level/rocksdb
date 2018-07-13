@@ -1,14 +1,9 @@
-/* Copyright (c) 2012-2017 LevelUP contributors
- * See list at <https://github.com/level/leveldown#contributing>
- * MIT License <https://github.com/level/leveldown/blob/master/LICENSE.md>
- */
-
-var async = require('async')
-var du = require('du')
-var delayed = require('delayed')
-var common = require('abstract-leveldown/testCommon')
-var leveldown = require('../')
-var test = require('tape')
+const async = require('async')
+const du = require('du')
+const delayed = require('delayed')
+const testCommon = require('./common')
+const leveldown = require('..')
+const test = require('tape')
 
 var compressableData = Buffer.from(Array.apply(null, Array(1024 * 100)).map(function () { return 'aaaaaaaaaa' }).join(''))
 var multiples = 10
@@ -44,10 +39,10 @@ var cycle = function (db, compression, t, callback) {
 
 test('compression', function (t) {
   t.plan(4)
-  t.test('set up', common.setUp)
+  t.test('set up', testCommon.setUp)
 
   t.test('test data is compressed by default (db.put())', function (t) {
-    var db = leveldown(common.location())
+    var db = testCommon.factory()
     db.open(function (err) {
       t.error(err)
       async.forEach(Array.apply(null, Array(multiples)).map(function (e, i) {
@@ -59,7 +54,7 @@ test('compression', function (t) {
   })
 
   t.test('test data is not compressed with compression=false on open() (db.put())', function (t) {
-    var db = leveldown(common.location())
+    var db = testCommon.factory()
     db.open({ compression: false }, function (err) {
       t.error(err)
       async.forEach(Array.apply(null, Array(multiples)).map(function (e, i) {
@@ -71,7 +66,7 @@ test('compression', function (t) {
   })
 
   t.test('test data is compressed by default (db.batch())', function (t) {
-    var db = leveldown(common.location())
+    var db = testCommon.factory()
     db.open(function (err) {
       t.error(err)
       db.batch(Array.apply(null, Array(multiples)).map(function (e, i) {
