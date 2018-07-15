@@ -30,6 +30,14 @@ LevelDOWN.prototype._close = function (callback) {
   this.binding.close(callback)
 }
 
+LevelDOWN.prototype._serializeKey = function (key) {
+  return Buffer.isBuffer(key) ? key : String(key)
+}
+
+LevelDOWN.prototype._serializeValue = function (value) {
+  return Buffer.isBuffer(value) ? value : String(value)
+}
+
 LevelDOWN.prototype._put = function (key, value, options, callback) {
   this.binding.put(key, value, options, callback)
 }
