@@ -16,3 +16,4 @@ npm-debug.log
 prebuilds/
 yarn.lock
 package-lock.json
+.nyc_output/

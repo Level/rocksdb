@@ -9,6 +9,7 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?label=appveyor)](https://ci.appveyor.com/project/Level/rocksdb)
 [![dependencies](https://img.shields.io/david/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
 [![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
+[![Coverage Status](https://coveralls.io/repos/github/Level/rocksdb/badge.svg)](https://coveralls.io/github/Level/rocksdb)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 **If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
