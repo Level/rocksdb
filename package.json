@@ -34,7 +34,7 @@
     "prebuild-ci": "^2.0.0",
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
-    "slump": "~2.0.0",
+    "slump": "~3.0.0",
     "standard": "^11.0.1",
     "tape": "^4.5.1",
     "uuid": "^3.2.1",
