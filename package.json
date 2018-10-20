@@ -14,7 +14,7 @@
     "prepublishOnly": "npm run dependency-check"
   },
   "dependencies": {
-    "abstract-leveldown": "~5.0.0",
+    "abstract-leveldown": "~6.0.3",
     "bindings": "~1.5.0",
     "fast-future": "~1.0.2",
     "nan": "~2.13.2",
