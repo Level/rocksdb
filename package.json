@@ -1,7 +1,7 @@
 {
   "name": "rocksdb",
   "description": "A Node.js RocksDB binding, a backend for LevelUP",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/level/rocksdb.git"
