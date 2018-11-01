@@ -11,6 +11,8 @@
     {
       'action_name': 'build-version',
       'inputs': [
+        'rocksdb.gyp',
+        'rocksdb/util/build_version.cc.in',
         '<(module_root_dir)/scripts/build-version.js'
       ],
       'outputs': [
@@ -18,7 +20,7 @@
       ],
       'action': [
         'node',
-        '<@(_inputs)',
+        '<(module_root_dir)/scripts/build-version.js',
         '<(git_sha)'
       ]
     }
