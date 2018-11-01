@@ -287,7 +287,7 @@
       , 'rocksdb/tools/dump/db_dump_tool.cc'
       , 'rocksdb/util/arena.cc'
       , 'rocksdb/util/bloom.cc'
-, 'rocksdb/util/build_version.cc'
+      , 'rocksdb/util/build_version.cc'
       , 'rocksdb/util/cf_options.cc'
       , 'rocksdb/util/clock_cache.cc'
       , 'rocksdb/util/coding.cc'
