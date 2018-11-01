@@ -54,7 +54,7 @@
           }]
         ]
       , "dependencies": [
-            "<(module_root_dir)/deps/leveldb/leveldb.gyp:leveldb"
+            "<(module_root_dir)/deps/rocksdb/rocksdb.gyp:rocksdb"
         ]
       , "include_dirs"  : [
             "<!(node -e \"require('napi-macros')\")"

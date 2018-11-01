@@ -1,20 +1,20 @@
 deps/**/*.md
 deps/**/.git
 
-deps/leveldb/leveldb-rocksdb/arcanist_util/
-deps/leveldb/leveldb-rocksdb/build_tools/
-deps/leveldb/leveldb-rocksdb/coverage/
-deps/leveldb/leveldb-rocksdb/docs/
-deps/leveldb/leveldb-rocksdb/examples/
-deps/leveldb/leveldb-rocksdb/hdfs/setup.sh
-deps/leveldb/leveldb-rocksdb/java/
-deps/leveldb/leveldb-rocksdb/third-party/gtest-*/
-deps/leveldb/leveldb-rocksdb/tools/*.sh
-deps/leveldb/leveldb-rocksdb/tools/*.py
-deps/leveldb/leveldb-rocksdb/tools/*.dmp
-deps/leveldb/leveldb-rocksdb/tools/rdb/
-deps/leveldb/leveldb-rocksdb/README.md
-deps/leveldb/leveldb-rocksdb/HISTORY.md
+deps/rocksdb/rocksdb/arcanist_util/
+deps/rocksdb/rocksdb/build_tools/
+deps/rocksdb/rocksdb/coverage/
+deps/rocksdb/rocksdb/docs/
+deps/rocksdb/rocksdb/examples/
+deps/rocksdb/rocksdb/hdfs/setup.sh
+deps/rocksdb/rocksdb/java/
+deps/rocksdb/rocksdb/third-party/gtest-*/
+deps/rocksdb/rocksdb/tools/*.sh
+deps/rocksdb/rocksdb/tools/*.py
+deps/rocksdb/rocksdb/tools/*.dmp
+deps/rocksdb/rocksdb/tools/rdb/
+deps/rocksdb/rocksdb/README.md
+deps/rocksdb/rocksdb/HISTORY.md
 
 deps/snappy/snappy*/testdata/
 deps/snappy/snappy*/*.txt
