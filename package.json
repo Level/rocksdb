@@ -1,7 +1,7 @@
 {
   "name": "rocksdb",
   "description": "A Node.js RocksDB binding, a backend for LevelUP",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/level/rocksdb.git"
@@ -35,7 +35,7 @@
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "slump": "~3.0.0",
-    "standard": "^11.0.1",
+    "standard": "^12.0.0",
     "tape": "^4.5.1",
     "uuid": "^3.2.1",
     "verify-travis-appveyor": "^3.0.0"
