@@ -2,6 +2,17 @@
 
 ## [Unreleased]
 
+## [3.0.3] - 2018-12-09
+
+### Changed
+* Upgrade `slump` devDependency from `~2.0.0` to `~3.0.0` (#76) (@vweevers)
+
+### Fixed
+* Add `sys/sysmacros.h` for build on modern glibc (#86) (@lachesis)
+
+### Removed
+* Remove unused `port-libuv` directory (#81) (@filoozom)
+
 ## [3.0.2] - 2018-10-25
 
 ### Changed
@@ -76,7 +87,8 @@
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
 
-[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.2...HEAD
+[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.3...HEAD
+[3.0.3]: https://github.com/level/rocksdb/compare/v3.0.2...v3.0.3
 [3.0.2]: https://github.com/level/rocksdb/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/level/rocksdb/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/level/rocksdb/compare/v2.0.0...v3.0.0
