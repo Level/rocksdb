@@ -43,7 +43,7 @@ function run () {
 }
 
 db = testCommon.factory()
-db.open({ xcacheSize: 0, xmaxOpenFiles: 10 }, function () {
+db.open(function () {
   rssBase = process.memoryUsage().rss
   run()
 })
