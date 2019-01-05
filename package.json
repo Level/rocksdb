@@ -46,6 +46,12 @@
       "deps/*"
     ]
   },
+  "hallmark": {
+    "community": "level-community",
+    "ignore": [
+      "README.md"
+    ]
+  },
   "gypfile": true,
   "repository": {
     "type": "git",
