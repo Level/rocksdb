@@ -6,10 +6,11 @@
   "main": "leveldown.js",
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
-    "test": "standard && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
+    "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "rebuild": "prebuild --compile",
-    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
+    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose",
+    "hallmark": "hallmark --fix"
   },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
