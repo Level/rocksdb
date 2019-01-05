@@ -63,13 +63,10 @@ If you are working on `rocksdb` and want to re-compile the C++ code it's enough 
 
 If you don't want to use the `prebuild` for the platform you are installing on, specify the `--build-from-source` flag when you install.
 
-<a name="license"></a>
 ## License
 
-Copyright &copy; 2012-present `rocksdb` [contributors](https://github.com/level/community#contributors).
+[MIT](LICENSE.md) © 2012-present Rod Vagg and [Contributors](CONTRIBUTORS.md).
 
-`rocksdb` is licensed under the MIT license. All rights not explicitly granted in the MIT license are reserved. See the included `LICENSE.md` file for more details.
-
-`rocksdb` builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors to the LevelDB fork by Facebook. LevelDB and Snappy are both issued under the [New BSD Licence](http://opensource.org/licenses/BSD-3-Clause).
+_`rocksdb` builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors to the LevelDB fork by Facebook. LevelDB and Snappy are both issued under the [New BSD License](http://opensource.org/licenses/BSD-3-Clause). A large portion of `rocksdb` Windows support comes from the [Windows LevelDB port](http://code.google.com/r/kkowalczyk-leveldb/) (archived) by [Krzysztof Kowalczyk](http://blog.kowalczyk.info/) ([`@kjk`](https://twitter.com/kjk)). If you're using `rocksdb` on Windows, you should give him your thanks!_
 
 [level-badge]: http://leveldb.org/img/badge.svg
