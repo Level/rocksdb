@@ -1,17 +1,17 @@
 {
   "name": "rocksdb",
-  "description": "A Node.js RocksDB binding, a backend for LevelUP",
   "version": "3.0.3",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/level/rocksdb.git"
-  },
-  "homepage": "https://github.com/level/rocksdb",
-  "keywords": [
-    "leveldb",
-    "level"
-  ],
+  "description": "A Node.js RocksDB binding, a backend for LevelUP",
+  "license": "MIT",
   "main": "leveldown.js",
+  "scripts": {
+    "install": "prebuild-install || node-gyp rebuild",
+    "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "rebuild": "prebuild --compile",
+    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose",
+    "hallmark": "hallmark --fix"
+  },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
     "bindings": "~1.3.0",
@@ -24,7 +24,9 @@
     "coveralls": "^3.0.2",
     "delayed": "~1.0.1",
     "du": "~0.1.0",
+    "hallmark": "^0.1.0",
     "iota-array": "~1.0.0",
+    "level-community": "^3.0.0",
     "lexicographic-integer": "~1.1.0",
     "mkfiletree": "~1.0.1",
     "monotonic-timestamp": "~0.0.8",
@@ -40,21 +42,28 @@
     "uuid": "^3.2.1",
     "verify-travis-appveyor": "^3.0.0"
   },
-  "scripts": {
-    "install": "prebuild-install || node-gyp rebuild",
-    "test": "standard && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "rebuild": "prebuild --compile",
-    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
-  },
-  "license": "MIT",
-  "gypfile": true,
-  "engines": {
-    "node": ">=6"
-  },
   "standard": {
     "ignore": [
       "deps/*"
     ]
+  },
+  "hallmark": {
+    "community": "level-community",
+    "ignore": [
+      "README.md"
+    ]
+  },
+  "gypfile": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/level/rocksdb.git"
+  },
+  "homepage": "https://github.com/level/rocksdb",
+  "keywords": [
+    "leveldb",
+    "level"
+  ],
+  "engines": {
+    "node": ">=6"
   }
 }
