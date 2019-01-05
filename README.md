@@ -42,18 +42,13 @@ There are multiple ways you can find help in using LevelDB in Node.js:
  * **Mailing list:** there is an active [Node.js LevelDB](https://groups.google.com/forum/#!forum/node-levelup) Google Group.
  * **GitHub:** you're welcome to open an issue here on this GitHub repository if you have a question.
 
-<a name="contributing"></a>
 ## Contributing
 
-`rocksdb` is an **OPEN Open Source Project**. This means that:
+[`Level/rocksdb`](https://github.com/Level/rocksdb) is an **OPEN Open Source Project**. This means that:
 
 > Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
 
-See the [contribution guide](https://github.com/Level/community/blob/master/CONTRIBUTING.md) for more details.
-
-### Windows
-
-A large portion of the Windows support comes from code by [Krzysztof Kowalczyk](http://blog.kowalczyk.info/) [@kjk](https://twitter.com/kjk), see his Windows LevelDB port [here](http://code.google.com/r/kkowalczyk-leveldb/). If you're using LevelUP on Windows, you should give him your thanks!
+See the [Contribution Guide](https://github.com/Level/community/blob/master/CONTRIBUTING.md) for more details.
 
 ## Prebuilt Binaries
 
