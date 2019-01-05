@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [Unreleased][unreleased]
 
 ## [3.0.3] - 2018-12-09
 
@@ -105,7 +105,7 @@
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
 
-[Unreleased]: https://github.com/level/rocksdb/compare/v3.0.3...HEAD
+[unreleased]: https://github.com/level/rocksdb/compare/v3.0.3...HEAD
 
 [3.0.3]: https://github.com/level/rocksdb/compare/v3.0.2...v3.0.3
 
