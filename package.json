@@ -1,17 +1,16 @@
 {
   "name": "rocksdb",
-  "description": "A Node.js RocksDB binding, a backend for LevelUP",
   "version": "3.0.3",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/level/rocksdb.git"
-  },
-  "homepage": "https://github.com/level/rocksdb",
-  "keywords": [
-    "leveldb",
-    "level"
-  ],
+  "description": "A Node.js RocksDB binding, a backend for LevelUP",
+  "license": "MIT",
   "main": "leveldown.js",
+  "scripts": {
+    "install": "prebuild-install || node-gyp rebuild",
+    "test": "standard && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "rebuild": "prebuild --compile",
+    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
+  },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
     "bindings": "~1.3.0",
@@ -40,21 +39,22 @@
     "uuid": "^3.2.1",
     "verify-travis-appveyor": "^3.0.0"
   },
-  "scripts": {
-    "install": "prebuild-install || node-gyp rebuild",
-    "test": "standard && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "rebuild": "prebuild --compile",
-    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose"
-  },
-  "license": "MIT",
-  "gypfile": true,
-  "engines": {
-    "node": ">=6"
-  },
   "standard": {
     "ignore": [
       "deps/*"
     ]
+  },
+  "gypfile": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/level/rocksdb.git"
+  },
+  "homepage": "https://github.com/level/rocksdb",
+  "keywords": [
+    "leveldb",
+    "level"
+  ],
+  "engines": {
+    "node": ">=6"
   }
 }
