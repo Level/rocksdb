@@ -10,7 +10,9 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "rebuild": "prebuild --compile",
     "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose",
-    "hallmark": "hallmark --fix"
+    "hallmark": "hallmark --fix",
+    "dependency-check": "dependency-check . test/*.js bench/*.js",
+    "prepublishOnly": "npm run dependency-check"
   },
   "dependencies": {
     "abstract-leveldown": "~5.0.0",
@@ -23,6 +25,7 @@
     "async": "^2.0.1",
     "coveralls": "^3.0.2",
     "delayed": "~1.0.1",
+    "dependency-check": "^3.3.0",
     "du": "~0.1.0",
     "hallmark": "^0.1.0",
     "iota-array": "~1.0.0",
