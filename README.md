@@ -2,12 +2,11 @@
 
 > A Low-level Node.js RocksDB binding
 
-[![level badge][level-badge]](https://github.com/level/awesome)
+[![level badge][level-badge]](https://github.com/Level/awesome)
 [![npm](https://img.shields.io/npm/v/rocksdb.svg?label=&logo=npm)](https://www.npmjs.com/package/rocksdb)
 [![Node version](https://img.shields.io/node/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
-[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?logo=travis&label=)](http://travis-ci.org/Level/rocksdb)
+[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?logo=travis&label=)](https://travis-ci.org/Level/rocksdb)
 [![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?logo=appveyor&label=)](https://ci.appveyor.com/project/Level/rocksdb)
-[![dependencies](https://img.shields.io/david/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
 [![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg?label=dl)](https://www.npmjs.com/package/rocksdb)
 [![Coverage Status](https://coveralls.io/repos/github/Level/rocksdb/badge.svg)](https://coveralls.io/github/Level/rocksdb)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -16,7 +15,7 @@
 
 **If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
 
-`rocksdb` is based on the [LevelDown](https://github.com/level/leveldown) code, which was extracted from [LevelUP](https://github.com/level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
+`rocksdb` is based on the [LevelDown](https://github.com/Level/leveldown) code, which was extracted from [LevelUP](https://github.com/Level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
 
 It is **strongly recommended** that you use LevelUP in preference to `rocksdb` unless you have measurable performance reasons to do so. LevelUP is optimised for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
 
@@ -33,7 +32,7 @@ It is **strongly recommended** that you use LevelUP in preference to `rocksdb` u
 <a name="api"></a>
 ## API
 
-`rocksdb` implements the same API of [LevelDown](https://github.com/level/leveldown#api).
+`rocksdb` implements the same API of [LevelDown](https://github.com/Level/leveldown#api).
 
 <a name="support"></a>
 ## Getting Support
