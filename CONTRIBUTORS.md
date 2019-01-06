@@ -7,8 +7,8 @@
 | **David Björklund**     | [**@kesla**](https://github.com/kesla)                 | [**@david_bjorklund@twitter**](https://twitter.com/david_bjorklund)      |
 | **Julian Gruber**       | [**@juliangruber**](https://github.com/juliangruber)   | [**@juliangruber@twitter**](https://twitter.com/juliangruber)            |
 | **Yichao 'Peak' Ji**    | [**@peakji**](https://github.com/peakji)               |                                                                          |
-| **Vincent Weevers**     | [**@vweevers**](https://github.com/vweevers)           | [**@vweevers@twitter**](https://twitter.com/vweevers)                    |
 | **Mathias Buus**        | [**@mafintosh**](https://github.com/mafintosh)         | [**@mafintosh@twitter**](https://twitter.com/mafintosh)                  |
+| **Vincent Weevers**     | [**@vweevers**](https://github.com/vweevers)           | [**@vweevers@twitter**](https://twitter.com/vweevers)                    |
 | **Matteo Collina**      | [**@mcollina**](https://github.com/mcollina)           | [**@matteocollina@twitter**](https://twitter.com/matteocollina)          |
 | **Dominic Tarr**        | [**@dominictarr**](https://github.com/dominictarr)     | [**@dominictarr@twitter**](https://twitter.com/dominictarr)              |
 | **Raynos**              |                                                        |                                                                          |
