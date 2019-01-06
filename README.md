@@ -3,14 +3,16 @@
 > A Low-level Node.js RocksDB binding
 
 [![level badge][level-badge]](https://github.com/level/awesome)
-[![npm](https://img.shields.io/npm/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
-![Node version](https://img.shields.io/node/v/rocksdb.svg)
-[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?label=travis)](http://travis-ci.org/Level/rocksdb)
-[![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?label=appveyor)](https://ci.appveyor.com/project/Level/rocksdb)
+[![npm](https://img.shields.io/npm/v/rocksdb.svg?label=&logo=npm)](https://www.npmjs.com/package/rocksdb)
+[![Node version](https://img.shields.io/node/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
+[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?logo=travis&label=)](http://travis-ci.org/Level/rocksdb)
+[![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?logo=appveyor&label=)](https://ci.appveyor.com/project/Level/rocksdb)
 [![dependencies](https://img.shields.io/david/Level/rocksdb.svg)](https://david-dm.org/level/rocksdb)
-[![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
+[![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg?label=dl)](https://www.npmjs.com/package/rocksdb)
 [![Coverage Status](https://coveralls.io/repos/github/Level/rocksdb/badge.svg)](https://coveralls.io/github/Level/rocksdb)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Backers on Open Collective](https://opencollective.com/level/backers/badge.svg?color=orange)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/level/sponsors/badge.svg?color=orange)](#sponsors)
 
 **If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
 
@@ -57,6 +59,18 @@ See the [Contribution Guide](https://github.com/Level/community/blob/master/CONT
 If you are working on `rocksdb` and want to re-compile the C++ code it's enough to do `npm install`.
 
 If you don't want to use the `prebuild` for the platform you are installing on, specify the `--build-from-source` flag when you install.
+
+## Donate
+
+To sustain [`Level`](https://github.com/Level) and its activities, become a backer or sponsor on [Open Collective](https://opencollective.com/level). Your logo or avatar will be displayed on our 28+ [GitHub repositories](https://github.com/Level), [npm](https://www.npmjs.com/) packages and (soon) [our website](http://leveldb.org). 💖
+
+### Backers
+
+[![Open Collective backers](https://opencollective.com/level/backers.svg?width=890)](https://opencollective.com/level)
+
+### Sponsors
+
+[![Open Collective sponsors](https://opencollective.com/level/sponsors.svg?width=890)](https://opencollective.com/level)
 
 ## License
 
