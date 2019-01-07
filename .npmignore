@@ -18,3 +18,7 @@ AUTHORS
 Dockerfile
 .dockerignore
 .nyc_output/
+
+.travis.yml
+appveyor.yml
+.dntrc
