@@ -16,13 +16,15 @@
         '<(module_root_dir)/scripts/build-version.js'
       ],
       'outputs': [
-        'rocksdb/util/build_version.cc'
+        '<(INTERMEDIATE_DIR)/build_version.cc'
       ],
       'action': [
         'node',
         '<(module_root_dir)/scripts/build-version.js',
+        '<@(_outputs)',
         '<(git_sha)'
-      ]
+      ],
+      'message': 'Generate build_version.cc'
     }
   ]  
   , 'dependencies': [
@@ -31,9 +33,6 @@
   , 'direct_dependent_settings': {
         'include_dirs': [
             'rocksdb/include/'
-            # , 'rocksdb/port/'
-            # , 'rocksdb/util'
-            # , 'rocksdb/'
         ]
     }
   , 'defines': [
@@ -42,6 +41,7 @@
   , 'include_dirs': [
         'rocksdb/'
       , 'rocksdb/include/'
+      , 'rocksdb/util/'
     ]
   , 'conditions': [
         ['OS == "win"', {
@@ -289,7 +289,7 @@
       , 'rocksdb/tools/dump/db_dump_tool.cc'
       , 'rocksdb/util/arena.cc'
       , 'rocksdb/util/bloom.cc'
-      , 'rocksdb/util/build_version.cc'
+      , '<(INTERMEDIATE_DIR)/build_version.cc'
       , 'rocksdb/util/cf_options.cc'
       , 'rocksdb/util/clock_cache.cc'
       , 'rocksdb/util/coding.cc'
