@@ -13,7 +13,7 @@ let buildVersionCC = fs.readFileSync(`${buildVersionPath}.in`, {
 })
 
 // Replace both variables
-// The Git SHA is hardcoded in deps/leveldb/leveldb.gyp
+// The Git SHA is hardcoded in deps/rocksdb/rocksdb.gyp
 buildVersionCC = buildVersionCC.replace('@@GIT_SHA@@', gitSha)
 buildVersionCC = buildVersionCC.replace(
   '@@GIT_DATE_TIME@@',
