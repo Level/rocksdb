@@ -22,12 +22,12 @@ It is **strongly recommended** that you use LevelUP in preference to `rocksdb` u
 <a name="platforms"></a>
 ## Supported Platforms
 
-  * **Linux** (including ARM platforms such as Raspberry Pi _and Kindle!_)
+  * **Linux** (including ARM platforms such as Raspberry Pi *and Kindle!*)
   * **Mac OS**
   * **Solaris** (SmartOS & Nodejitsu)
   * **FreeBSD**
   * **Windows**
-    * See installation instructions for _node-gyp_ dependencies [here](https://github.com/TooTallNate/node-gyp#installation), you'll need these (free) components from Microsoft to compile and run any native Node add-on in Windows.
+    * See installation instructions for *node-gyp* dependencies [here](https://github.com/TooTallNate/node-gyp#installation), you'll need these (free) components from Microsoft to compile and run any native Node add-on in Windows.
 
 <a name="api"></a>
 ## API
@@ -39,9 +39,9 @@ It is **strongly recommended** that you use LevelUP in preference to `rocksdb` u
 
 There are multiple ways you can find help in using LevelDB in Node.js:
 
-  * **IRC:** you'll find an active group of LevelUP users in the **##leveldb** channel on Freenode, including most of the contributors to this project.
-  * **Mailing list:** there is an active [Node.js LevelDB](https://groups.google.com/forum/#!forum/node-levelup) Google Group.
-  * **GitHub:** you're welcome to open an issue here on this GitHub repository if you have a question.
+ * **IRC:** you'll find an active group of LevelUP users in the **##leveldb** channel on Freenode, including most of the contributors to this project.
+ * **Mailing list:** there is an active [Node.js LevelDB](https://groups.google.com/forum/#!forum/node-levelup) Google Group.
+ * **GitHub:** you're welcome to open an issue here on this GitHub repository if you have a question.
 
 ## Contributing
 
