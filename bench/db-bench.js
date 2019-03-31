@@ -6,6 +6,7 @@ const du = require('du')
 const path = require('path')
 
 const argv = require('optimist').argv
+const crypto = require('crypto')
 
 const options = {
   benchmark: argv.benchmark,
@@ -20,7 +21,6 @@ const options = {
   throughputOutput: argv.throughputOutput
 }
 
-const randomString = require('slump').string
 const keyTmpl = '0000000000000000'
 
 if (!options.useExisting) {
