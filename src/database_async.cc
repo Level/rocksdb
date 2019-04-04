@@ -36,7 +36,9 @@ OpenWorker::OpenWorker (
   , uint32_t maxOpenFiles
   , uint32_t blockRestartInterval
   , uint32_t maxFileSize
+  , bool readOnly
 ) : AsyncWorker(database, callback, "rocksdb:db.open")
+  , readOnly_(readOnly)
 {
   rocksdb::LevelDBOptions levelOptions;
 
@@ -85,7 +87,7 @@ OpenWorker::~OpenWorker () {
 }
 
 void OpenWorker::Execute () {
-  SetStatus(database->OpenDatabase(options));
+  SetStatus(database->OpenDatabase(options, readOnly_));
 }
 
 /** CLOSE WORKER **/

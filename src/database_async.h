@@ -25,6 +25,7 @@ public:
     , uint32_t maxOpenFiles
     , uint32_t blockRestartInterval
     , uint32_t maxFileSize
+    , bool readOnly
   );
 
   virtual ~OpenWorker ();
@@ -32,6 +33,7 @@ public:
 
 private:
   rocksdb::Options* options;
+  bool readOnly_;
 };
 
 class CloseWorker : public AsyncWorker {

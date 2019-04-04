@@ -43,7 +43,7 @@ public:
   static void Init ();
   static v8::Local<v8::Value> NewInstance (v8::Local<v8::String> &location);
 
-  rocksdb::Status OpenDatabase (rocksdb::Options* options);
+  rocksdb::Status OpenDatabase (rocksdb::Options* options, bool readOnly);
   rocksdb::Status PutToDatabase (
       rocksdb::WriteOptions* options
     , rocksdb::Slice key
