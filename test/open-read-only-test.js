@@ -8,6 +8,7 @@ const path = require('path')
 
 var location = testCommon.location()
 
+// This is used because it's not sufficient on windows to set a parent folder as readonly
 function chmodFilesSync (dir, mode) {
   var files = fs.readdirSync(dir)
   files.forEach(function (file) {
@@ -20,6 +21,7 @@ test('setUp', function (t) {
   // just in case we thew an error last time and don't have perms to remove db
   if (fs.existsSync(location)) {
     fs.chmodSync(location, 0o755)
+    chmodFilesSync(location, 0o755)
   }
   testCommon.setUp(t)
 })
@@ -107,6 +109,7 @@ test('tearDown', function (t) {
   // just in case we thew an error last time and don't have perms to remove db
   if (fs.existsSync(location)) {
     fs.chmodSync(location, 0o755)
+    chmodFilesSync(location, 0o755)
   }
   testCommon.tearDown(t)
 })
