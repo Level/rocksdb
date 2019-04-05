@@ -103,34 +103,6 @@ test('test throw error deleting data from read-only db if readOnly is true', fun
   })
 })
 
-test('test throw error with batch put from read-only db if readOnly is true', function (t) {
-  chmodFilesSync(location, 0o555)
-  fs.chmodSync(location, 0o555)
-  var db = leveldown(location)
-  db.open({ readOnly: true }, function (err) {
-    t.error(err)
-    db.batch([{ key: 'key 1', type: 'put', value: 'value 1' }], function (err) {
-      t.ok(err, 'should get write error')
-      t.ok(/Not supported operation in read only mode/i.test(err && err.message), 'should get io error')
-      db.close(t.end.bind(t))
-    })
-  })
-})
-
-test('test throw error with batch del from read-only db if readOnly is true', function (t) {
-  chmodFilesSync(location, 0o555)
-  fs.chmodSync(location, 0o555)
-  var db = leveldown(location)
-  db.open({ readOnly: true }, function (err) {
-    t.error(err)
-    db.batch([{ key: 'my key', type: 'del' }], function (err) {
-      t.ok(err, 'should get write error')
-      t.ok(/Not supported operation in read only mode/i.test(err && err.message), 'should get io error')
-      db.close(t.end.bind(t))
-    })
-  })
-})
-
 test('tearDown', function (t) {
   // just in case we thew an error last time and don't have perms to remove db
   if (fs.existsSync(location)) {
