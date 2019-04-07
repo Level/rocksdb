@@ -9,7 +9,6 @@
     "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "rebuild": "prebuild --compile",
-    "prebuild": "prebuild -t 8.1.2 -t 6.11.0 -t 4.8.3 -t 7.10.0 --strip --verbose",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check . test/*.js bench/*.js",
     "prepublishOnly": "npm run dependency-check"
