@@ -10,7 +10,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "rebuild": "prebuild --compile",
     "hallmark": "hallmark --fix",
-    "dependency-check": "dependency-check . test/*.js bench/*.js",
+    "dependency-check": "dependency-check . test/*.js",
     "prepublishOnly": "npm run dependency-check"
   },
   "dependencies": {
@@ -32,7 +32,6 @@
     "mkfiletree": "^1.0.1",
     "monotonic-timestamp": "~0.0.8",
     "nyc": "^14.0.0",
-    "optimist": "~0.6.1",
     "prebuild": "^8.0.0",
     "prebuild-ci": "^2.0.0",
     "readfiletree": "~0.0.1",
