@@ -26,13 +26,14 @@
 | **Amine Mouafik**       | [**@kytwb**](https://github.com/kytwb)                 |                                                                          |
 | **James Butler**        | [**@sandfox**](https://github.com/sandfox)             |                                                                          |
 | **Andrew Kelley**       | [**@andrewrk**](https://github.com/andrewrk)           |                                                                          |
-| **Eric Swanson**        |                                                        |                                                                          |
+| **Eugene Ware**         |                                                        |                                                                          |
+| **Aaron Bieber**        | [**@qbit**](https://github.com/qbit)                   |                                                                          |
 | **Anton Whalley**       | [**@no9**](https://github.com/no9)                     | [**@dhigit9@twitter**](https://twitter.com/dhigit9)                      |
 | **Tim Kuijsten**        | [**@timkuijsten**](https://github.com/timkuijsten)     | [**@timkuijsten@mastodon.social**](https://mastodon.social/@timkuijsten) |
 | **Michael Nisi**        | [**@michaelnisi**](https://github.com/michaelnisi)     |                                                                          |
 | **Sharvil Nanavati**    | [**@sharvil**](https://github.com/sharvil)             |                                                                          |
 | **Thorsten Lorenz**     | [**@thlorenz**](https://github.com/thlorenz)           |                                                                          |
-| **Aaron Bieber**        | [**@qbit**](https://github.com/qbit)                   |                                                                          |
+| **Eric Swanson**        |                                                        |                                                                          |
 | **Adam Bliss**          | [**@abliss**](https://github.com/abliss)               |                                                                          |
 | **flames of love**      |                                                        |                                                                          |
 | **mscdex**              | [**@mscdex**](https://github.com/mscdex)               |                                                                          |
