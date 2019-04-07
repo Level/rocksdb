@@ -33,9 +33,14 @@ Database::~Database () {
 /* Calls from worker threads, NO V8 HERE *****************************/
 
 rocksdb::Status Database::OpenDatabase (
-        rocksdb::Options* options
+        rocksdb::Options* options,
+        bool readOnly
     ) {
-  return rocksdb::DB::Open(*options, **location, &db);
+  if (readOnly) {
+    return rocksdb::DB::OpenForReadOnly(*options, **location, &db);
+  } else {
+    return rocksdb::DB::Open(*options, **location, &db);
+  }
 }
 
 rocksdb::Status Database::PutToDatabase (
@@ -181,6 +186,7 @@ v8::Local<v8::Value> Database::NewInstance (v8::Local<v8::String> &location) {
 NAN_METHOD(Database::Open) {
   LD_METHOD_SETUP_COMMON(open, 0, 1)
 
+  bool readOnly = BooleanOptionValue(optionsObj, "readOnly", false);
   bool createIfMissing = BooleanOptionValue(optionsObj, "createIfMissing", true);
   bool errorIfExists = BooleanOptionValue(optionsObj, "errorIfExists");
   bool compression = BooleanOptionValue(optionsObj, "compression", true);
@@ -217,6 +223,7 @@ NAN_METHOD(Database::Open) {
     , maxOpenFiles
     , blockRestartInterval
     , maxFileSize
+    , readOnly
   );
   // persist to prevent accidental GC
   v8::Local<v8::Object> _this = info.This();
