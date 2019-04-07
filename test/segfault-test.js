@@ -1,7 +1,7 @@
 const test = require('tape')
 const testCommon = require('./common')
 
-// Open issue: https://github.com/Level/leveldown/issues/157
+// See https://github.com/Level/leveldown/issues/157, not yet ported to rocksdb.
 test.skip('close() does not segfault if there is a pending write', function (t) {
   t.plan(3)
 
