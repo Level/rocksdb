@@ -35,7 +35,7 @@
     "nyc": "^13.2.0",
     "optimist": "~0.6.1",
     "prebuild": "^8.0.0",
-    "prebuild-ci": "^2.0.0",
+    "prebuild-ci": "^3.0.0",
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "slump": "^3.0.0",
