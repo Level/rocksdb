@@ -130,19 +130,13 @@ NAN_METHOD(Batch::Clear) {
 NAN_METHOD(Batch::Write) {
   Batch* batch = ObjectWrap::Unwrap<Batch>(info.Holder());
 
-  if (batch->hasData) {
-    Nan::Callback *callback =
-        new Nan::Callback(v8::Local<v8::Function>::Cast(info[0]));
-    BatchWriteWorker* worker  = new BatchWriteWorker(batch, callback);
-    // persist to prevent accidental GC
-    v8::Local<v8::Object> _this = info.This();
-    worker->SaveToPersistent("batch", _this);
-    Nan::AsyncQueueWorker(worker);
-  } else {
-    LD_RUN_CALLBACK("rocksdb::batch.write",
-                    v8::Local<v8::Function>::Cast(info[0]),
-                    0, NULL);
-  }
+  Nan::Callback *callback =
+      new Nan::Callback(v8::Local<v8::Function>::Cast(info[0]));
+  BatchWriteWorker* worker = new BatchWriteWorker(batch, callback);
+  // persist to prevent accidental GC
+  v8::Local<v8::Object> _this = info.This();
+  worker->SaveToPersistent("batch", _this);
+  Nan::AsyncQueueWorker(worker);
 }
 
 } // namespace leveldown

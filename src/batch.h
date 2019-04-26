@@ -22,11 +22,12 @@ public:
   ~Batch ();
   rocksdb::Status Write ();
 
+  bool hasData; // keep track of whether we're writing data or not
+
 private:
   leveldown::Database* database;
   rocksdb::WriteOptions* options;
   rocksdb::WriteBatch* batch;
-  bool hasData; // keep track of whether we're writing data or not
 
   static NAN_METHOD(New);
   static NAN_METHOD(Put);
