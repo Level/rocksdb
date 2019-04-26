@@ -10,7 +10,13 @@ function LevelDOWN (location) {
     return new LevelDOWN(location)
   }
 
-  AbstractLevelDOWN.call(this, location)
+  if (typeof location !== 'string') {
+    throw new Error('constructor requires a location string argument')
+  }
+
+  AbstractLevelDOWN.call(this)
+
+  this.location = location
   this.binding = binding(location)
 }
 
@@ -22,6 +28,14 @@ LevelDOWN.prototype._open = function (options, callback) {
 
 LevelDOWN.prototype._close = function (callback) {
   this.binding.close(callback)
+}
+
+LevelDOWN.prototype._serializeKey = function (key) {
+  return Buffer.isBuffer(key) ? key : String(key)
+}
+
+LevelDOWN.prototype._serializeValue = function (value) {
+  return Buffer.isBuffer(value) ? value : String(value)
 }
 
 LevelDOWN.prototype._put = function (key, value, options, callback) {
@@ -49,7 +63,7 @@ LevelDOWN.prototype.approximateSize = function (start, end, callback) {
       end == null ||
       typeof start === 'function' ||
       typeof end === 'function') {
-    throw new Error('approximateSize() requires valid `start`, `end` and `callback` arguments')
+    throw new Error('approximateSize() requires valid `start` and `end` arguments')
   }
 
   if (typeof callback !== 'function') {
@@ -63,6 +77,20 @@ LevelDOWN.prototype.approximateSize = function (start, end, callback) {
 }
 
 LevelDOWN.prototype.compactRange = function (start, end, callback) {
+  if (start == null ||
+      end == null ||
+      typeof start === 'function' ||
+      typeof end === 'function') {
+    throw new Error('compactRange() requires valid `start` and `end` arguments')
+  }
+
+  if (typeof callback !== 'function') {
+    throw new Error('compactRange() requires a callback argument')
+  }
+
+  start = this._serializeKey(start)
+  end = this._serializeKey(end)
+
   this.binding.compactRange(start, end, callback)
 }
 
@@ -73,6 +101,11 @@ LevelDOWN.prototype.getProperty = function (property) {
 }
 
 LevelDOWN.prototype._iterator = function (options) {
+  if (this.status !== 'open') {
+    // Prevent segfault
+    throw new Error('cannot call iterator() before open()')
+  }
+
   return new Iterator(this, options)
 }
 

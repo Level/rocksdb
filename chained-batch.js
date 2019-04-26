@@ -14,12 +14,12 @@ ChainedBatch.prototype._del = function (key) {
   this.binding.del(key)
 }
 
-ChainedBatch.prototype._clear = function (key) {
-  this.binding.clear(key)
+ChainedBatch.prototype._clear = function () {
+  this.binding.clear()
 }
 
 ChainedBatch.prototype._write = function (options, callback) {
-  this.binding.write(options, callback)
+  this.binding.write(callback)
 }
 
 util.inherits(ChainedBatch, AbstractChainedBatch)

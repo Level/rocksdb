@@ -16,7 +16,9 @@ BatchWriteWorker::BatchWriteWorker (
 BatchWriteWorker::~BatchWriteWorker () {}
 
 void BatchWriteWorker::Execute () {
-  SetStatus(batch->Write());
+  if (batch->hasData) {
+    SetStatus(batch->Write());
+  }
 }
 
 } // namespace leveldown

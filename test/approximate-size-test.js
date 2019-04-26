@@ -1,13 +1,12 @@
 const test = require('tape')
-const leveldown = require('..')
-const testCommon = require('abstract-leveldown/testCommon')
+const testCommon = require('./common')
 
 var db
 
 test('setUp common for approximate size', testCommon.setUp)
 
 test('setUp db', function (t) {
-  db = leveldown(testCommon.location())
+  db = testCommon.factory()
   db.open(t.end.bind(t))
 })
 
@@ -67,7 +66,7 @@ test('test 1-arg + callback approximateSize() throws', function (t) {
 
 test('test custom _serialize*', function (t) {
   t.plan(4)
-  var db = leveldown(testCommon.location())
+  var db = testCommon.factory()
   db._serializeKey = function (data) { return data }
   db.approximateSize = function (start, end, callback) {
     t.deepEqual(start, { foo: 'bar' })
@@ -106,11 +105,7 @@ test('test approximateSize()', function (t) {
           t.equal(typeof size, 'number')
           // account for snappy compression, original would be ~100000
           t.ok(size > 40000, 'size reports a reasonable amount (' + size + ')')
-
-          db.close(function (err) {
-            t.error(err)
-            t.end()
-          })
+          t.end()
         })
       })
     })
