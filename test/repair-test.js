@@ -1,6 +1,6 @@
 const test = require('tape')
 const fs = require('fs')
-const leveldown = require('../')
+const leveldown = require('..')
 const makeTest = require('./make')
 
 test('test argument-less repair() throws', function (t) {
@@ -21,7 +21,11 @@ test('test callback-less, 1-arg, repair() throws', function (t) {
 
 test('test repair non-existent directory returns error', function (t) {
   leveldown.repair('/1/2/3/4', function (err) {
-    t.ok(/^Error: NotFound:/i.test(err), 'error on callback')
+    if (process.platform !== 'win32') {
+      t.ok(/no such file or directory/i.test(err), 'error on callback')
+    } else {
+      t.ok(/IO error/i.test(err), 'error on callback')
+    }
     t.end()
   })
 })
@@ -35,14 +39,14 @@ makeTest('test repair() compacts', function (db, t, done) {
 
     var files = fs.readdirSync(location)
     t.ok(files.some(function (f) { return (/\.log$/).test(f) }), 'directory contains log file(s)')
-    t.notOk(files.some(function (f) { return (/\.sst$/).test(f) }), 'directory does not contain sst file(s)')
+    t.notOk(files.some(function (f) { return (/\.ldb$/).test(f) }), 'directory does not contain ldb file(s)')
 
     leveldown.repair(location, function (err) {
       t.ifError(err, 'no error from repair()')
 
       files = fs.readdirSync(location)
       t.notOk(files.some(function (f) { return (/\.log$/).test(f) }), 'directory does not contain log file(s)')
-      t.ok(files.some(function (f) { return (/\.sst$/).test(f) }), 'directory contains sst file(s)')
+      t.ok(files.some(function (f) { return (/\.ldb$/).test(f) }), 'directory contains ldb file(s)')
 
       done(null, false)
     })

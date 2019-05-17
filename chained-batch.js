@@ -1,25 +1,26 @@
 const util = require('util')
 const AbstractChainedBatch = require('abstract-leveldown').AbstractChainedBatch
+const binding = require('./binding')
 
 function ChainedBatch (db) {
   AbstractChainedBatch.call(this, db)
-  this.binding = db.binding.batch()
+  this.context = binding.batch_init(db.context)
 }
 
 ChainedBatch.prototype._put = function (key, value) {
-  this.binding.put(key, value)
+  binding.batch_put(this.context, key, value)
 }
 
 ChainedBatch.prototype._del = function (key) {
-  this.binding.del(key)
+  binding.batch_del(this.context, key)
 }
 
 ChainedBatch.prototype._clear = function () {
-  this.binding.clear()
+  binding.batch_clear(this.context)
 }
 
 ChainedBatch.prototype._write = function (options, callback) {
-  this.binding.write(callback)
+  binding.batch_write(this.context, options, callback)
 }
 
 util.inherits(ChainedBatch, AbstractChainedBatch)

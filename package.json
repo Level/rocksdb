@@ -5,20 +5,18 @@
   "license": "MIT",
   "main": "leveldown.js",
   "scripts": {
-    "install": "prebuild-install || node-gyp rebuild",
-    "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js && prebuild-ci",
+    "install": "node-gyp-build",
+    "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "rebuild": "prebuild --compile",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check . test/*.js",
     "prepublishOnly": "npm run dependency-check"
   },
   "dependencies": {
     "abstract-leveldown": "~6.0.3",
-    "bindings": "~1.5.0",
     "fast-future": "~1.0.2",
-    "nan": "~2.14.0",
-    "prebuild-install": "^5.0.0"
+    "napi-macros": "~1.8.2",
+    "node-gyp-build": "~4.1.0"
   },
   "devDependencies": {
     "async": "^2.0.1",
@@ -27,19 +25,15 @@
     "dependency-check": "^3.3.0",
     "du": "~0.1.0",
     "hallmark": "^0.1.0",
-    "level-concat-iterator": "^2.0.0",
     "level-community": "^3.0.0",
+    "level-concat-iterator": "^2.0.0",
     "mkfiletree": "^1.0.1",
-    "monotonic-timestamp": "~0.0.8",
     "nyc": "^14.0.0",
-    "prebuild": "^8.0.0",
-    "prebuild-ci": "^2.0.0",
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "standard": "^12.0.0",
     "tape": "^4.10.0",
     "tempy": "^0.2.1",
-    "uuid": "^3.2.1",
     "verify-travis-appveyor": "^3.0.0"
   },
   "standard": {

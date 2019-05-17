@@ -3,8 +3,9 @@ const testCommon = require('./common')
 const fork = require('child_process').fork
 const path = require('path')
 
-var db
-var sourceData = (function () {
+let db
+
+const sourceData = (function () {
   var d = []
   var i = 0
   var k

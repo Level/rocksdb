@@ -1,13 +1,12 @@
-/* global gc */
+const BUFFERS = false
 
 const testCommon = require('./common')
 const crypto = require('crypto')
 
-var BUFFERS = false
-var putCount = 0
-var getCount = 0
-var rssBase
-var db
+let putCount = 0
+let getCount = 0
+let rssBase
+let db
 
 function run () {
   var key = 'long key to test memory usage ' + String(Math.floor(Math.random() * 10000000))
@@ -31,14 +30,13 @@ function run () {
   })
 
   if (getCount % 1000 === 0) {
-    if (typeof gc !== 'undefined') gc()
+    if (typeof global.gc !== 'undefined') global.gc()
     console.log('getCount =', getCount, ', putCount = ', putCount, ', rss =',
       Math.round(process.memoryUsage().rss / rssBase * 100) + '%',
       Math.round(process.memoryUsage().rss / 1024 / 1024) + 'M',
       JSON.stringify([0, 1, 2, 3, 4, 5, 6].map(function (l) {
         return db.getProperty('leveldb.num-files-at-level' + l)
-      }))
-    )
+      })))
   }
 }
 

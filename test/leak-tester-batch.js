@@ -1,5 +1,3 @@
-/* global gc */
-
 const BUFFERS = false
 const CHAINED = false
 
@@ -13,7 +11,7 @@ let db
 
 function print () {
   if (writeCount % 100 === 0) {
-    if (typeof gc !== 'undefined') gc()
+    if (typeof global.gc !== 'undefined') global.gc()
 
     console.log(
       'writeCount =', writeCount, ', rss =',
