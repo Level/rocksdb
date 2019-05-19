@@ -56,7 +56,8 @@ test('test destroy non-existent parent directory', function (t) {
   t.notOk(fs.existsSync(parent), 'parent does not exist before')
 
   leveldown.destroy(location, function (err) {
-    t.error(err, 'no error')
+    // This behavior differs from LevelDB, which is silent.
+    t.ok(/.*IO error.*\/1\/2\/3\/4\/LOCK.*/.test(err), 'got IO error')
     t.notOk(fs.existsSync(location), 'directory does not exist after')
   })
 })
