@@ -4,10 +4,18 @@
 #include <node_api.h>
 #include <assert.h>
 
-#include <leveldb/db.h>
-#include <leveldb/write_batch.h>
-#include <leveldb/cache.h>
-#include <leveldb/filter_policy.h>
+#include <rocksdb/db.h>
+#include <rocksdb/write_batch.h>
+#include <rocksdb/cache.h>
+#include <rocksdb/filter_policy.h>
+#include <rocksdb/utilities/leveldb_options.h>
+#include <rocksdb/cache.h>
+#include <rocksdb/comparator.h>
+#include <rocksdb/env.h>
+#include <rocksdb/options.h>
+#include <rocksdb/table.h>
+
+namespace leveldb = rocksdb;
 
 #include <map>
 #include <vector>
@@ -337,8 +345,6 @@ struct Database {
   Database (napi_env env)
     : env_(env),
       db_(NULL),
-      blockCache_(NULL),
-      filterPolicy_(leveldb::NewBloomFilterPolicy(10)),
       currentIteratorId_(0),
       pendingCloseWorker_(NULL),
       priorityWork_(0) {}
@@ -351,17 +357,18 @@ struct Database {
   }
 
   leveldb::Status Open (const leveldb::Options& options,
+                        bool readOnly,
                         const char* location) {
-    return leveldb::DB::Open(options, location, &db_);
+    if (readOnly) {
+      return rocksdb::DB::OpenForReadOnly(options, location, &db_);
+    } else {
+      return leveldb::DB::Open(options, location, &db_);
+    }
   }
 
   void CloseDatabase () {
     delete db_;
     db_ = NULL;
-    if (blockCache_) {
-      delete blockCache_;
-      blockCache_ = NULL;
-    }
   }
 
   leveldb::Status Put (const leveldb::WriteOptions& options,
@@ -394,7 +401,8 @@ struct Database {
 
   void CompactRange (const leveldb::Slice* start,
                      const leveldb::Slice* end) {
-    db_->CompactRange(start, end);
+    rocksdb::CompactRangeOptions options;
+    db_->CompactRange(options, start, end);
   }
 
   void GetProperty (const leveldb::Slice& property, std::string* value) {
@@ -440,8 +448,6 @@ struct Database {
 
   napi_env env_;
   leveldb::DB* db_;
-  leveldb::Cache* blockCache_;
-  const leveldb::FilterPolicy* filterPolicy_;
   uint32_t currentIteratorId_;
   BaseWorker *pendingCloseWorker_;
   std::map< uint32_t, Iterator * > iterators_;
@@ -521,6 +527,7 @@ struct Iterator {
       ref_(NULL) {
     options_ = new leveldb::ReadOptions();
     options_->fill_cache = fillCache;
+    options_->verify_checksums = false;
     options_->snapshot = database->NewSnapshot();
   }
 
@@ -768,30 +775,48 @@ struct OpenWorker final : public BaseWorker {
               uint32_t blockSize,
               uint32_t maxOpenFiles,
               uint32_t blockRestartInterval,
-              uint32_t maxFileSize)
+              uint32_t maxFileSize,
+              uint32_t cacheSize,
+              bool readOnly)
     : BaseWorker(env, database, callback, "leveldown.db.open"),
+      readOnly_(readOnly),
       location_(location) {
-    options_.block_cache = database->blockCache_;
-    options_.filter_policy = database->filterPolicy_;
     options_.create_if_missing = createIfMissing;
     options_.error_if_exists = errorIfExists;
     options_.compression = compression
       ? leveldb::kSnappyCompression
       : leveldb::kNoCompression;
     options_.write_buffer_size = writeBufferSize;
-    options_.block_size = blockSize;
     options_.max_open_files = maxOpenFiles;
-    options_.block_restart_interval = blockRestartInterval;
-    options_.max_file_size = maxFileSize;
+    options_.max_log_file_size = maxFileSize;
+    options_.paranoid_checks = false;
+    options_.info_log_level = rocksdb::InfoLogLevel::WARN_LEVEL;
+
+    rocksdb::BlockBasedTableOptions tableOptions;
+
+    if (cacheSize) {
+      tableOptions.block_cache = rocksdb::NewLRUCache(cacheSize);
+    } else {
+      tableOptions.no_block_cache = true;
+    }
+
+    tableOptions.block_size = blockSize;
+    tableOptions.block_restart_interval = blockRestartInterval;
+    tableOptions.filter_policy.reset(rocksdb::NewBloomFilterPolicy(10));
+
+    options_.table_factory.reset(
+      rocksdb::NewBlockBasedTableFactory(tableOptions)
+    );
   }
 
   ~OpenWorker () {}
 
   void DoExecute () override {
-    SetStatus(database_->Open(options_, location_.c_str()));
+    SetStatus(database_->Open(options_, readOnly_, location_.c_str()));
   }
 
   leveldb::Options options_;
+  bool readOnly_;
   std::string location_;
 };
 
@@ -807,6 +832,7 @@ NAPI_METHOD(db_open) {
   bool createIfMissing = BooleanProperty(env, options, "createIfMissing", true);
   bool errorIfExists = BooleanProperty(env, options, "errorIfExists", false);
   bool compression = BooleanProperty(env, options, "compression", true);
+  bool readOnly = BooleanProperty(env, options, "readOnly", false);
 
   uint32_t cacheSize = Uint32Property(env, options, "cacheSize", 8 << 20);
   uint32_t writeBufferSize = Uint32Property(env, options , "writeBufferSize" , 4 << 20);
@@ -816,14 +842,12 @@ NAPI_METHOD(db_open) {
                                                  "blockRestartInterval", 16);
   uint32_t maxFileSize = Uint32Property(env, options, "maxFileSize", 2 << 20);
 
-  database->blockCache_ = leveldb::NewLRUCache(cacheSize);
-
   napi_value callback = argv[3];
   OpenWorker* worker = new OpenWorker(env, database, callback, location,
                                       createIfMissing, errorIfExists,
                                       compression, writeBufferSize, blockSize,
                                       maxOpenFiles, blockRestartInterval,
-                                      maxFileSize);
+                                      maxFileSize, cacheSize, readOnly);
   worker->Queue();
   delete [] location;
 
