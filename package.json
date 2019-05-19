@@ -6,8 +6,14 @@
   "main": "leveldown.js",
   "scripts": {
     "install": "node-gyp-build",
-    "test": "standard && hallmark && verify-travis-appveyor && nyc tape test/*-test.js",
+    "test": "standard && hallmark && nyc tape test/*-test.js",
+    "test-gc": "npx -n=--expose-gc tape test/{cleanup,iterator-gc,chained-batch-gc}*-test.js",
+    "test-electron": "electron test/electron.js",
+    "test-prebuild": "cross-env PREBUILDS_ONLY=1 npm t",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "rebuild": "node-gyp rebuild",
+    "prebuild": "prebuildify -t 8.14.0 --napi --strip",
+    "download-prebuilds": "prebuildify-ci download",
     "hallmark": "hallmark --fix",
     "dependency-check": "dependency-check . test/*.js",
     "prepublishOnly": "npm run dependency-check"
@@ -21,20 +27,25 @@
   "devDependencies": {
     "async": "^2.0.1",
     "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
     "delayed": "^1.0.1",
     "dependency-check": "^3.3.0",
     "du": "~0.1.0",
+    "electron": "^5.0.1",
+    "glob": "^7.1.4",
     "hallmark": "^0.1.0",
     "level-community": "^3.0.0",
     "level-concat-iterator": "^2.0.0",
     "mkfiletree": "^1.0.1",
+    "node-gyp": "^4.0.0",
     "nyc": "^14.0.0",
+    "prebuildify": "^3.0.0",
+    "prebuildify-ci": "^1.0.4",
     "readfiletree": "~0.0.1",
     "rimraf": "^2.6.1",
     "standard": "^12.0.0",
     "tape": "^4.10.0",
-    "tempy": "^0.2.1",
-    "verify-travis-appveyor": "^3.0.0"
+    "tempy": "^0.2.1"
   },
   "standard": {
     "ignore": [

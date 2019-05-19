@@ -1,18 +1,56 @@
-sudo: false
-
 language: node_js
+
+jobs:
+  include:
+    - os: linux
+      node_js: 8
+      env: [TEST=1]
+    - os: linux
+      node_js: 10
+      env: [TEST=1]
+    - os: linux
+      node_js: node
+      env: [TEST=1, TEST_ELECTRON=1, BUILD_CMD=prebuild, BUILD_GROUP=linux-x64]
+      addons:
+        apt:
+          packages:
+            - xvfb
+      before_script:
+        - export DISPLAY=':99.0'
+        - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    - os: osx
+      node_js: 8
+      env: [TEST=1]
+    - os: osx
+      node_js: 10
+      env: [TEST=1]
+    - os: osx
+      node_js: node
+      env: [TEST=1, TEST_ELECTRON=1, BUILD_CMD=prebuild, BUILD_GROUP=darwin-x64]
 
 before_install:
   - export JOBS=max
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export JOBS=4; fi
 
-os:
-  - osx
-  - linux
+script:
+  - if [[ ! -z "$TEST" ]]; then npm run test; fi
+  - if [[ ! -z "$TEST_ELECTRON" ]]; then npm run test-electron; fi
 
-node_js:
-  - 6
-  - 8
-  - 10
+after_success:
+  - if [[ ! -z "$TEST" ]]; then npm run coverage; fi
 
-after_success: npm run coverage
+before_deploy:
+  - export ARCHIVE_NAME="${TRAVIS_TAG:-latest}-$BUILD_GROUP.tar.gz"
+  - npm run $BUILD_CMD
+  - file prebuilds/*/*
+  - tar -zcvf "$ARCHIVE_NAME" -C prebuilds .
+
+deploy:
+  provider: releases
+  draft: false
+  api_key: "$PREBUILD_TOKEN"
+  file: "$ARCHIVE_NAME"
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: "! -z $BUILD_CMD"
