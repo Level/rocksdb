@@ -47,7 +47,6 @@ test/
 # Misc
 .nyc_output/
 yarn.lock
-.dntrc
 .gitmodules
 .travis.yml
 appveyor.yml
