@@ -41,7 +41,7 @@ after_success:
 
 before_deploy:
   - export ARCHIVE_NAME="${TRAVIS_TAG:-latest}-$BUILD_GROUP.tar.gz"
-  - npm run $BUILD_CMD
+  - npm run $BUILD_CMD -- --tag-libc
   - file prebuilds/*/*
   - tar -zcvf "$ARCHIVE_NAME" -C prebuilds .
 
