@@ -1,7 +1,7 @@
 const test = require('tape')
 const testCommon = require('./common')
 
-var db
+let db
 
 test('setUp common', testCommon.setUp)
 

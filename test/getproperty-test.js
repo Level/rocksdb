@@ -1,7 +1,7 @@
 const test = require('tape')
 const testCommon = require('./common')
 
-var db
+let db
 
 test('setUp common', testCommon.setUp)
 
@@ -34,7 +34,8 @@ test('test invalid getProperty() returns empty string', function (t) {
 
 test('test invalid getProperty("rocksdb.num-files-at-levelN") returns numbers', function (t) {
   for (var i = 0; i < 7; i++) {
-    t.equal(db.getProperty('rocksdb.num-files-at-level' + i), '0', '"rocksdb.num-files-at-levelN" === "0"')
+    t.equal(db.getProperty('rocksdb.num-files-at-level' + i),
+      '0', '"rocksdb.num-files-at-levelN" === "0"')
   }
   t.end()
 })

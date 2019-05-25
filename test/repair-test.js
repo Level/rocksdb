@@ -1,6 +1,6 @@
 const test = require('tape')
 const fs = require('fs')
-const leveldown = require('../')
+const leveldown = require('..')
 const makeTest = require('./make')
 
 test('test argument-less repair() throws', function (t) {

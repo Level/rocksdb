@@ -5,7 +5,7 @@ const path = require('path')
 const mkfiletree = require('mkfiletree')
 const readfiletree = require('readfiletree')
 const rimraf = require('rimraf')
-const leveldown = require('../')
+const leveldown = require('..')
 const makeTest = require('./make')
 
 test('test argument-less destroy() throws', function (t) {
@@ -18,7 +18,8 @@ test('test argument-less destroy() throws', function (t) {
 
 test('test callback-less, 1-arg, destroy() throws', function (t) {
   t.throws(leveldown.destroy.bind(null, 'foo'), {
-    name: 'Error', message: 'destroy() requires `location` and `callback` arguments'
+    name: 'Error',
+    message: 'destroy() requires `location` and `callback` arguments'
   }, 'callback-less, 1-arg destroy() throws')
   t.end()
 })
@@ -36,8 +37,8 @@ test('test destroy non-existent directory', function (t) {
   rimraf(location, { glob: false }, function (err) {
     t.ifError(err, 'no error from rimraf()')
 
-    leveldown.destroy(location, function () {
-      t.is(arguments.length, 0, 'no arguments returned on callback')
+    leveldown.destroy(location, function (err) {
+      t.error(err, 'no error')
 
       // Assert that destroy() didn't inadvertently create the directory.
       // Or if it did, that it was at least cleaned up afterwards.
@@ -47,17 +48,16 @@ test('test destroy non-existent directory', function (t) {
 })
 
 test('test destroy non-existent parent directory', function (t) {
-  t.plan(4)
+  t.plan(3)
 
   var location = '/1/2/3/4'
   var parent = path.dirname(location)
 
   t.notOk(fs.existsSync(parent), 'parent does not exist before')
 
-  leveldown.destroy(location, function () {
-    // This behavior differs from leveldown, which is silent.
-    t.is(arguments.length, 1, 'error object returned on callback')
-    t.ok(/.*IO error.*\/1\/2\/3\/4\/LOCK.*/.test(arguments[0]), 'got IO error')
+  leveldown.destroy(location, function (err) {
+    // This behavior differs from LevelDB, which is silent.
+    t.ok(/.*IO error.*\/1\/2\/3\/4\/LOCK.*/.test(err), 'got IO error')
     t.notOk(fs.existsSync(location), 'directory does not exist after')
   })
 })

@@ -5,11 +5,14 @@ const testCommon = require('./common')
 const leveldown = require('..')
 const test = require('tape')
 
-var compressableData = Buffer.from(Array.apply(null, Array(1024 * 100)).map(function () { return 'aaaaaaaaaa' }).join(''))
-var multiples = 10
-var dataSize = compressableData.length * multiples
+const compressableData = Buffer.from(Array.apply(null, Array(1024 * 100)).map(function () {
+  return 'aaaaaaaaaa'
+}).join(''))
 
-var verify = function (location, compression, t) {
+const multiples = 10
+const dataSize = compressableData.length * multiples
+
+const verify = function (location, compression, t) {
   du(location, function (err, size) {
     t.error(err)
     if (compression) {
@@ -22,7 +25,7 @@ var verify = function (location, compression, t) {
 }
 
 // close, open, close again.. 'compaction' is also performed on open()s
-var cycle = function (db, compression, t, callback) {
+const cycle = function (db, compression, t, callback) {
   var location = db.location
   db.close(function (err) {
     t.error(err)
@@ -45,11 +48,13 @@ test('compression', function (t) {
     var db = testCommon.factory()
     db.open(function (err) {
       t.error(err)
-      async.forEach(Array.apply(null, Array(multiples)).map(function (e, i) {
-        return [ i, compressableData ]
-      }), function (args, callback) {
-        db.put.apply(db, args.concat([callback]))
-      }, cycle.bind(null, db, true, t, delayed.delayed(verify.bind(null, db.location, true, t), 0.01)))
+      async.forEach(
+        Array.apply(null, Array(multiples)).map(function (e, i) {
+          return [ i, compressableData ]
+        }), function (args, callback) {
+          db.put.apply(db, args.concat([callback]))
+        }, cycle.bind(null, db, true, t, delayed.delayed(verify.bind(null, db.location, true, t), 0.01))
+      )
     })
   })
 
@@ -57,11 +62,13 @@ test('compression', function (t) {
     var db = testCommon.factory()
     db.open({ compression: false }, function (err) {
       t.error(err)
-      async.forEach(Array.apply(null, Array(multiples)).map(function (e, i) {
-        return [ i, compressableData ]
-      }), function (args, callback) {
-        db.put.apply(db, args.concat([callback]))
-      }, cycle.bind(null, db, false, t, delayed.delayed(verify.bind(null, db.location, false, t), 0.01)))
+      async.forEach(
+        Array.apply(null, Array(multiples)).map(function (e, i) {
+          return [ i, compressableData ]
+        }), function (args, callback) {
+          db.put.apply(db, args.concat([callback]))
+        }, cycle.bind(null, db, false, t, delayed.delayed(verify.bind(null, db.location, false, t), 0.01))
+      )
     })
   })
 
@@ -69,9 +76,11 @@ test('compression', function (t) {
     var db = testCommon.factory()
     db.open(function (err) {
       t.error(err)
-      db.batch(Array.apply(null, Array(multiples)).map(function (e, i) {
-        return { type: 'put', key: i, value: compressableData }
-      }), cycle.bind(null, db, false, t, delayed.delayed(verify.bind(null, db.location, false, t), 0.01)))
+      db.batch(
+        Array.apply(null, Array(multiples)).map(function (e, i) {
+          return { type: 'put', key: i, value: compressableData }
+        }), cycle.bind(null, db, false, t, delayed.delayed(verify.bind(null, db.location, false, t), 0.01))
+      )
     })
   })
 })

@@ -22,12 +22,19 @@ It is **strongly recommended** that you use LevelUP in preference to `rocksdb` u
 <a name="platforms"></a>
 ## Supported Platforms
 
-  * **Linux** (including ARM platforms such as Raspberry Pi *and Kindle!*)
-  * **Mac OS**
-  * **Solaris** (SmartOS & Nodejitsu)
-  * **FreeBSD**
-  * **Windows**
-    * See installation instructions for *node-gyp* dependencies [here](https://github.com/TooTallNate/node-gyp#installation), you'll need these (free) components from Microsoft to compile and run any native Node add-on in Windows.
+We aim to support _at least_ Active LTS and Current Node.js releases, Electron 4.0.0, as well as any future Node.js and Electron releases thanks to [N-API](https://nodejs.org/api/n-api.html). Because N-API has an experimental status in node 6 and early 8.x releases, the minimum node version for `rocksdb` is `8.6.0`.
+
+The `rocksdb` npm package ships with prebuilt binaries for popular 64-bit platforms ~~as well as ARM, Android and Alpine (musl)~~ and is known to work on:
+
+- **Linux** (including ARM platforms such as Raspberry Pi and Kindle)
+- **Mac OS**
+- **Solaris** (SmartOS & Nodejitsu)
+- **FreeBSD**
+- **Windows**
+
+When installing `rocksdb`, [`node-gyp-build`](https://github.com/prebuild/node-gyp-build) will check if a compatible binary exists and fallback to a compile step if it doesn't. In that case you'll need a [valid `node-gyp` installation](https://github.com/nodejs/node-gyp#installation).
+
+If you don't want to use the prebuilt binary for the platform you are installing on, specify the `--build-from-source` flag when you install. If you are working on `rocksdb` itself and want to re-compile the C++ code it's enough to do `npm install`.
 
 <a name="api"></a>
 ## API
@@ -51,13 +58,16 @@ There are multiple ways you can find help in using LevelDB in Node.js:
 
 See the [Contribution Guide](https://github.com/Level/community/blob/master/CONTRIBUTING.md) for more details.
 
-## Prebuilt Binaries
+### Publishing
 
-`rocksdb` uses `prebuild` and `prebuild-install` for handling prebuilt binaries. See [this list](https://github.com/Level/rocksdb/releases) of supported prebuilt platform binaries. When installing rocksdb `prebuild-install` will install prebuilt binaries from GitHub if they exist and fallback to a compile step if they don't.
-
-If you are working on `rocksdb` and want to re-compile the C++ code it's enough to do `npm install`.
-
-If you don't want to use the `prebuild` for the platform you are installing on, specify the `--build-from-source` flag when you install.
+1. Increment the version: `npm version ..`
+2. Push to GitHub: `git push --follow-tags`
+3. Wait for Travis and AppVeyor builds to complete
+4. Download prebuilds into `./prebuilds`: `npm run download-prebuilds`
+5. Optionally verify loading a prebuild: `npm run test-prebuild`
+6. Optionally verify which files npm will include: `canadian-pub`
+7. Add changelog to the GitHub release
+8. Finally: `npm publish`
 
 ## Donate
 
