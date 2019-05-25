@@ -41,15 +41,6 @@ If you don't want to use the prebuilt binary for the platform you are installing
 
 `rocksdb` implements the same API of [LevelDown](https://github.com/Level/leveldown#api).
 
-<a name="support"></a>
-## Getting Support
-
-There are multiple ways you can find help in using LevelDB in Node.js:
-
- * **IRC:** you'll find an active group of LevelUP users in the **##leveldb** channel on Freenode, including most of the contributors to this project.
- * **Mailing list:** there is an active [Node.js LevelDB](https://groups.google.com/forum/#!forum/node-levelup) Google Group.
- * **GitHub:** you're welcome to open an issue here on this GitHub repository if you have a question.
-
 ## Contributing
 
 [`Level/rocksdb`](https://github.com/Level/rocksdb) is an **OPEN Open Source Project**. This means that:
