@@ -42,6 +42,7 @@ libleveldb.a
 # Benchmarks and tests
 bench/
 test/
+.benchmarks/
 *.csv
 
 # Misc

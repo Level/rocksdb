@@ -55,6 +55,7 @@ If you don't want to use the prebuilt binary for the platform you are installing
 Please refer to [`leveldown`](https://github.com/Level/leveldown#api) for API documentation. The `db.open(options, callback)` method of `rocksdb` has a few additional options:
 
 - `readOnly` (boolean, default `false`): open database in read-only mode.
+- `infoLogLevel` (string, default `null`): verbosity of info log. One of `'debug'`, `'info'`, `'warn'`, `'error'`, `'fatal'`, `'header'` or `null` (disable).
 
 ## Contributing
 

@@ -20,3 +20,4 @@ prebuilds/
 yarn.lock
 package-lock.json
 .nyc_output/
+.benchmarks/

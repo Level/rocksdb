@@ -38,7 +38,8 @@ test('test destroy non-existent directory', function (t) {
     t.ifError(err, 'no error from rimraf()')
 
     leveldown.destroy(location, function (err) {
-      t.error(err, 'no error')
+      // This behavior differs from LevelDB, which is silent.
+      t.ok(/.*IO error.*/.test(err), 'got IO error')
 
       // Assert that destroy() didn't inadvertently create the directory.
       // Or if it did, that it was at least cleaned up afterwards.
