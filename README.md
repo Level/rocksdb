@@ -1,6 +1,6 @@
 # rocksdb
 
-> A Low-level Node.js RocksDB binding
+> A low-level Node.js RocksDB binding. An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store.
 
 [![level badge][level-badge]](https://github.com/Level/awesome)
 [![npm](https://img.shields.io/npm/v/rocksdb.svg?label=&logo=npm)](https://www.npmjs.com/package/rocksdb)
@@ -13,18 +13,32 @@
 [![Backers on Open Collective](https://opencollective.com/level/backers/badge.svg?color=orange)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/level/sponsors/badge.svg?color=orange)](#sponsors)
 
+## Table of Contents
+
+<details><summary>Click to expand</summary>
+
+- [Introduction](#introduction)
+- [Supported Platforms](#supported-platforms)
+- [API](#api)
+- [Contributing](#contributing)
+- [Donate](#donate)
+- [License](#license)
+
+</details>
+
+## Introduction
+
+This module closely follows [`leveldown`](https://github.com/Level/leveldown) and implements the same API. The difference is that `leveldown` is a binding for [LevelDB](https://github.com/google/leveldb) while `rocksdb` is a binding for [RocksDB, Facebook's fork of LevelDB](https://github.com/facebook/rocksdb).
+
+It is **strongly recommended** that you use `levelup` in preference to `rocksdb` unless you have measurable performance reasons to do so. `levelup` is optimized for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
+
 **If you are upgrading:** please see [UPGRADING.md](UPGRADING.md).
 
-`rocksdb` is based on the [LevelDown](https://github.com/Level/leveldown) code, which was extracted from [LevelUP](https://github.com/Level/levelup) and now serves as a stand-alone binding for LevelDB. The native code in `rocksdb` is based on [Facebooks fork of LevelDB](https://github.com/facebook/rocksdb).
-
-It is **strongly recommended** that you use LevelUP in preference to `rocksdb` unless you have measurable performance reasons to do so. LevelUP is optimised for usability and safety. Although we are working to improve the safety of the `rocksdb` interface it is still easy to crash your Node process if you don't do things in just the right way.
-
-<a name="platforms"></a>
 ## Supported Platforms
 
 We aim to support _at least_ Active LTS and Current Node.js releases, Electron 4.0.0, as well as any future Node.js and Electron releases thanks to [N-API](https://nodejs.org/api/n-api.html). Because N-API has an experimental status in node 6 and early 8.x releases, the minimum node version for `rocksdb` is `8.6.0`.
 
-The `rocksdb` npm package ships with prebuilt binaries for popular 64-bit platforms ~~as well as ARM, Android and Alpine (musl)~~ and is known to work on:
+The `rocksdb` npm package ships with prebuilt binaries for popular 64-bit platforms and is known to work on:
 
 - **Linux** (including ARM platforms such as Raspberry Pi and Kindle)
 - **Mac OS**
@@ -36,10 +50,11 @@ When installing `rocksdb`, [`node-gyp-build`](https://github.com/prebuild/node-g
 
 If you don't want to use the prebuilt binary for the platform you are installing on, specify the `--build-from-source` flag when you install. If you are working on `rocksdb` itself and want to re-compile the C++ code it's enough to do `npm install`.
 
-<a name="api"></a>
 ## API
 
-`rocksdb` implements the same API of [LevelDown](https://github.com/Level/leveldown#api).
+Please refer to [`leveldown`](https://github.com/Level/leveldown#api) for API documentation. The `db.open(options, callback)` method of `rocksdb` has a few additional options:
+
+- `readOnly` (boolean, default `false`): open database in read-only mode.
 
 ## Contributing
 
