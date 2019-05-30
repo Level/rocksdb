@@ -8,7 +8,6 @@
 #include <rocksdb/write_batch.h>
 #include <rocksdb/cache.h>
 #include <rocksdb/filter_policy.h>
-#include <rocksdb/utilities/leveldb_options.h>
 #include <rocksdb/cache.h>
 #include <rocksdb/comparator.h>
 #include <rocksdb/env.h>
@@ -19,6 +18,13 @@ namespace leveldb = rocksdb;
 
 #include <map>
 #include <vector>
+
+class NullLogger : public rocksdb::Logger {
+public:
+  using rocksdb::Logger::Logv;
+  virtual void Logv(const char* format, va_list ap) override {}
+  virtual size_t GetLogFileSize() const override { return 0; }
+};
 
 /**
  * Forward declarations.
@@ -777,6 +783,7 @@ struct OpenWorker final : public BaseWorker {
               uint32_t blockRestartInterval,
               uint32_t maxFileSize,
               uint32_t cacheSize,
+              const std::string& infoLogLevel,
               bool readOnly)
     : BaseWorker(env, database, callback, "leveldown.db.open"),
       readOnly_(readOnly),
@@ -790,7 +797,25 @@ struct OpenWorker final : public BaseWorker {
     options_.max_open_files = maxOpenFiles;
     options_.max_log_file_size = maxFileSize;
     options_.paranoid_checks = false;
-    options_.info_log_level = rocksdb::InfoLogLevel::WARN_LEVEL;
+
+    if (infoLogLevel.size() > 0) {
+      rocksdb::InfoLogLevel lvl;
+
+      if (infoLogLevel == "debug") lvl = rocksdb::InfoLogLevel::DEBUG_LEVEL;
+      else if (infoLogLevel == "info") lvl = rocksdb::InfoLogLevel::INFO_LEVEL;
+      else if (infoLogLevel == "warn") lvl = rocksdb::InfoLogLevel::WARN_LEVEL;
+      else if (infoLogLevel == "error") lvl = rocksdb::InfoLogLevel::ERROR_LEVEL;
+      else if (infoLogLevel == "fatal") lvl = rocksdb::InfoLogLevel::FATAL_LEVEL;
+      else if (infoLogLevel == "header") lvl = rocksdb::InfoLogLevel::HEADER_LEVEL;
+      else napi_throw_error(env_, NULL, "invalid log level");
+
+      options_.info_log_level = lvl;
+    } else {
+      // In some places RocksDB checks this option to see if it should prepare
+      // debug information (ahead of logging), so set it to the highest level.
+      options_.info_log_level = rocksdb::InfoLogLevel::HEADER_LEVEL;
+      options_.info_log.reset(new NullLogger());
+    }
 
     rocksdb::BlockBasedTableOptions tableOptions;
 
@@ -834,6 +859,8 @@ NAPI_METHOD(db_open) {
   bool compression = BooleanProperty(env, options, "compression", true);
   bool readOnly = BooleanProperty(env, options, "readOnly", false);
 
+  std::string infoLogLevel = StringProperty(env, options, "infoLogLevel");
+
   uint32_t cacheSize = Uint32Property(env, options, "cacheSize", 8 << 20);
   uint32_t writeBufferSize = Uint32Property(env, options , "writeBufferSize" , 4 << 20);
   uint32_t blockSize = Uint32Property(env, options, "blockSize", 4096);
@@ -847,7 +874,8 @@ NAPI_METHOD(db_open) {
                                       createIfMissing, errorIfExists,
                                       compression, writeBufferSize, blockSize,
                                       maxOpenFiles, blockRestartInterval,
-                                      maxFileSize, cacheSize, readOnly);
+                                      maxFileSize, cacheSize,
+                                      infoLogLevel, readOnly);
   worker->Queue();
   delete [] location;
 
@@ -1192,6 +1220,11 @@ struct DestroyWorker final : public BaseWorker {
 
   void DoExecute () override {
     leveldb::Options options;
+
+    // TODO: support overriding infoLogLevel the same as db.open(options)
+    options.info_log_level = rocksdb::InfoLogLevel::HEADER_LEVEL;
+    options.info_log.reset(new NullLogger());
+
     SetStatus(leveldb::DestroyDB(location_, options));
   }
 
@@ -1228,6 +1261,11 @@ struct RepairWorker final : public BaseWorker {
 
   void DoExecute () override {
     leveldb::Options options;
+
+    // TODO: support overriding infoLogLevel the same as db.open(options)
+    options.info_log_level = rocksdb::InfoLogLevel::HEADER_LEVEL;
+    options.info_log.reset(new NullLogger());
+
     SetStatus(leveldb::RepairDB(location_, options));
   }
 
