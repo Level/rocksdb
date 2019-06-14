@@ -702,6 +702,8 @@ struct Iterator {
 
   bool IteratorNext (std::vector<std::pair<std::string, std::string> >& result) {
     size_t size = 0;
+    uint32_t cacheSize = 0;
+
     while (true) {
       std::string key, value;
       bool ok = Read(key, value);
@@ -717,6 +719,9 @@ struct Iterator {
         size = size + key.size() + value.size();
         if (size > highWaterMark_) return true;
 
+        // Limit the size of the cache to prevent starving the event loop
+        // in JS-land while we're recursively calling process.nextTick().
+        if (++cacheSize >= 1000) return true;
       } else {
         return false;
       }
