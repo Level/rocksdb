@@ -30,7 +30,7 @@
     "cross-env": "^5.2.0",
     "delayed": "^1.0.1",
     "dependency-check": "^3.3.0",
-    "du": "~0.1.0",
+    "du": "^1.0.0",
     "electron": "^5.0.1",
     "glob": "^7.1.4",
     "hallmark": "^0.1.0",
