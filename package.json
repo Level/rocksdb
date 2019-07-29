@@ -31,7 +31,7 @@
     "delayed": "^2.0.0",
     "dependency-check": "^3.3.0",
     "du": "^1.0.0",
-    "electron": "^5.0.1",
+    "electron": "^6.0.0",
     "glob": "^7.1.4",
     "hallmark": "^1.0.0",
     "level-community": "^3.0.0",
