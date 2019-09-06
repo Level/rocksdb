@@ -2,8 +2,6 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
-## [Unreleased][unreleased]
-
 ## [4.0.0] - 2019-06-08
 
 ### Changed
@@ -158,8 +156,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2017-07-01
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
-
-[unreleased]: https://github.com/level/rocksdb/compare/v4.0.0...HEAD
 
 [4.0.0]: https://github.com/level/rocksdb/compare/v3.1.0...v4.0.0
 
