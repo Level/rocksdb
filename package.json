@@ -32,7 +32,7 @@
     "du": "^1.0.0",
     "electron": "^6.0.0",
     "glob": "^7.1.4",
-    "hallmark": "^1.0.0",
+    "hallmark": "^2.0.0",
     "level-community": "^3.0.0",
     "level-concat-iterator": "^2.0.0",
     "mkfiletree": "^2.0.0",
@@ -57,9 +57,9 @@
   "gypfile": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/level/rocksdb.git"
+    "url": "https://github.com/Level/rocksdb.git"
   },
-  "homepage": "https://github.com/level/rocksdb",
+  "homepage": "https://github.com/Level/rocksdb",
   "keywords": [
     "leveldb",
     "level"
