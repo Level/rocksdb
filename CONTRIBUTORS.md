@@ -13,31 +13,31 @@
 | **Dominic Tarr**        | [**@dominictarr**](https://github.com/dominictarr)     | [**@dominictarr@twitter**](https://twitter.com/dominictarr)              |
 | **Raynos**              |                                                        |                                                                          |
 | **Christopher Jeffrey** |                                                        |                                                                          |
-| **Gordon Hall**         | [**@bookchin**](https://github.com/bookchin)           |                                                                          |
 | **Max Ogden**           | [**@maxogden**](https://github.com/maxogden)           | [**@maxogden@twitter**](https://twitter.com/maxogden)                    |
+| **Gordon Hall**         | [**@bookchin**](https://github.com/bookchin)           |                                                                          |
 | **cjihrig**             |                                                        |                                                                          |
 | **Geoff Greer**         | [**@ggreer**](https://github.com/ggreer)               |                                                                          |
-| **Philippe Schommers**  |                                                        |                                                                          |
-| **Meirion Hughes**      | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                                          |
 | **Nicola Del Gobbo**    | [**@NickNaso**](https://github.com/NickNaso)           |                                                                          |
-| **Oguz Bastemur**       | [**@obastemur**](https://github.com/obastemur)         | [**@obastemur@twitter**](https://twitter.com/obastemur)                  |
 | **Braydon Fuller**      | [**@braydonf**](https://github.com/braydonf)           |                                                                          |
+| **Philippe Schommers**  |                                                        |                                                                          |
 | **duralog**             |                                                        |                                                                          |
 | **Amine Mouafik**       | [**@kytwb**](https://github.com/kytwb)                 |                                                                          |
+| **Meirion Hughes**      | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                                          |
 | **James Butler**        | [**@sandfox**](https://github.com/sandfox)             |                                                                          |
-| **Andrew Kelley**       | [**@andrewrk**](https://github.com/andrewrk)           |                                                                          |
-| **Eugene Ware**         |                                                        |                                                                          |
-| **Aaron Bieber**        | [**@qbit**](https://github.com/qbit)                   |                                                                          |
+| **Oguz Bastemur**       | [**@obastemur**](https://github.com/obastemur)         | [**@obastemur@twitter**](https://twitter.com/obastemur)                  |
+| **Thorsten Lorenz**     | [**@thlorenz**](https://github.com/thlorenz)           |                                                                          |
 | **Anton Whalley**       | [**@no9**](https://github.com/no9)                     | [**@dhigit9@twitter**](https://twitter.com/dhigit9)                      |
 | **Tim Kuijsten**        | [**@timkuijsten**](https://github.com/timkuijsten)     | [**@timkuijsten@mastodon.social**](https://mastodon.social/@timkuijsten) |
-| **Michael Nisi**        | [**@michaelnisi**](https://github.com/michaelnisi)     |                                                                          |
-| **Sharvil Nanavati**    | [**@sharvil**](https://github.com/sharvil)             |                                                                          |
-| **Thorsten Lorenz**     | [**@thlorenz**](https://github.com/thlorenz)           |                                                                          |
-| **Eric Swanson**        |                                                        |                                                                          |
+| **Andrew Kelley**       | [**@andrewrk**](https://github.com/andrewrk)           |                                                                          |
 | **Adam Bliss**          | [**@abliss**](https://github.com/abliss)               |                                                                          |
+| **Eugene Ware**         |                                                        |                                                                          |
 | **flames of love**      |                                                        |                                                                          |
+| **Eric Swanson**        |                                                        |                                                                          |
+| **Aaron Bieber**        | [**@qbit**](https://github.com/qbit)                   |                                                                          |
 | **mscdex**              | [**@mscdex**](https://github.com/mscdex)               |                                                                          |
 | **Dean Landolt**        | [**@deanlandolt**](https://github.com/deanlandolt)     |                                                                          |
 | **No9**                 |                                                        |                                                                          |
 | **Mark Wolfe**          | [**@wolfeidau**](https://github.com/wolfeidau)         |                                                                          |
 | **Super-User**          |                                                        |                                                                          |
+| **Sharvil Nanavati**    | [**@sharvil**](https://github.com/sharvil)             |                                                                          |
+| **Michael Nisi**        | [**@michaelnisi**](https://github.com/michaelnisi)     |                                                                          |

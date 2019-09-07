@@ -2,6 +2,26 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [4.0.1] - 2019-09-07
+
+### Changed
+
+- Remove `fast-future` in favor of native cache limit ([#133](https://github.com/Level/rocksdb/issues/133)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `napi-macros` from `~1.8.1` to `~2.0.0` ([#132](https://github.com/Level/rocksdb/issues/132)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `hallmark` devDependency from `^0.1.0` to `^2.0.0` ([#127](https://github.com/Level/rocksdb/issues/127), [#138](https://github.com/Level/rocksdb/issues/138)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `standard` devDependency from `^12.0.0` to `^14.0.0` ([#126](https://github.com/Level/rocksdb/issues/126), [#137](https://github.com/Level/rocksdb/issues/137)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `rimraf` devDependency from `^2.6.1` to `^3.0.0` ([#135](https://github.com/Level/rocksdb/issues/135)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `electron` devDependency from `^5.0.1` to `^6.0.0` ([#130](https://github.com/Level/rocksdb/issues/130)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `delayed` devDependency from `^1.0.1` to `^2.0.0` ([#124](https://github.com/Level/rocksdb/issues/124)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `readfiletree` devDependency from `~0.0.1` to `^1.0.0` ([#122](https://github.com/Level/rocksdb/issues/122)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `du` devDependency from `~0.1.0` to `^1.0.0` ([#123](https://github.com/Level/rocksdb/issues/123)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `mkfiletree` devDependency from `^1.0.1` to `^2.0.0` ([#121](https://github.com/Level/rocksdb/issues/121)) ([**@vweevers**](https://github.com/vweevers))
+- Upgrade `node-gyp` devDependency from `^4.0.0` to `^5.0.0` ([#119](https://github.com/Level/rocksdb/issues/119)) ([**@vweevers**](https://github.com/vweevers))
+
+### Fixed
+
+- Fix batch compression test to actually compress ([#134](https://github.com/Level/rocksdb/issues/134)) ([**@vweevers**](https://github.com/vweevers))
+
 ## [4.0.0] - 2019-06-08
 
 ### Changed
@@ -156,6 +176,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2017-07-01
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
+
+[4.0.1]: https://github.com/Level/rocksdb/compare/v4.0.0...v4.0.1
 
 [4.0.0]: https://github.com/Level/rocksdb/compare/v3.1.0...v4.0.0
 
