@@ -21,7 +21,7 @@ test('test callback-less, 1-arg, repair() throws', function (t) {
 
 test('test repair non-existent directory returns error', function (t) {
   leveldown.repair('/1/2/3/4', function (err) {
-    t.ok(/^Error: NotFound:/i.test(err), 'error on callback')
+    t.ok(/^Error:/i.test(err), 'error on callback')
     t.end()
   })
 })
