@@ -2,19 +2,30 @@ deps/**/*.md
 deps/**/.git
 
 deps/rocksdb/rocksdb/arcanist_util/
+deps/rocksdb/rocksdb/buckifier/
 deps/rocksdb/rocksdb/build_tools/
 deps/rocksdb/rocksdb/coverage/
 deps/rocksdb/rocksdb/docs/
 deps/rocksdb/rocksdb/examples/
+deps/rocksdb/rocksdb/fuzz/
 deps/rocksdb/rocksdb/hdfs/setup.sh
 deps/rocksdb/rocksdb/java/
 deps/rocksdb/rocksdb/third-party/gtest-*/
+deps/rocksdb/rocksdb/third-party/folly/
+deps/rocksdb/rocksdb/tools/advisor/
+deps/rocksdb/rocksdb/tools/block_cache_analyzer/
+deps/rocksdb/rocksdb/tools/rdb/
+deps/rocksdb/rocksdb/tools/dbench_monitor
+deps/rocksdb/rocksdb/tools/pflag
 deps/rocksdb/rocksdb/tools/*.sh
 deps/rocksdb/rocksdb/tools/*.py
 deps/rocksdb/rocksdb/tools/*.dmp
-deps/rocksdb/rocksdb/tools/rdb/
 deps/rocksdb/rocksdb/README.md
 deps/rocksdb/rocksdb/HISTORY.md
+deps/rocksdb/rocksdb/.circleci/
+deps/rocksdb/rocksdb/.github/
+deps/rocksdb/rocksdb/.lgtm.yml
+deps/rocksdb/rocksdb/defs.bzl
 
 deps/snappy/snappy*/testdata/
 deps/snappy/snappy*/*.txt
@@ -38,6 +49,7 @@ libleveldb.a
 *.sln
 *.vcxproj
 *.vcxproj.filters
+.vscode
 
 # Benchmarks and tests
 bench/
@@ -47,6 +59,7 @@ test/
 
 # Misc
 .nyc_output/
+.github/
 yarn.lock
 .gitmodules
 .travis.yml
@@ -57,6 +70,7 @@ Dockerfile
 Vagrantfile
 .arcconfig
 .clang-format
+.watchmanconfig
 
 # Unknown
 leakydb
