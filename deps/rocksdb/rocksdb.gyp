@@ -1,28 +1,32 @@
 {
   'targets': [{
     'target_name': 'rocksdb'
+  , 'variables': {
+        'git_sha': '4e0065015d3dab1d94ef7cb2b4b1d1fecfa0e926'
+    }
   , 'type': 'static_library'
 		# Overcomes an issue with the linker and thin .a files on SmartOS
   , 'standalone_static_library': 1
-  , 'actions': [
-    {
-      'action_name': 'build-version',
-      'inputs': [
-        'rocksdb.gyp',
-        'rocksdb/util/build_version.cc.in',
-        '<(module_root_dir)/scripts/build-version.js'
-      ],
-      'outputs': [
-        '<(INTERMEDIATE_DIR)/build_version.cc'
-      ],
-      'action': [
-        'node',
-        '<(module_root_dir)/scripts/build-version.js',
-        '<@(_outputs)'
-      ],
-      'message': 'Generate build_version.cc'
-    }
-  ]
+  # , 'actions': [
+  #   {
+  #     'action_name': 'build-version',
+  #     'inputs': [
+  #       'rocksdb.gyp',
+  #       'rocksdb/util/build_version.cc.in',
+  #       '<(module_root_dir)/scripts/build-version.js'
+  #     ],
+  #     'outputs': [
+  #       '<(INTERMEDIATE_DIR)/build_version.cc'
+  #     ],
+  #     'action': [
+  #       'node',
+  #       '<(module_root_dir)/scripts/build-version.js',
+  #       '<@(_outputs)',
+  #       '<(git_sha)'
+  #     ],
+  #     'message': 'Generate build_version.cc'
+  #   }
+  # ]  
   , 'dependencies': [
         '../snappy/snappy.gyp:snappy'
     ]
@@ -285,7 +289,7 @@
       , 'rocksdb/tools/dump/db_dump_tool.cc'
       , 'rocksdb/util/arena.cc'
       , 'rocksdb/util/bloom.cc'
-      , '<(INTERMEDIATE_DIR)/build_version.cc'
+      , 'build_version.cc'
       , 'rocksdb/util/cf_options.cc'
       , 'rocksdb/util/clock_cache.cc'
       , 'rocksdb/util/coding.cc'
