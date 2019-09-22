@@ -1,9 +1,6 @@
-{  
+{
   'targets': [{
     'target_name': 'rocksdb'
-  , 'variables': {
-        'git_sha': '4e0065015d3dab1d94ef7cb2b4b1d1fecfa0e926'
-    }
   , 'type': 'static_library'
 		# Overcomes an issue with the linker and thin .a files on SmartOS
   , 'standalone_static_library': 1
@@ -21,12 +18,11 @@
       'action': [
         'node',
         '<(module_root_dir)/scripts/build-version.js',
-        '<@(_outputs)',
-        '<(git_sha)'
+        '<@(_outputs)'
       ],
       'message': 'Generate build_version.cc'
     }
-  ]  
+  ]
   , 'dependencies': [
         '../snappy/snappy.gyp:snappy'
     ]
