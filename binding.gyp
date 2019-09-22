@@ -17,6 +17,7 @@
               , 'VCLinkerTool': {
                     'AdditionalDependencies': [
                         # SDK import libs.
+                        'Shlwapi.lib',
                         'rpcrt4.lib'
                     ]
                 }
