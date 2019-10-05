@@ -54,3 +54,6 @@ deploy:
   on:
     tags: true
     condition: "! -z $BUILD_CMD"
+
+notifications:
+  email: false
