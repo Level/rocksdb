@@ -5,7 +5,7 @@
 [![level badge][level-badge]](https://github.com/Level/awesome)
 [![npm](https://img.shields.io/npm/v/rocksdb.svg?label=&logo=npm)](https://www.npmjs.com/package/rocksdb)
 [![Node version](https://img.shields.io/node/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
-[![Travis](https://img.shields.io/travis/Level/rocksdb.svg?logo=travis&label=)](https://travis-ci.org/Level/rocksdb)
+[![Travis](https://img.shields.io/travis/com/Level/rocksdb.svg?logo=travis&label=)](https://travis-ci.com/Level/rocksdb)
 [![AppVeyor](https://img.shields.io/appveyor/ci/Level/rocksdb.svg?logo=appveyor&label=)](https://ci.appveyor.com/project/Level/rocksdb)
 [![npm downloads](https://img.shields.io/npm/dm/rocksdb.svg?label=dl)](https://www.npmjs.com/package/rocksdb)
 [![Coverage Status](https://coveralls.io/repos/github/Level/rocksdb/badge.svg)](https://coveralls.io/github/Level/rocksdb)
