@@ -30,7 +30,7 @@
     "delayed": "^2.0.0",
     "dependency-check": "^3.3.0",
     "du": "^1.0.0",
-    "electron": "^6.0.0",
+    "electron": "^7.0.0",
     "faucet": "^0.0.1",
     "glob": "^7.1.4",
     "hallmark": "^2.0.0",
