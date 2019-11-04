@@ -27,22 +27,24 @@
             , 'cflags_cc+': [ '-frtti' ]
           }]
         , ["OS == 'mac'", {
+            "cflags+": ["-fvisibility=hidden"],
             'xcode_settings': {
-                    'WARNING_CFLAGS': [
-                        '-Wno-sign-compare'
-                      , '-Wno-unused-variable'
-                      , '-Wno-unused-function'
-                      , '-Wno-ignored-qualifiers'
-                    ]
-                    , 'OTHER_CPLUSPLUSFLAGS': [
-                        '-mmacosx-version-min=10.8'
-                      , '-std=c++11'
-                      , '-stdlib=libc++'
-                    ]
-, 'OTHER_LDFLAGS': ['-stdlib=libc++']
-                    , 'GCC_ENABLE_CPP_RTTI': 'YES'
-                    , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
-                    , 'MACOSX_DEPLOYMENT_TARGET': '10.8'
+                  "GCC_SYMBOLS_PRIVATE_EXTERN": "YES" # -fvisibility=hidden
+                , 'WARNING_CFLAGS': [
+                    '-Wno-sign-compare'
+                  , '-Wno-unused-variable'
+                  , '-Wno-unused-function'
+                  , '-Wno-ignored-qualifiers'
+                ]
+                , 'OTHER_CPLUSPLUSFLAGS': [
+                    '-mmacosx-version-min=10.8'
+                  , '-std=c++11'
+                  , '-stdlib=libc++'
+                ]
+                , 'OTHER_LDFLAGS': ['-stdlib=libc++']
+                , 'GCC_ENABLE_CPP_RTTI': 'YES'
+                , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
+                , 'MACOSX_DEPLOYMENT_TARGET': '10.8'
             }
           }]
         , ['OS == "linux"', {
