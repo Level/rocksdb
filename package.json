@@ -20,7 +20,7 @@
     "prepublishOnly": "npm run dependency-check"
   },
   "dependencies": {
-    "abstract-leveldown": "~6.2.2",
+    "abstract-leveldown": "^6.3.0",
     "napi-macros": "^2.0.0",
     "node-gyp-build": "^4.2.3"
   },
