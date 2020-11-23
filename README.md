@@ -21,7 +21,10 @@
 - [Supported Platforms](#supported-platforms)
 - [API](#api)
 - [Contributing](#contributing)
+  - [Publishing](#publishing)
 - [Donate](#donate)
+  - [Backers](#backers)
+  - [Sponsors](#sponsors)
 - [License](#license)
 
 </details>
