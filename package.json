@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "abstract-leveldown": "~6.2.2",
-    "napi-macros": "~2.0.0",
-    "node-gyp-build": "~4.1.0"
+    "napi-macros": "^2.0.0",
+    "node-gyp-build": "^4.2.3"
   },
   "devDependencies": {
     "async-each": "^1.0.3",
@@ -40,7 +40,7 @@
     "mkfiletree": "^2.0.0",
     "node-gyp": "^6.0.0",
     "nyc": "^15.0.0",
-    "prebuildify": "^3.0.0",
+    "prebuildify": "^4.1.1",
     "prebuildify-ci": "^1.0.4",
     "prebuildify-cross": "^4.0.0",
     "readfiletree": "^1.0.0",
