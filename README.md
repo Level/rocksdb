@@ -21,6 +21,7 @@
 - [Supported Platforms](#supported-platforms)
 - [API](#api)
 - [Contributing](#contributing)
+  - [Git Submodules](#git-submodules)
   - [Publishing](#publishing)
 - [Donate](#donate)
   - [Backers](#backers)

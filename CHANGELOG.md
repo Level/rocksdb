@@ -2,6 +2,37 @@
 
 _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
+## [5.0.0] - 2021-04-17
+
+### Changed
+
+- **Breaking:** bump `abstract-leveldown` ([`e6b9182`](https://github.com/Level/rocksdb/commit/e6b9182), [`271894f`](https://github.com/Level/rocksdb/commit/271894f)) (Vincent Weevers)
+- **Breaking:** upgrade to RocksDB 6.17.3 ([`060d182`](https://github.com/Level/rocksdb/commit/060d182)) (Denis Yaremov)
+- Move RocksDB to git submodule ([`1b6ea11`](https://github.com/Level/rocksdb/commit/1b6ea11), [`28b37fa`](https://github.com/Level/rocksdb/commit/28b37fa)) (Philippe Schommers)
+- Replace Ubuntu 16.04 with CentOS 7 for prebuilds ([#153](https://github.com/Level/rocksdb/issues/153)) ([`6b2ebb7`](https://github.com/Level/rocksdb/commit/6b2ebb7)) (Vincent Weevers). This makes the prebuilt binary for linux compatible with Debian 8, Ubuntu 14.04, RHEL 7, CentOS 7 and other flavors with an old glibc.
+- Bump `node-gyp` from 5.x to 7.x ([`2d20d18`](https://github.com/Level/rocksdb/commit/2d20d18), [`9d36809`](https://github.com/Level/rocksdb/commit/9d36809)) (Vincent Weevers)
+- Bump `node-gyp-build` and unlock `napi-macros` ([`4c45b5f`](https://github.com/Level/rocksdb/commit/4c45b5f)) (Vincent Weevers)
+- Skip stack exhaustion test ([`69e3dcb`](https://github.com/Level/rocksdb/commit/69e3dcb)) (Vincent Weevers)
+- Refactor initial seek ([`949afd2`](https://github.com/Level/rocksdb/commit/949afd2)) (Vincent Weevers)
+- Make iterator seek target a local variable ([`9b08726`](https://github.com/Level/rocksdb/commit/9b08726)) (Vincent Weevers)
+- Refactor initialization of range options ([`99918c5`](https://github.com/Level/rocksdb/commit/99918c5)) (Vincent Weevers)
+
+### Added
+
+- Add manifest ([Level/community#83](https://github.com/Level/community/issues/83)) ([`5eee577`](https://github.com/Level/rocksdb/commit/5eee577)) (Vincent Weevers)
+- Test that empty range options are ignored ([`4888b97`](https://github.com/Level/rocksdb/commit/4888b97)) (Vincent Weevers)
+
+### Removed
+
+- **Breaking:** drop node 8 ([Level/community#98](https://github.com/Level/community/issues/98)) ([`05aefaa`](https://github.com/Level/rocksdb/commit/05aefaa), [`fd69183`](https://github.com/Level/rocksdb/commit/fd69183)) (Vincent Weevers)
+- Remove default export ([Level/community#87](https://github.com/Level/community/issues/87)) ([`43c1544`](https://github.com/Level/rocksdb/commit/43c1544)) (Vincent Weevers)
+
+### Fixed
+
+- Hide symbols on mac with `-fvisibility=hidden` ([#150](https://github.com/Level/rocksdb/issues/150)) ([`e2e09c9`](https://github.com/Level/rocksdb/commit/e2e09c9)) (Vincent Weevers)
+- Close db in `stack-blower` test ([`1925392`](https://github.com/Level/rocksdb/commit/1925392)) (Vincent Weevers)
+- Fix `test-gc` script ([`2c41d3b`](https://github.com/Level/rocksdb/commit/2c41d3b)) (Vincent Weevers)
+
 ## [4.1.0] - 2019-09-20
 
 ### Added
@@ -182,6 +213,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ## 1.0.0 - 2017-07-01
 
 **Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
+
+[5.0.0]: https://github.com/Level/rocksdb/compare/v4.1.0...v5.0.0
 
 [4.1.0]: https://github.com/Level/rocksdb/compare/v4.0.1...v4.1.0
 

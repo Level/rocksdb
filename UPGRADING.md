@@ -2,7 +2,25 @@
 
 This document describes breaking changes and how to upgrade. For a complete list of changes including minor and patch releases, please refer to the [changelog](CHANGELOG.md).
 
-## v4
+## 5.0.0
+
+Legacy range options have been removed ([Level/community#86](https://github.com/Level/community/issues/86)). If you previously did:
+
+```js
+db.iterator({ start: 'a', end: 'z' })
+```
+
+An error would now be thrown and you must instead do:
+
+```js
+db.iterator({ gte: 'a', lte: 'z' })
+```
+
+A db created or opened with this release cannot be opened by earlier versions, because RocksDB has been upgraded to 6.17.3 which effectively changes the default [`format_version`](https://rocksdb.org/blog/2019/03/08/format-version-4.html) from 2 to 4.
+
+This release also drops support of Node.js 8 ([Level/community#98](https://github.com/Level/community/issues/98)).
+
+## 4.0.0
 
 **This is a rewrite to N-API and an upgrade to `abstract-leveldown` v6, which solves long-standing issues around serialization and type support.**
 
@@ -60,11 +78,11 @@ db.close(function (err) {
 })
 ```
 
-## v3
+## 3.0.0
 
 Dropped support for node 4. No other breaking changes.
 
-## v2
+## 2.0.0
 
 #### `.batch(array)` enforces objects
 

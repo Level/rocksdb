@@ -17,6 +17,7 @@
 | **Max Ogden**           | [**@maxogden**](https://github.com/maxogden)           | [**@maxogden@twitter**](https://twitter.com/maxogden)                    |
 | **cjihrig**             |                                                        |                                                                          |
 | **Geoff Greer**         | [**@ggreer**](https://github.com/ggreer)               |                                                                          |
+| **Philippe Schommers**  |                                                        |                                                                          |
 | **Amine Mouafik**       | [**@kytwb**](https://github.com/kytwb)                 |                                                                          |
 | **Braydon Fuller**      | [**@braydonf**](https://github.com/braydonf)           |                                                                          |
 | **duralog**             |                                                        |                                                                          |
@@ -24,11 +25,11 @@
 | **Meirion Hughes**      | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                                          |
 | **Nicola Del Gobbo**    | [**@NickNaso**](https://github.com/NickNaso)           |                                                                          |
 | **Oguz Bastemur**       | [**@obastemur**](https://github.com/obastemur)         | [**@obastemur@twitter**](https://twitter.com/obastemur)                  |
-| **Philippe Schommers**  |                                                        |                                                                          |
 | **Aaron Bieber**        | [**@qbit**](https://github.com/qbit)                   |                                                                          |
 | **Adam Bliss**          | [**@abliss**](https://github.com/abliss)               |                                                                          |
 | **Andrew Kelley**       | [**@andrewrk**](https://github.com/andrewrk)           |                                                                          |
 | **Dean Landolt**        | [**@deanlandolt**](https://github.com/deanlandolt)     |                                                                          |
+| **Denis Yaremov**       |                                                        |                                                                          |
 | **Eric Swanson**        |                                                        |                                                                          |
 | **Eugene Ware**         |                                                        |                                                                          |
 | **flames of love**      |                                                        |                                                                          |
