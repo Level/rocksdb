@@ -33,7 +33,7 @@ test('test invalid getProperty() returns empty string', function (t) {
 })
 
 test('test invalid getProperty("rocksdb.num-files-at-levelN") returns numbers', function (t) {
-  for (var i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     t.equal(db.getProperty('rocksdb.num-files-at-level' + i),
       '0', '"rocksdb.num-files-at-levelN" === "0"')
   }
@@ -46,7 +46,7 @@ test('test invalid getProperty("rocksdb.stats")', function (t) {
 })
 
 test('test invalid getProperty("rocksdb.sstables")', function (t) {
-  var expected = [0, 1, 2, 3, 4, 5, 6].map(function (l) {
+  const expected = [0, 1, 2, 3, 4, 5, 6].map(function (l) {
     return '--- level ' + l + ' --- version# 2 ---'
   }).join('\n') + '\n'
   t.equal(db.getProperty('rocksdb.sstables'), expected, 'rocksdb.sstables')
