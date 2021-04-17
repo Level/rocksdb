@@ -3,9 +3,11 @@ language: node_js
 jobs:
   include:
     - os: linux
-      node_js: 8
-    - os: linux
       node_js: 10
+    - os: linux
+      node_js: 12
+    - os: linux
+      node_js: 14
     - os: linux
       node_js: node
       env: [TEST_ELECTRON=1, BUILD_CMD=prebuild-linux, BUILD_GROUP=linux-x64]
@@ -17,9 +19,11 @@ jobs:
         - export DISPLAY=':99.0'
         - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - os: osx
-      node_js: 8
-    - os: osx
       node_js: 10
+    - os: osx
+      node_js: 12
+    - os: osx
+      node_js: 14
     - os: osx
       node_js: node
       env: [TEST_ELECTRON=1, BUILD_CMD=prebuild, BUILD_GROUP=darwin-x64]
