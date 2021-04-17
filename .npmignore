@@ -11,9 +11,7 @@ deps/rocksdb/rocksdb/fuzz/
 deps/rocksdb/rocksdb/hdfs/setup.sh
 deps/rocksdb/rocksdb/java/
 deps/rocksdb/rocksdb/third-party/gtest-*/
-deps/rocksdb/rocksdb/third-party/folly/
 deps/rocksdb/rocksdb/tools/advisor/
-deps/rocksdb/rocksdb/tools/block_cache_analyzer/
 deps/rocksdb/rocksdb/tools/rdb/
 deps/rocksdb/rocksdb/tools/dbench_monitor
 deps/rocksdb/rocksdb/tools/pflag
