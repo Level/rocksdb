@@ -13,6 +13,8 @@
 #include <rocksdb/env.h>
 #include <rocksdb/options.h>
 #include <rocksdb/table.h>
+#include "rocksdb/slice_transform.h"
+#include "rocksdb/slice.h"
 
 namespace leveldb = rocksdb;
 
@@ -208,6 +210,38 @@ static std::string StringProperty (napi_env env, napi_value obj, const char* key
   }
 
   return "";
+}
+
+static const rocksdb::SliceTransform* PrefixExtractor(napi_env env, napi_value options){
+  const char* PREFIX_EXTRACTOR = "prefix_extractor";
+  const char* PREFIX_FIXED = "fixed";
+  const char* PREFIX_CAPPED = "capped";
+
+  if(!HasProperty(env, options, PREFIX_EXTRACTOR)) {
+    return nullptr;
+  }
+
+  napi_value prefix = GetProperty(env, options, PREFIX_EXTRACTOR);
+
+  if(!IsObject(env, prefix)) {
+    return nullptr;
+  }
+
+  if(HasProperty(env, prefix, PREFIX_FIXED)){
+    int length = Int32Property(env, prefix,PREFIX_FIXED, -1);
+    if(length >= 0){
+      return rocksdb::NewFixedPrefixTransform(length);
+    }
+  }
+
+  if(HasProperty(env, prefix, PREFIX_CAPPED)){
+    int length = Int32Property(env, prefix, PREFIX_CAPPED, -1);
+    if(length >= 0){
+      return rocksdb::NewCappedPrefixTransform(length);
+    }
+  }
+
+  return nullptr;
 }
 
 static void DisposeSliceBuffer (leveldb::Slice slice) {
@@ -749,7 +783,8 @@ struct OpenWorker final : public BaseWorker {
               uint32_t maxFileSize,
               uint32_t cacheSize,
               const std::string& infoLogLevel,
-              bool readOnly)
+              bool readOnly, 
+              const rocksdb::SliceTransform* prefix_extractor)
     : BaseWorker(env, database, callback, "leveldown.db.open"),
       readOnly_(readOnly),
       location_(location) {
@@ -762,6 +797,10 @@ struct OpenWorker final : public BaseWorker {
     options_.max_open_files = maxOpenFiles;
     options_.max_log_file_size = maxFileSize;
     options_.paranoid_checks = false;
+
+    if(prefix_extractor != nullptr){
+        options_.prefix_extractor.reset(prefix_extractor);
+    }
 
     if (infoLogLevel.size() > 0) {
       rocksdb::InfoLogLevel lvl;
@@ -834,13 +873,15 @@ NAPI_METHOD(db_open) {
                                                  "blockRestartInterval", 16);
   uint32_t maxFileSize = Uint32Property(env, options, "maxFileSize", 2 << 20);
 
+  const rocksdb::SliceTransform* prefix_extractor = PrefixExtractor(env, options);
+
   napi_value callback = argv[3];
   OpenWorker* worker = new OpenWorker(env, database, callback, location,
                                       createIfMissing, errorIfExists,
                                       compression, writeBufferSize, blockSize,
                                       maxOpenFiles, blockRestartInterval,
                                       maxFileSize, cacheSize,
-                                      infoLogLevel, readOnly);
+                                      infoLogLevel, readOnly, prefix_extractor);
   worker->Queue();
   delete [] location;
 
