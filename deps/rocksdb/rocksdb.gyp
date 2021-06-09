@@ -164,7 +164,6 @@
                     '-mmacosx-version-min=10.8'
                   , '-std=c++11'
                   , '-stdlib=libc++'
-                  , '-march=native'
                   , '-fno-omit-frame-pointer'
                   , '-momit-leaf-frame-pointer'
                 ]
