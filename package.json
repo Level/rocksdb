@@ -13,7 +13,7 @@
     "coverage": "nyc report -r lcovonly",
     "rebuild": "npm run install --build-from-source",
     "prebuild": "prebuildify -t 8.14.0 --napi --strip",
-    "prebuild-linux-x64": "prebuildify-cross -i centos7-devtoolset7 -t 8.14.0 --napi --strip",
+    "prebuild-linux-x64": "prebuildify-cross -i centos7-devtoolset7 -i alpine -t 8.14.0 --napi --strip",
     "prebuild-darwin-x64": "prebuildify -t 8.14.0 --napi --strip",
     "prebuild-win32-x64": "prebuildify -t 8.14.0 --napi --strip",
     "download-prebuilds": "prebuildify-ci download",
