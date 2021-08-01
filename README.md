@@ -24,8 +24,6 @@
   - [Git Submodules](#git-submodules)
   - [Publishing](#publishing)
 - [Donate](#donate)
-  - [Backers](#backers)
-  - [Sponsors](#sponsors)
 - [License](#license)
 
 </details>
@@ -87,28 +85,19 @@ $ git submodule update --init --recursive
 
 1. Increment the version: `npm version ..`
 2. Push to GitHub: `git push --follow-tags`
-3. Wait for Travis and AppVeyor builds to complete
+3. Wait for CI to complete
 4. Download prebuilds into `./prebuilds`: `npm run download-prebuilds`
 5. Optionally verify loading a prebuild: `npm run test-prebuild`
 6. Optionally verify which files npm will include: `canadian-pub`
-7. Add changelog to the GitHub release
-8. Finally: `npm publish`
+7. Finally: `npm publish`
 
 ## Donate
 
-To sustain [`Level`](https://github.com/Level) and its activities, become a backer or sponsor on [Open Collective](https://opencollective.com/level). Your logo or avatar will be displayed on our 28+ [GitHub repositories](https://github.com/Level) and [npm](https://www.npmjs.com/) packages. 💖
-
-### Backers
-
-[![Open Collective backers](https://opencollective.com/level/backers.svg?width=890)](https://opencollective.com/level)
-
-### Sponsors
-
-[![Open Collective sponsors](https://opencollective.com/level/sponsors.svg?width=890)](https://opencollective.com/level)
+Support us with a monthly donation on [Open Collective](https://opencollective.com/level) and help us continue our work.
 
 ## License
 
-[MIT](LICENSE.md) © 2012-present Rod Vagg and [Contributors](CONTRIBUTORS.md).
+[MIT](LICENSE)
 
 _`rocksdb` builds on the excellent work of the LevelDB and Snappy teams from Google and additional contributors to the LevelDB fork by Facebook. LevelDB and Snappy are both issued under the [New BSD License](http://opensource.org/licenses/BSD-3-Clause). A large portion of `rocksdb` Windows support comes from the [Windows LevelDB port](http://code.google.com/r/kkowalczyk-leveldb/) (archived) by [Krzysztof Kowalczyk](http://blog.kowalczyk.info/) ([`@kjk`](https://twitter.com/kjk)). If you're using `rocksdb` on Windows, you should give him your thanks!_
 

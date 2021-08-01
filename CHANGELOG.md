@@ -1,8 +1,8 @@
 # Changelog
 
-_**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
-
 ## [5.0.0] - 2021-04-17
+
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 
 ### Changed
 
@@ -61,6 +61,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 ## [4.0.0] - 2019-06-08
 
+_Many commits between 3.1.0 and 4.0.0 are not listed here, because they became irrelevant once we rewrote `rocksdb` as an N-API addon by importing code from `leveldown` - essentially starting from scratch. This version of `rocksdb` includes all relevant changes and bugfixes of (up to and including) [`leveldown@5.1.0`](https://github.com/Level/leveldown/blob/master/CHANGELOG.md). Please refer to [`UPGRADING.md`](UPGRADING.md) for a complete description of breaking changes in the context of `rocksdb`._
+
 ### Changed
 
 - Replace source with N-API binding and JS from [`leveldown`](https://github.com/Level/leveldown) ([`c6957d0`](https://github.com/Level/rocksdb/commit/c6957d0)) ([#111](https://github.com/Level/rocksdb/issues/111)) ([**@vweevers**](https://github.com/vweevers))
@@ -84,8 +86,6 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 ### Fixed
 
 - Fix Level badge ([`84bc345`](https://github.com/Level/rocksdb/commit/84bc345)) ([**@vweevers**](https://github.com/vweevers))
-
-**Historical Note** Many commits between 3.1.0 and 4.0.0 are not listed here, because they became irrelevant once we rewrote `rocksdb` as an N-API addon by importing code from `leveldown` - essentially starting from scratch. This version of `rocksdb` includes all relevant changes and bugfixes of (up to and including) [`leveldown@5.1.0`](https://github.com/Level/leveldown/blob/master/CHANGELOG.md). Please refer to [`UPGRADING.md`](UPGRADING.md) for a complete description of breaking changes in the context of `rocksdb`.
 
 ## [3.1.0] - 2019-04-21
 
@@ -142,6 +142,8 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 - Upgrade to `abstract-leveldown@~5.0.0` ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
 ## [3.0.0] - 2018-05-21
+
+_If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 
 ### Added
 
@@ -210,30 +212,32 @@ _**If you are upgrading:** please see [`UPGRADING.md`](UPGRADING.md)._
 
 - Update dependencies ([**@ralphtheninja**](https://github.com/ralphtheninja))
 
-## 1.0.0 - 2017-07-01
+## [1.0.0] - 2017-07-01
 
-**Historical Note** Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina).
+_Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina)._
 
-[5.0.0]: https://github.com/Level/rocksdb/compare/v4.1.0...v5.0.0
+[5.0.0]: https://github.com/Level/rocksdb/releases/tag/v5.0.0
 
-[4.1.0]: https://github.com/Level/rocksdb/compare/v4.0.1...v4.1.0
+[4.1.0]: https://github.com/Level/rocksdb/releases/tag/v4.1.0
 
-[4.0.1]: https://github.com/Level/rocksdb/compare/v4.0.0...v4.0.1
+[4.0.1]: https://github.com/Level/rocksdb/releases/tag/v4.0.1
 
-[4.0.0]: https://github.com/Level/rocksdb/compare/v3.1.0...v4.0.0
+[4.0.0]: https://github.com/Level/rocksdb/releases/tag/v4.0.0
 
-[3.1.0]: https://github.com/Level/rocksdb/compare/v3.0.3...v3.1.0
+[3.1.0]: https://github.com/Level/rocksdb/releases/tag/v3.1.0
 
-[3.0.3]: https://github.com/Level/rocksdb/compare/v3.0.2...v3.0.3
+[3.0.3]: https://github.com/Level/rocksdb/releases/tag/v3.0.3
 
-[3.0.2]: https://github.com/Level/rocksdb/compare/v3.0.1...v3.0.2
+[3.0.2]: https://github.com/Level/rocksdb/releases/tag/v3.0.2
 
-[3.0.1]: https://github.com/Level/rocksdb/compare/v3.0.0...v3.0.1
+[3.0.1]: https://github.com/Level/rocksdb/releases/tag/v3.0.1
 
-[3.0.0]: https://github.com/Level/rocksdb/compare/v2.0.0...v3.0.0
+[3.0.0]: https://github.com/Level/rocksdb/releases/tag/v3.0.0
 
-[2.0.0]: https://github.com/Level/rocksdb/compare/v1.1.0...v2.0.0
+[2.0.0]: https://github.com/Level/rocksdb/releases/tag/v2.0.0
 
-[1.1.0]: https://github.com/Level/rocksdb/compare/v1.0.1...v1.1.0
+[1.1.0]: https://github.com/Level/rocksdb/releases/tag/v1.1.0
 
-[1.0.1]: https://github.com/Level/rocksdb/compare/v1.0.0...v1.0.1
+[1.0.1]: https://github.com/Level/rocksdb/releases/tag/v1.0.1
+
+[1.0.0]: https://github.com/Level/rocksdb/releases/tag/v1.0.0
