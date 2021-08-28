@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.1.0] - 2021-08-28
+
+### Added
+
+- Add prebuilt binary for Alpine ([#174](https://github.com/Level/rocksdb/issues/174)) ([`185951d`](https://github.com/Level/rocksdb/commit/185951d)) (Vincent Weevers)
+
+### Fixed
+
+- Support `approximateSize()` on db bigger than 4 GB ([#175](https://github.com/Level/rocksdb/issues/175)) ([`891bb7a`](https://github.com/Level/rocksdb/commit/891bb7a)) (Lars Kuhtz)
+- Remove `march=native` flag for Apple silicon compatibility ([#171](https://github.com/Level/rocksdb/issues/171)) ([`f945be6`](https://github.com/Level/rocksdb/commit/f945be6)) (Juan Gonzalez)
+
 ## [5.0.0] - 2021-04-17
 
 _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
@@ -215,6 +226,8 @@ _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 ## [1.0.0] - 2017-07-01
 
 _Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina)._
+
+[5.1.0]: https://github.com/Level/rocksdb/releases/tag/v5.1.0
 
 [5.0.0]: https://github.com/Level/rocksdb/releases/tag/v5.0.0
 
