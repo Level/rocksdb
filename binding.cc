@@ -277,17 +277,18 @@ static napi_status CallFunction (napi_env env,
  * - DoFinally (main thread): do cleanup regardless of success
  */
 struct BaseWorker {
+  // Note: storing env is discouraged as we'd end up using it in unsafe places.
   BaseWorker (napi_env env,
               Database* database,
               napi_value callback,
               const char* resourceName)
-    : env_(env), database_(database), errMsg_(NULL) {
-    NAPI_STATUS_THROWS_VOID(napi_create_reference(env_, callback, 1, &callbackRef_));
+    : database_(database), errMsg_(NULL) {
+    NAPI_STATUS_THROWS_VOID(napi_create_reference(env, callback, 1, &callbackRef_));
     napi_value asyncResourceName;
-    NAPI_STATUS_THROWS_VOID(napi_create_string_utf8(env_, resourceName,
+    NAPI_STATUS_THROWS_VOID(napi_create_string_utf8(env, resourceName,
                                                NAPI_AUTO_LENGTH,
                                                &asyncResourceName));
-    NAPI_STATUS_THROWS_VOID(napi_create_async_work(env_, callback,
+    NAPI_STATUS_THROWS_VOID(napi_create_async_work(env, callback,
                                               asyncResourceName,
                                               BaseWorker::Execute,
                                               BaseWorker::Complete,
@@ -296,12 +297,13 @@ struct BaseWorker {
 
   virtual ~BaseWorker () {
     delete [] errMsg_;
-    napi_delete_reference(env_, callbackRef_);
-    napi_delete_async_work(env_, asyncWork_);
   }
 
   static void Execute (napi_env env, void* data) {
     BaseWorker* self = (BaseWorker*)data;
+
+    // Don't pass env to DoExecute() because use of Node-API
+    // methods should generally be avoided in async work.
     self->DoExecute();
   }
 
@@ -322,39 +324,43 @@ struct BaseWorker {
   }
 
   virtual void DoExecute () = 0;
-  virtual void DoFinally () {};
+  virtual void DoFinally (napi_env env) {};
 
   static void Complete (napi_env env, napi_status status, void* data) {
     BaseWorker* self = (BaseWorker*)data;
-    self->DoComplete();
-    self->DoFinally();
+
+    self->DoComplete(env);
+    self->DoFinally(env);
+
+    napi_delete_reference(env, self->callbackRef_);
+    napi_delete_async_work(env, self->asyncWork_);
+
     delete self;
   }
 
-  void DoComplete () {
+  void DoComplete (napi_env env) {
     if (status_.ok()) {
-      return HandleOKCallback();
+      return HandleOKCallback(env);
     }
 
-    napi_value argv = CreateError(env_, errMsg_);
+    napi_value argv = CreateError(env, errMsg_);
     napi_value callback;
-    napi_get_reference_value(env_, callbackRef_, &callback);
-    CallFunction(env_, callback, 1, &argv);
+    napi_get_reference_value(env, callbackRef_, &callback);
+    CallFunction(env, callback, 1, &argv);
   }
 
-  virtual void HandleOKCallback () {
+  virtual void HandleOKCallback (napi_env env) {
     napi_value argv;
-    napi_get_null(env_, &argv);
+    napi_get_null(env, &argv);
     napi_value callback;
-    napi_get_reference_value(env_, callbackRef_, &callback);
-    CallFunction(env_, callback, 1, &argv);
+    napi_get_reference_value(env, callbackRef_, &callback);
+    CallFunction(env, callback, 1, &argv);
   }
 
-  void Queue () {
-    napi_queue_async_work(env_, asyncWork_);
+  void Queue (napi_env env) {
+    napi_queue_async_work(env, asyncWork_);
   }
 
-  napi_env env_;
   napi_ref callbackRef_;
   napi_async_work asyncWork_;
   Database* database_;
@@ -368,19 +374,14 @@ private:
  * Owns the LevelDB storage, cache, filter policy and iterators.
  */
 struct Database {
-  Database (napi_env env)
-    : env_(env),
-      db_(NULL),
+  Database ()
+    : db_(NULL),
       currentIteratorId_(0),
       pendingCloseWorker_(NULL),
       ref_(NULL),
       priorityWork_(0) {}
 
   ~Database () {
-    if (ref_ != NULL) {
-      napi_delete_reference(env_, ref_);
-    }
-
     if (db_ != NULL) {
       delete db_;
       db_ = NULL;
@@ -452,25 +453,25 @@ struct Database {
     return db_->ReleaseSnapshot(snapshot);
   }
 
-  void AttachIterator (uint32_t id, Iterator* iterator) {
+  void AttachIterator (napi_env env, uint32_t id, Iterator* iterator) {
     iterators_[id] = iterator;
-    IncrementPriorityWork();
+    IncrementPriorityWork(env);
   }
 
-  void DetachIterator (uint32_t id) {
+  void DetachIterator (napi_env env, uint32_t id) {
     iterators_.erase(id);
-    DecrementPriorityWork();
+    DecrementPriorityWork(env);
   }
 
-  void IncrementPriorityWork () {
-    napi_reference_ref(env_, ref_, &priorityWork_);
+  void IncrementPriorityWork (napi_env env) {
+    napi_reference_ref(env, ref_, &priorityWork_);
   }
 
-  void DecrementPriorityWork () {
-    napi_reference_unref(env_, ref_, &priorityWork_);
+  void DecrementPriorityWork (napi_env env) {
+    napi_reference_unref(env, ref_, &priorityWork_);
 
     if (priorityWork_ == 0 && pendingCloseWorker_ != NULL) {
-      pendingCloseWorker_->Queue();
+      pendingCloseWorker_->Queue(env);
       pendingCloseWorker_ = NULL;
     }
   }
@@ -479,7 +480,6 @@ struct Database {
     return priorityWork_ > 0;
   }
 
-  napi_env env_;
   leveldb::DB* db_;
   uint32_t currentIteratorId_;
   BaseWorker *pendingCloseWorker_;
@@ -496,13 +496,13 @@ private:
 struct PriorityWorker : public BaseWorker {
   PriorityWorker (napi_env env, Database* database, napi_value callback, const char* resourceName)
     : BaseWorker(env, database, callback, resourceName) {
-      database_->IncrementPriorityWork();
+      database_->IncrementPriorityWork(env);
   }
 
-  ~PriorityWorker () {}
+  virtual ~PriorityWorker () {}
 
-  void DoFinally () override {
-    database_->DecrementPriorityWork();
+  void DoFinally (napi_env env) override {
+    database_->DecrementPriorityWork(env);
   }
 };
 
@@ -537,7 +537,7 @@ struct BaseIterator {
     dbIterator_ = database_->NewIterator(options_);
   }
 
-  ~BaseIterator () {
+  virtual ~BaseIterator () {
     assert(hasEnded_);
 
     if (lt_ != NULL) delete lt_;
@@ -548,7 +548,7 @@ struct BaseIterator {
     delete options_;
   }
 
-  bool DidSeek () {
+  bool DidSeek () const {
     return didSeek_;
   }
 
@@ -662,19 +662,19 @@ struct BaseIterator {
     else dbIterator_->Next();
   }
 
-  leveldb::Slice CurrentKey () {
+  leveldb::Slice CurrentKey () const {
     return dbIterator_->key();
   }
 
-  leveldb::Slice CurrentValue () {
+  leveldb::Slice CurrentValue () const {
     return dbIterator_->value();
   }
 
-  leveldb::Status Status () {
+  leveldb::Status Status () const {
     return dbIterator_->status();
   }
 
-  bool OutOfRange (leveldb::Slice& target) {
+  bool OutOfRange (const leveldb::Slice& target) {
     return ((lt_  != NULL && target.compare(*lt_) >= 0) ||
             (lte_ != NULL && target.compare(*lte_) > 0) ||
             (gt_  != NULL && target.compare(*gt_) <= 0) ||
@@ -732,21 +732,21 @@ struct Iterator final : public BaseIterator {
 
   ~Iterator () {}
 
-  void Attach (napi_ref ref) {
-    ref_ = ref;
-    database_->AttachIterator(id_, this);
+  void Attach (napi_env env, napi_value context) {
+    napi_create_reference(env, context, 1, &ref_);
+    database_->AttachIterator(env, id_, this);
   }
 
-  napi_ref Detach () {
-    database_->DetachIterator(id_);
-    return ref_;
+  void Detach (napi_env env) {
+    database_->DetachIterator(env, id_);
+    if (ref_ != NULL) napi_delete_reference(env, ref_);
   }
 
-  void CheckEndCallback () {
+  void CheckEndCallback (napi_env env) {
     nexting_ = false;
 
     if (endWorker_ != NULL) {
-      endWorker_->Queue();
+      endWorker_->Queue(env);
       endWorker_ = NULL;
     }
   }
@@ -793,7 +793,6 @@ struct Iterator final : public BaseIterator {
   uint32_t highWaterMark_;
   bool landed_;
   bool nexting_;
-
   BaseWorker* endWorker_;
 
 private:
@@ -818,6 +817,7 @@ static void env_cleanup_hook (void* arg) {
     std::map<uint32_t, Iterator*> iterators = database->iterators_;
     std::map<uint32_t, Iterator*>::iterator it;
 
+    // TODO: does not do `napi_delete_reference(env, iterator->ref_)`. Problem?
     for (it = iterators.begin(); it != iterators.end(); ++it) {
       it->second->End();
     }
@@ -834,6 +834,7 @@ static void FinalizeDatabase (napi_env env, void* data, void* hint) {
   if (data) {
     Database* database = (Database*)data;
     napi_remove_env_cleanup_hook(env, env_cleanup_hook, database);
+    if (database->ref_ != NULL) napi_delete_reference(env, database->ref_);
     delete database;
   }
 }
@@ -842,7 +843,7 @@ static void FinalizeDatabase (napi_env env, void* data, void* hint) {
  * Returns a context object for a database.
  */
 NAPI_METHOD(db_init) {
-  Database* database = new Database(env);
+  Database* database = new Database();
   napi_add_env_cleanup_hook(env, env_cleanup_hook, database);
 
   napi_value result;
@@ -898,7 +899,7 @@ struct OpenWorker final : public BaseWorker {
       else if (infoLogLevel == "error") lvl = rocksdb::InfoLogLevel::ERROR_LEVEL;
       else if (infoLogLevel == "fatal") lvl = rocksdb::InfoLogLevel::FATAL_LEVEL;
       else if (infoLogLevel == "header") lvl = rocksdb::InfoLogLevel::HEADER_LEVEL;
-      else napi_throw_error(env_, NULL, "invalid log level");
+      else napi_throw_error(env, NULL, "invalid log level");
 
       options_.info_log_level = lvl;
     } else {
@@ -967,7 +968,7 @@ NAPI_METHOD(db_open) {
                                       maxOpenFiles, blockRestartInterval,
                                       maxFileSize, cacheSize,
                                       infoLogLevel, readOnly);
-  worker->Queue();
+  worker->Queue(env);
   delete [] location;
 
   NAPI_RETURN_UNDEFINED();
@@ -1004,7 +1005,7 @@ NAPI_METHOD(db_close) {
   CloseWorker* worker = new CloseWorker(env, database, callback);
 
   if (!database->HasPriorityWork()) {
-    worker->Queue();
+    worker->Queue(env);
     NAPI_RETURN_UNDEFINED();
   }
 
@@ -1065,7 +1066,7 @@ NAPI_METHOD(db_put) {
   napi_value callback = argv[4];
 
   PutWorker* worker = new PutWorker(env, database, callback, key, value, sync);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1094,19 +1095,19 @@ struct GetWorker final : public PriorityWorker {
     SetStatus(database_->Get(options_, key_, value_));
   }
 
-  void HandleOKCallback () override {
+  void HandleOKCallback (napi_env env) override {
     napi_value argv[2];
-    napi_get_null(env_, &argv[0]);
+    napi_get_null(env, &argv[0]);
 
     if (asBuffer_) {
-      napi_create_buffer_copy(env_, value_.size(), value_.data(), NULL, &argv[1]);
+      napi_create_buffer_copy(env, value_.size(), value_.data(), NULL, &argv[1]);
     } else {
-      napi_create_string_utf8(env_, value_.data(), value_.size(), &argv[1]);
+      napi_create_string_utf8(env, value_.data(), value_.size(), &argv[1]);
     }
 
     napi_value callback;
-    napi_get_reference_value(env_, callbackRef_, &callback);
-    CallFunction(env_, callback, 2, argv);
+    napi_get_reference_value(env, callbackRef_, &callback);
+    CallFunction(env, callback, 2, argv);
   }
 
   leveldb::ReadOptions options_;
@@ -1130,7 +1131,7 @@ NAPI_METHOD(db_get) {
 
   GetWorker* worker = new GetWorker(env, database, callback, key, asBuffer,
                                     fillCache);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1173,7 +1174,7 @@ NAPI_METHOD(db_del) {
   napi_value callback = argv[3];
 
   DelWorker* worker = new DelWorker(env, database, callback, key, sync);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1257,7 +1258,7 @@ NAPI_METHOD(db_clear) {
   std::string* gte = RangeOption(env, options, "gte");
 
   ClearWorker* worker = new ClearWorker(env, database, callback, reverse, limit, lt, lte, gt, gte);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1284,13 +1285,13 @@ struct ApproximateSizeWorker final : public PriorityWorker {
     size_ = database_->ApproximateSize(&range);
   }
 
-  void HandleOKCallback () override {
+  void HandleOKCallback (napi_env env) override {
     napi_value argv[2];
-    napi_get_null(env_, &argv[0]);
-    napi_create_int64(env_, (int64_t)size_, &argv[1]);
+    napi_get_null(env, &argv[0]);
+    napi_create_int64(env, (uint64_t)size_, &argv[1]);
     napi_value callback;
-    napi_get_reference_value(env_, callbackRef_, &callback);
-    CallFunction(env_, callback, 2, argv);
+    napi_get_reference_value(env, callbackRef_, &callback);
+    CallFunction(env, callback, 2, argv);
   }
 
   leveldb::Slice start_;
@@ -1313,7 +1314,7 @@ NAPI_METHOD(db_approximate_size) {
   ApproximateSizeWorker* worker  = new ApproximateSizeWorker(env, database,
                                                              callback, start,
                                                              end);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1356,7 +1357,7 @@ NAPI_METHOD(db_compact_range) {
 
   CompactRangeWorker* worker  = new CompactRangeWorker(env, database, callback,
                                                        start, end);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1415,7 +1416,7 @@ NAPI_METHOD(destroy_db) {
   napi_value callback = argv[1];
 
   DestroyWorker* worker = new DestroyWorker(env, location, callback);
-  worker->Queue();
+  worker->Queue(env);
 
   delete [] location;
 
@@ -1456,7 +1457,7 @@ NAPI_METHOD(repair_db) {
   napi_value callback = argv[1];
 
   RepairWorker* worker = new RepairWorker(env, location, callback);
-  worker->Queue();
+  worker->Queue(env);
 
   delete [] location;
 
@@ -1500,7 +1501,6 @@ NAPI_METHOD(iterator_init) {
                                     values, limit, lt, lte, gt, gte, fillCache,
                                     keyAsBuffer, valueAsBuffer, highWaterMark);
   napi_value result;
-  napi_ref ref;
 
   NAPI_STATUS_THROWS(napi_create_external(env, iterator,
                                           FinalizeIterator,
@@ -1508,8 +1508,7 @@ NAPI_METHOD(iterator_init) {
 
   // Prevent GC of JS object before the iterator is ended (explicitly or on
   // db close) and keep track of non-ended iterators to end them on db close.
-  NAPI_STATUS_THROWS(napi_create_reference(env, result, 1, &ref));
-  iterator->Attach(ref);
+  iterator->Attach(env, result);
 
   return result;
 }
@@ -1549,10 +1548,10 @@ struct EndWorker final : public BaseWorker {
     iterator_->End();
   }
 
-  void HandleOKCallback () override {
-    // TODO: if we don't use EndWorker, do we still delete the reference?
-    napi_delete_reference(env_, iterator_->Detach());
-    BaseWorker::HandleOKCallback();
+  void HandleOKCallback (napi_env env) override {
+    // TODO: would this be safe(r) to do in DoFinally() i.e. after we call the callback?
+    iterator_->Detach(env);
+    BaseWorker::HandleOKCallback(env);
   }
 
   Iterator* iterator_;
@@ -1570,7 +1569,7 @@ static void iterator_end_do (napi_env env, Iterator* iterator, napi_value cb) {
     if (iterator->nexting_) {
       iterator->endWorker_ = worker;
     } else {
-      worker->Queue();
+      worker->Queue(env);
     }
   }
 }
@@ -1614,10 +1613,10 @@ struct NextWorker final : public BaseWorker {
     }
   }
 
-  void HandleOKCallback () override {
+  void HandleOKCallback (napi_env env) override {
     size_t arraySize = result_.size() * 2;
     napi_value jsArray;
-    napi_create_array_with_length(env_, arraySize, &jsArray);
+    napi_create_array_with_length(env, arraySize, &jsArray);
 
     for (size_t idx = 0; idx < result_.size(); ++idx) {
       std::pair<std::string, std::string> row = result_[idx];
@@ -1626,33 +1625,34 @@ struct NextWorker final : public BaseWorker {
 
       napi_value returnKey;
       if (iterator_->keyAsBuffer_) {
-        napi_create_buffer_copy(env_, key.size(), key.data(), NULL, &returnKey);
+        napi_create_buffer_copy(env, key.size(), key.data(), NULL, &returnKey);
       } else {
-        napi_create_string_utf8(env_, key.data(), key.size(), &returnKey);
+        napi_create_string_utf8(env, key.data(), key.size(), &returnKey);
       }
 
       napi_value returnValue;
       if (iterator_->valueAsBuffer_) {
-        napi_create_buffer_copy(env_, value.size(), value.data(), NULL, &returnValue);
+        napi_create_buffer_copy(env, value.size(), value.data(), NULL, &returnValue);
       } else {
-        napi_create_string_utf8(env_, value.data(), value.size(), &returnValue);
+        napi_create_string_utf8(env, value.data(), value.size(), &returnValue);
       }
 
       // put the key & value in a descending order, so that they can be .pop:ed in javascript-land
-      napi_set_element(env_, jsArray, static_cast<int>(arraySize - idx * 2 - 1), returnKey);
-      napi_set_element(env_, jsArray, static_cast<int>(arraySize - idx * 2 - 2), returnValue);
+      napi_set_element(env, jsArray, static_cast<int>(arraySize - idx * 2 - 1), returnKey);
+      napi_set_element(env, jsArray, static_cast<int>(arraySize - idx * 2 - 2), returnValue);
     }
 
     // clean up & handle the next/end state
-    iterator_->CheckEndCallback();
+    // TODO: always do this, even on error
+    iterator_->CheckEndCallback(env);
 
     napi_value argv[3];
-    napi_get_null(env_, &argv[0]);
+    napi_get_null(env, &argv[0]);
     argv[1] = jsArray;
-    napi_get_boolean(env_, !ok_, &argv[2]);
+    napi_get_boolean(env, !ok_, &argv[2]);
     napi_value callback;
-    napi_get_reference_value(env_, callbackRef_, &callback);
-    CallFunction(env_, callback, 3, argv);
+    napi_get_reference_value(env, callbackRef_, &callback);
+    CallFunction(env, callback, 3, argv);
   }
 
   Iterator* iterator_;
@@ -1678,7 +1678,7 @@ NAPI_METHOD(iterator_next) {
 
   NextWorker* worker = new NextWorker(env, iterator, callback);
   iterator->nexting_ = true;
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1762,7 +1762,7 @@ NAPI_METHOD(batch_do) {
   }
 
   BatchWorker* worker = new BatchWorker(env, database, callback, batch, sync, hasData);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
@@ -1886,17 +1886,20 @@ struct BatchWriteWorker final : public PriorityWorker {
       batch_(batch),
       sync_(sync) {
         // Prevent GC of batch object before we execute
-        NAPI_STATUS_THROWS_VOID(napi_create_reference(env_, context, 1, &contextRef_));
+        NAPI_STATUS_THROWS_VOID(napi_create_reference(env, context, 1, &contextRef_));
       }
 
-  ~BatchWriteWorker () {
-    napi_delete_reference(env_, contextRef_);
-  }
+  ~BatchWriteWorker () {}
 
   void DoExecute () override {
     if (batch_->hasData_) {
       SetStatus(batch_->Write(sync_));
     }
+  }
+
+  void DoFinally (napi_env env) override {
+    napi_delete_reference(env, contextRef_);
+    PriorityWorker::DoFinally(env);
   }
 
   Batch* batch_;
@@ -1918,7 +1921,7 @@ NAPI_METHOD(batch_write) {
   napi_value callback = argv[2];
 
   BatchWriteWorker* worker  = new BatchWriteWorker(env, argv[0], batch, callback, sync);
-  worker->Queue();
+  worker->Queue(env);
 
   NAPI_RETURN_UNDEFINED();
 }
