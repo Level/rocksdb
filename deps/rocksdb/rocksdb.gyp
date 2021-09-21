@@ -173,6 +173,14 @@
                 , 'MACOSX_DEPLOYMENT_TARGET': '10.8'
             }
         }]
+      , ['target_arch == "arm64" or target_arch == "aarch64"', {
+          'sources': [
+            'rocksdb/util/crc32c_arm64.cc'
+          ]
+        , 'ccflags': [
+            '-march=armv8-a+crc+crypto'
+          ]
+        }]
     ]
   , 'sources': [
         'rocksdb/cache/cache.cc'
