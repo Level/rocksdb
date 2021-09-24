@@ -71,6 +71,10 @@
                     '-Wno-sign-compare'
                   , '-Wno-unused-function'
                 ]
+	      , 'OTHER_CFLAGS': [
+	            '-arch x86_64'
+		  , '-arch arm64'
+		]
             }
         }]
     ]

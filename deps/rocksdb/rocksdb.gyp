@@ -147,7 +147,10 @@
             ]
         }]
       , ['OS == "mac"', {
-            'defines': [
+            'sources': [
+                'rocksdb/util/crc32c_arm64.cc'
+             ]
+          , 'defines': [
                 'OS_MACOSX=1',
                 'ROCKSDB_LIB_IO_POSIX=1',
                 'ROCKSDB_BACKTRACE=1'
@@ -161,16 +164,18 @@
                   , '-Wno-unused-function'
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
-                    '-mmacosx-version-min=10.8'
+                    '-mmacosx-version-min=10.12'
                   , '-std=c++11'
                   , '-stdlib=libc++'
                   , '-fno-omit-frame-pointer'
                   , '-momit-leaf-frame-pointer'
+                  , '-arch x86_64'
+                  , '-arch arm64'
                 ]
 # , 'OTHER_LDFLAGS': ['-stdlib=libc++']
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
-                , 'MACOSX_DEPLOYMENT_TARGET': '10.8'
+                , 'MACOSX_DEPLOYMENT_TARGET': '10.12'
             }
         }]
       , ['target_arch == "arm64" or target_arch == "aarch64"', {
