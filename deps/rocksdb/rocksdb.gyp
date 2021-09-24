@@ -147,10 +147,7 @@
             ]
         }]
       , ['OS == "mac"', {
-            'sources': [
-                'rocksdb/util/crc32c_arm64.cc'
-             ]
-          , 'defines': [
+            'defines': [
                 'OS_MACOSX=1',
                 'ROCKSDB_LIB_IO_POSIX=1',
                 'ROCKSDB_BACKTRACE=1'
@@ -177,14 +174,6 @@
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
                 , 'MACOSX_DEPLOYMENT_TARGET': '10.12'
             }
-        }]
-      , ['target_arch == "arm64" or target_arch == "aarch64"', {
-          'sources': [
-            'rocksdb/util/crc32c_arm64.cc'
-          ]
-        , 'ccflags': [
-            '-march=armv8-a+crc+crypto'
-          ]
         }]
     ]
   , 'sources': [
@@ -389,6 +378,7 @@
       , 'rocksdb/util/compression_context_cache.cc'
       , 'rocksdb/util/concurrent_task_limiter_impl.cc'
       , 'rocksdb/util/crc32c.cc'
+      , 'rocksdb/util/crc32c_arm64.cc'
       , 'rocksdb/util/dynamic_bloom.cc'
       , 'rocksdb/util/hash.cc'
       , 'rocksdb/util/murmurhash.cc'
