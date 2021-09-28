@@ -14,7 +14,7 @@
     "rebuild": "npm run install --build-from-source",
     "prebuild": "prebuildify -t 8.14.0 --napi --strip",
     "prebuild-linux-x64": "prebuildify-cross -i centos7-devtoolset7 -i alpine -t 8.14.0 --napi --strip",
-    "prebuild-darwin-x64": "prebuildify -t 8.14.0 --napi --strip",
+    "prebuild-darwin-x64+arm64": "prebuildify -t 8.14.0 --napi --strip --arch x64+arm64",
     "prebuild-win32-x64": "prebuildify -t 8.14.0 --napi --strip",
     "download-prebuilds": "prebuildify-ci download",
     "hallmark": "hallmark --fix",
@@ -24,7 +24,7 @@
   "dependencies": {
     "abstract-leveldown": "^7.0.0",
     "napi-macros": "^2.0.0",
-    "node-gyp-build": "^4.2.3"
+    "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
     "async-each": "^1.0.3",
@@ -40,7 +40,7 @@
     "mkfiletree": "^2.0.0",
     "node-gyp": "^7.1.2",
     "nyc": "^15.0.0",
-    "prebuildify": "^4.1.1",
+    "prebuildify": "^4.2.1",
     "prebuildify-ci": "^1.0.4",
     "prebuildify-cross": "^4.0.1",
     "readfiletree": "^1.0.0",

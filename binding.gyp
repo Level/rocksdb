@@ -41,8 +41,14 @@
                     '-mmacosx-version-min=10.8'
                   , '-std=c++11'
                   , '-stdlib=libc++'
+                  , '-arch x86_64'
+                  , '-arch arm64'
                 ]
-                , 'OTHER_LDFLAGS': ['-stdlib=libc++']
+                , 'OTHER_LDFLAGS': [
+                    '-stdlib=libc++'
+                  , '-arch x86_64'
+                  , '-arch arm64'
+                ]
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
                 , 'MACOSX_DEPLOYMENT_TARGET': '10.8'

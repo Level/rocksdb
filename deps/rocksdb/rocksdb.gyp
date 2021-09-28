@@ -166,6 +166,8 @@
                   , '-stdlib=libc++'
                   , '-fno-omit-frame-pointer'
                   , '-momit-leaf-frame-pointer'
+                  , '-arch x86_64'
+                  , '-arch arm64'
                 ]
 # , 'OTHER_LDFLAGS': ['-stdlib=libc++']
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
@@ -376,6 +378,7 @@
       , 'rocksdb/util/compression_context_cache.cc'
       , 'rocksdb/util/concurrent_task_limiter_impl.cc'
       , 'rocksdb/util/crc32c.cc'
+      , 'rocksdb/util/crc32c_arm64.cc'
       , 'rocksdb/util/dynamic_bloom.cc'
       , 'rocksdb/util/hash.cc'
       , 'rocksdb/util/murmurhash.cc'
