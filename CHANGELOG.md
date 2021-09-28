@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.1.1] - 2021-09-28
+
+### Fixed
+
+- Build a universal binary to support M1 (Apple silicon) ([#181](https://github.com/Level/rocksdb/issues/181)) ([`0bda9ba`](https://github.com/Level/rocksdb/commit/0bda9ba)) (Juan Gonzalez).
+
 ## [5.1.0] - 2021-08-28
 
 ### Added
@@ -226,6 +232,8 @@ _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 ## [1.0.0] - 2017-07-01
 
 _Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina)._
+
+[5.1.1]: https://github.com/Level/rocksdb/compare/v5.1.0...v5.1.1
 
 [5.1.0]: https://github.com/Level/rocksdb/releases/tag/v5.1.0
 
