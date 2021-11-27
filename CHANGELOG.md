@@ -1,5 +1,25 @@
 # Changelog
 
+## [5.2.0] - 2021-11-27
+
+### Changed
+
+- Refactor: add Entry struct to abstract away key-value pairs ([`f9f99ec`](https://github.com/Level/rocksdb/commit/f9f99ec)) (Meirion Hughes, Vincent Weevers)
+- Refactor: avoid storing `napi_env` ([`efb5721`](https://github.com/Level/rocksdb/commit/efb5721)) (Meirion Hughes, Vincent Weevers)
+- Refactor: move CheckEndCallback to Iterator ([`caa28a5`](https://github.com/Level/rocksdb/commit/caa28a5)) (Meirion Hughes, Vincent Weevers)
+
+### Added
+
+- Add `db.getMany(keys)` ([`e6ae598`](https://github.com/Level/rocksdb/commit/e6ae598)) (Meirion Hughes, Vincent Weevers)
+
+### Fixed
+
+- Optimize `db.iterator()` ([`9f9b13c`](https://github.com/Level/rocksdb/commit/9f9b13c)) (Meirion Hughes, Vincent Weevers)
+- Cleanup hanging iterator also when `next()` errored ([`b67bfe7`](https://github.com/Level/rocksdb/commit/b67bfe7)) (Meirion Hughes, Vincent Weevers)
+- Prevent GC of db during `clear()` and other operations ([`b9878e8`](https://github.com/Level/rocksdb/commit/b9878e8)) (Meirion Hughes, Vincent Weevers)
+- Make `db.clear()` 27x faster by doing it natively ([`32e9b5d`](https://github.com/Level/rocksdb/commit/32e9b5d)) (Meirion Hughes, Vincent Weevers)
+- Close database on environment exit ([`54fc5df`](https://github.com/Level/rocksdb/commit/54fc5df)) (Meirion Hughes, Vincent Weevers).
+
 ## [5.1.1] - 2021-09-28
 
 ### Fixed
@@ -232,6 +252,8 @@ _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 ## [1.0.0] - 2017-07-01
 
 _Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina)._
+
+[5.2.0]: https://github.com/Level/rocksdb/releases/tag/v5.2.0
 
 [5.1.1]: https://github.com/Level/rocksdb/compare/v5.1.0...v5.1.1
 
