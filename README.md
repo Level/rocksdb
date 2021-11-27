@@ -6,10 +6,10 @@
 [![npm](https://img.shields.io/npm/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
 [![Node version](https://img.shields.io/node/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
 [![Test](https://img.shields.io/github/workflow/status/Level/rocksdb/Test?label=test)](https://github.com/Level/rocksdb/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/Level/rocksdb?label=&logo=codecov&logoColor=fff)](https://codecov.io/gh/Level/rocksdb)
-[![Standard](https://img.shields.io/badge/standard-informational?logo=javascript&logoColor=fff)](https://standardjs.com)
+[![Coverage](https://img.shields.io/codecov/c/github/Level/rocksdb?label=\&logo=codecov\&logoColor=fff)](https://codecov.io/gh/Level/rocksdb)
+[![Standard](https://img.shields.io/badge/standard-informational?logo=javascript\&logoColor=fff)](https://standardjs.com)
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-[![Donate](https://img.shields.io/badge/donate-orange?logo=open-collective&logoColor=fff)](https://opencollective.com/level)
+[![Donate](https://img.shields.io/badge/donate-orange?logo=open-collective\&logoColor=fff)](https://opencollective.com/level)
 
 ## Table of Contents
 

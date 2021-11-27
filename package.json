@@ -17,7 +17,7 @@
     "prebuild-darwin-x64+arm64": "prebuildify -t 8.14.0 --napi --strip --arch x64+arm64",
     "prebuild-win32-x64": "prebuildify -t 8.14.0 --napi --strip",
     "download-prebuilds": "prebuildify-ci download",
-    "hallmark": "hallmark --fix",
+    "hallmark": "hallmark fix",
     "dependency-check": "dependency-check --no-dev -i napi-macros . test/*.js",
     "prepublishOnly": "npm run dependency-check"
   },
@@ -35,7 +35,7 @@
     "electron": "^15.1.0",
     "faucet": "^0.0.1",
     "glob": "^7.1.4",
-    "hallmark": "^3.1.0",
+    "hallmark": "^4.0.0",
     "level-concat-iterator": "^3.0.0",
     "mkfiletree": "^2.0.0",
     "node-gyp": "^7.1.2",

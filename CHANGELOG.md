@@ -95,7 +95,7 @@ _Many commits between 3.1.0 and 4.0.0 are not listed here, because they became i
 
 ### Removed
 
-- Drop node &lt; 8.6.0 ([`b294106`](https://github.com/Level/rocksdb/commit/b294106)) ([#111](https://github.com/Level/rocksdb/issues/111)) ([**@vweevers**](https://github.com/vweevers))
+- Drop node < 8.6.0 ([`b294106`](https://github.com/Level/rocksdb/commit/b294106)) ([#111](https://github.com/Level/rocksdb/issues/111)) ([**@vweevers**](https://github.com/vweevers))
 - Remove outdated `Dockerfile` and `.dntrc` ([`fab2d10`](https://github.com/Level/rocksdb/commit/fab2d10)) ([**@vweevers**](https://github.com/vweevers))
 - Remove benchmarks ([#77](https://github.com/Level/rocksdb/issues/77)) ([**@vweevers**](https://github.com/vweevers)) (since moved to [`level-bench`](https://github.com/Level/bench))
 - Remove 32 bits from AppVeyor ([#77](https://github.com/Level/rocksdb/issues/77)) ([**@ralphtheninja**](https://github.com/ralphtheninja))
