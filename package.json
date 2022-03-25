@@ -1,6 +1,6 @@
 {
   "name": "rocksdb",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "A low-level Node.js RocksDB binding",
   "license": "MIT",
   "main": "leveldown.js",
