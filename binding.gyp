@@ -39,7 +39,7 @@
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
                     '-mmacosx-version-min=10.8'
-                  , '-std=c++11'
+                  , '-std=c++20'
                   , '-stdlib=libc++'
                   , '-arch x86_64'
                   , '-arch arm64'

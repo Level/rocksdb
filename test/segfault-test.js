@@ -71,14 +71,6 @@ testPending('batch() with { sync }', 1, function (db, next) {
   db.batch().del('key').write({ sync: true }, next)
 })
 
-testPending('approximateSize()', 1, function (db, next) {
-  db.approximateSize('a', 'z', next)
-})
-
-testPending('compactRange()', 1, function (db, next) {
-  db.compactRange('a', 'z', next)
-})
-
 // Test multiple pending operations, using all of the above.
 testPending('operations', operations.length, function (db, next) {
   for (const fn of operations.slice(0, -1)) {

@@ -1,7 +1,7 @@
 'use strict'
 
 const util = require('util')
-const AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
+const { AbstractLevelDOWN } = require('abstract-leveldown')
 const binding = require('./binding')
 const ChainedBatch = require('./chained-batch')
 const Iterator = require('./iterator')
@@ -23,11 +23,7 @@ function LevelDOWN (location) {
     clear: true,
     getMany: true,
     createIfMissing: true,
-    errorIfExists: true,
-    additionalMethods: {
-      approximateSize: true,
-      compactRange: true
-    }
+    errorIfExists: true
   })
 
   this.location = location
@@ -53,11 +49,21 @@ LevelDOWN.prototype._serializeValue = function (value) {
 }
 
 LevelDOWN.prototype._put = function (key, value, options, callback) {
-  binding.db_put(this.context, key, value, options, callback)
+  const batch = new ChainedBatch(this)
+  batch.put(key, value)
+  batch.write(options, callback)
 }
 
 LevelDOWN.prototype._get = function (key, options, callback) {
-  binding.db_get(this.context, key, options, callback)
+  binding.db_get_many(this.context, [key], options, (err, val) => {
+    if (err) {
+      callback(err)
+    } else if (!val[0]) {
+      callback(new Error('NotFound'))
+    } else {
+      callback(null, val[0])
+    }
+  })
 }
 
 LevelDOWN.prototype._getMany = function (keys, options, callback) {
@@ -65,11 +71,9 @@ LevelDOWN.prototype._getMany = function (keys, options, callback) {
 }
 
 LevelDOWN.prototype._del = function (key, options, callback) {
-  binding.db_del(this.context, key, options, callback)
-}
-
-LevelDOWN.prototype._clear = function (options, callback) {
-  binding.db_clear(this.context, options, callback)
+  const batch = new ChainedBatch(this)
+  batch.del(key)
+  batch.write(options, callback)
 }
 
 LevelDOWN.prototype._chainedBatch = function () {
@@ -77,51 +81,24 @@ LevelDOWN.prototype._chainedBatch = function () {
 }
 
 LevelDOWN.prototype._batch = function (operations, options, callback) {
-  binding.batch_do(this.context, operations, options, callback)
-}
-
-LevelDOWN.prototype.approximateSize = function (start, end, callback) {
-  if (start == null ||
-      end == null ||
-      typeof start === 'function' ||
-      typeof end === 'function') {
-    throw new Error('approximateSize() requires valid `start` and `end` arguments')
+  let batch = null
+  for (const op of operations) {
+    if (op.type === 'del') {
+      if (!('key' in op)) continue
+      batch ??= this.batch()
+      batch.del(op.key)
+    } else if (op.type === 'put') {
+      if (!('key' in op)) continue
+      if (!('value' in op)) continue
+      batch ??= this.batch()
+      batch.put(op.key, op.value)
+    }
   }
-
-  if (typeof callback !== 'function') {
-    throw new Error('approximateSize() requires a callback argument')
+  if (batch) {
+    batch.write(options, callback)
+  } else {
+    process.nextTick(callback)
   }
-
-  start = this._serializeKey(start)
-  end = this._serializeKey(end)
-
-  binding.db_approximate_size(this.context, start, end, callback)
-}
-
-LevelDOWN.prototype.compactRange = function (start, end, callback) {
-  if (start == null ||
-      end == null ||
-      typeof start === 'function' ||
-      typeof end === 'function') {
-    throw new Error('compactRange() requires valid `start` and `end` arguments')
-  }
-
-  if (typeof callback !== 'function') {
-    throw new Error('compactRange() requires a callback argument')
-  }
-
-  start = this._serializeKey(start)
-  end = this._serializeKey(end)
-
-  binding.db_compact_range(this.context, start, end, callback)
-}
-
-LevelDOWN.prototype.getProperty = function (property) {
-  if (typeof property !== 'string') {
-    throw new Error('getProperty() requires a valid `property` argument')
-  }
-
-  return binding.db_get_property(this.context, property)
 }
 
 LevelDOWN.prototype._iterator = function (options) {
@@ -131,34 +108,6 @@ LevelDOWN.prototype._iterator = function (options) {
   }
 
   return new Iterator(this, options)
-}
-
-LevelDOWN.destroy = function (location, callback) {
-  if (arguments.length < 2) {
-    throw new Error('destroy() requires `location` and `callback` arguments')
-  }
-  if (typeof location !== 'string') {
-    throw new Error('destroy() requires a location string argument')
-  }
-  if (typeof callback !== 'function') {
-    throw new Error('destroy() requires a callback function argument')
-  }
-
-  binding.destroy_db(location, callback)
-}
-
-LevelDOWN.repair = function (location, callback) {
-  if (arguments.length < 2) {
-    throw new Error('repair() requires `location` and `callback` arguments')
-  }
-  if (typeof location !== 'string') {
-    throw new Error('repair() requires a location string argument')
-  }
-  if (typeof callback !== 'function') {
-    throw new Error('repair() requires a callback function argument')
-  }
-
-  binding.repair_db(location, callback)
 }
 
 module.exports = LevelDOWN

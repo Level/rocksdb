@@ -1,50 +1,55 @@
 'use strict'
 
-const util = require('util')
-const AbstractIterator = require('abstract-leveldown').AbstractIterator
+const { AbstractIterator } = require('abstract-leveldown')
 const binding = require('./binding')
 
-function Iterator (db, options) {
-  AbstractIterator.call(this, db)
+const kContext = Symbol('context')
+const kFinalized = Symbol('finalized')
 
-  this.context = binding.iterator_init(db.context, options)
-  this.cache = null
-  this.finished = false
-}
+class Iterator extends AbstractIterator {
+  constructor (db, options) {
+    super(db)
 
-util.inherits(Iterator, AbstractIterator)
+    this[kContext] = binding.iterator_init(db.context, options)
+    this[kFinalized] = false
 
-Iterator.prototype._seek = function (target) {
-  if (target.length === 0) {
-    throw new Error('cannot seek() to an empty target')
+    this.cache = null
   }
 
-  this.cache = null
-  binding.iterator_seek(this.context, target)
-  this.finished = false
-}
+  _seek (target) {
+    if (target.length === 0) {
+      throw new Error('cannot seek() to an empty target')
+    }
 
-Iterator.prototype._next = function (callback) {
-  if (this.cache && this.cache.length) {
-    process.nextTick(callback, null, this.cache.pop(), this.cache.pop())
-  } else if (this.finished) {
-    process.nextTick(callback)
-  } else {
-    binding.iterator_next(this.context, (err, array, finished) => {
-      if (err) return callback(err)
-
-      this.cache = array
-      this.finished = finished
-      this._next(callback)
-    })
+    this.cache = null
+    binding.iterator_seek(this[kContext], target)
+    this[kFinalized] = false
   }
 
-  return this
-}
+  _next (callback) {
+    if (this.cache && this.cache.length) {
+      process.nextTick(callback, null, this.cache.pop(), this.cache.pop())
+    } else if (this[kFinalized]) {
+      process.nextTick(callback)
+    } else {
+      binding.iterator_nextv(this[kContext], 1000, (err, array, finished) => {
+        if (err) {
+          callback(err)
+        } else {
+          this.cache = array
+          this[kFinalized] = finished
+          this._next(callback)
+        }
+      })
+    }
 
-Iterator.prototype._end = function (callback) {
-  delete this.cache
-  binding.iterator_end(this.context, callback)
+    return this
+  }
+
+  _end (callback) {
+    this.cache = null
+    binding.iterator_close(this[kContext], callback)
+  }
 }
 
 module.exports = Iterator

@@ -1,30 +1,44 @@
 'use strict'
 
-const util = require('util')
-const AbstractChainedBatch = require('abstract-leveldown').AbstractChainedBatch
+const { AbstractChainedBatch } = require('abstract-leveldown')
 const binding = require('./binding')
 
-function ChainedBatch (db) {
-  AbstractChainedBatch.call(this, db)
-  this.context = binding.batch_init(db.context)
-}
+const kDbContext = Symbol('db')
+const kBatchContext = Symbol('context')
+const kHasData = Symbol('hasData')
 
-ChainedBatch.prototype._put = function (key, value) {
-  binding.batch_put(this.context, key, value)
-}
+class ChainedBatch extends AbstractChainedBatch {
+  constructor (db) {
+    super(db)
+    this[kDbContext] = db.context
+    this[kBatchContext] = binding.batch_init(db.context)
+    this[kHasData] = false
+  }
 
-ChainedBatch.prototype._del = function (key) {
-  binding.batch_del(this.context, key)
-}
+  _put (key, value) {
+    binding.batch_put(this[kBatchContext], key, value)
+    this[kHasData] = true
+  }
 
-ChainedBatch.prototype._clear = function () {
-  binding.batch_clear(this.context)
-}
+  _del (key) {
+    binding.batch_del(this[kBatchContext], key)
+    this[kHasData] = true
+  }
 
-ChainedBatch.prototype._write = function (options, callback) {
-  binding.batch_write(this.context, options, callback)
-}
+  _clear () {
+    if (this[kHasData]) {
+      binding.batch_clear(this[kBatchContext])
+      this[kHasData] = false
+    }
+  }
 
-util.inherits(ChainedBatch, AbstractChainedBatch)
+  _write (options, callback) {
+    if (this[kHasData]) {
+      binding.batch_write(this[kDbContext], this[kBatchContext], options, callback)
+    } else {
+      process.nextTick(callback)
+    }
+  }
+}
 
 module.exports = ChainedBatch

@@ -98,7 +98,7 @@ makeTest('test recursive next', function (db, t, done) {
   const it = db.iterator({ highWaterMark: 0 })
 
   it.next(function loop (err, key) {
-    if (err && err.message !== 'iterator has ended') throw err
+    if (err && err.message !== 'iterator has closed') throw err
     if (key !== undefined) it.next(loop)
   })
 
@@ -110,7 +110,7 @@ makeTest('test recursive next (random)', function (db, t, done) {
   const it = db.iterator({ highWaterMark: 0 })
 
   it.next(function loop (err, key) {
-    if (err && err.message !== 'iterator has ended') throw err
+    if (err && err.message !== 'iterator has closed') throw err
     if (key !== undefined) it.next(loop)
   })
 
