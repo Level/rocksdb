@@ -25,7 +25,7 @@
           }, { # OS != 'win'
               'cflags!': [ '-fno-rtti' ]
             , 'cflags_cc!': [ '-fno-rtti' ]
-            , 'cflags_cc+': [ '-frtti' ]
+            , 'cflags_cc+': [ '-frtti', '-std=c++17' ]
           }]
         , ["OS == 'mac'", {
             "cflags+": ["-fvisibility=hidden"],
@@ -39,7 +39,7 @@
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
                     '-mmacosx-version-min=10.8'
-                  , '-std=c++11'
+                  , '-std=c++17'
                   , '-stdlib=libc++'
                   , '-arch x86_64'
                   , '-arch arm64'
