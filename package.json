@@ -33,7 +33,7 @@
     "dependency-check": "^4.1.0",
     "du": "^1.0.0",
     "electron": "^19.0.2",
-    "faucet": "^0.0.1",
+    "faucet": "^0.0.4",
     "glob": "^8.0.1",
     "hallmark": "^4.0.0",
     "level-concat-iterator": "^3.0.0",
