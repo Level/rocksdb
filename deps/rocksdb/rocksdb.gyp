@@ -472,4 +472,8 @@
 
       , 'build_version.cc'
     ]
-}]}
+  }],
+  'variables': {
+    'openssl_fips': ''
+  }
+}

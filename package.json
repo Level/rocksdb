@@ -1,6 +1,6 @@
 {
   "name": "rocksdb",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "description": "A low-level Node.js RocksDB binding",
   "license": "MIT",
   "main": "leveldown.js",
@@ -13,6 +13,7 @@
     "coverage": "nyc report -r lcovonly",
     "rebuild": "npm run install --build-from-source",
     "prebuild": "prebuildify -t 8.14.0 --napi --strip",
+    "prebuild-linux-arm64": "prebuildify-cross -i linux-arm64 -t 8.14.0 --napi --strip",
     "prebuild-linux-x64": "prebuildify-cross -i centos7-devtoolset7 -i alpine -t 8.14.0 --napi --strip",
     "prebuild-darwin-x64+arm64": "prebuildify -t 8.14.0 --napi --strip --arch x64+arm64",
     "prebuild-win32-x64": "prebuildify -t 8.14.0 --napi --strip",

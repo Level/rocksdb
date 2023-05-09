@@ -68,6 +68,9 @@
         ]
       , "sources": [
             "binding.cc"
-        ]
+        ],
+        "variables": {
+            "openssl_fips": ""
+        }
     }]
 }
