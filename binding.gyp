@@ -38,20 +38,19 @@
                   , '-Wno-ignored-qualifiers'
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
-                    '-mmacosx-version-min=10.8'
-                  , '-std=c++11'
+                    '-mmacosx-version-min=13.0'
+                  , '-std=c++17'
                   , '-stdlib=libc++'
                   , '-arch x86_64'
                   , '-arch arm64'
                 ]
                 , 'OTHER_LDFLAGS': [
                     '-stdlib=libc++'
-                  , '-arch x86_64'
                   , '-arch arm64'
                 ]
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
-                , 'MACOSX_DEPLOYMENT_TARGET': '10.8'
+                , 'MACOSX_DEPLOYMENT_TARGET': '13.0'
             }
           }]
         , ['OS == "linux"', {
@@ -60,10 +59,30 @@
             , 'cflags_cc!': [ '-fno-exceptions' ]
           }]
         ]
-      , "dependencies": [
-            "<(module_root_dir)/deps/rocksdb/rocksdb.gyp:rocksdb"
+      , "libraries": [
+            "<(module_root_dir)/deps/zstd/lib/libzstd.a",
+            "<(module_root_dir)/deps/rocksdb-cloud/lib/librocksdb.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-crt-cpp.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-kinesis.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-s3.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-core.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-transfer.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-auth.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-cal.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-common.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-compression.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-event-stream.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-http.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-io.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-mqtt.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-s3.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-sdkutils.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-checksums.a",
+
         ]
       , "include_dirs"  : [
+            "<(module_root_dir)/deps/aws-sdk-cpp/include",
+            "<(module_root_dir)/deps/rocksdb-cloud/rocksdb-cloud/include",
             "<!(node -e \"require('napi-macros')\")"
         ]
       , "sources": [

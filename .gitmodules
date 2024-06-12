@@ -1,3 +1,9 @@
-[submodule "deps/rocksdb/rocksdb"]
-	path = deps/rocksdb/rocksdb
-	url = https://github.com/facebook/rocksdb.git
+[submodule "deps/rocksdb-cloud/rocksdb-cloud"]
+	path = deps/rocksdb-cloud/rocksdb-cloud
+	url = https://github.com/rockset/rocksdb-cloud.git
+[submodule "deps/aws-sdk-cpp/aws-sdk-cpp"]
+	path = deps/aws-sdk-cpp/aws-sdk-cpp
+	url = https://github.com/aws/aws-sdk-cpp.git
+[submodule "deps/zstd/zstd"]
+	path = deps/zstd/zstd
+	url = https://github.com/facebook/zstd.git
