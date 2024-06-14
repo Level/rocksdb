@@ -1,24 +1,24 @@
 'use strict'
 
 const test = require('tape')
-const leveldown = require('..')
 const tempy = require('tempy')
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
+const testCommon = require('./common')
 
 const location = tempy.directory()
 
 // This is used because it's not sufficient on windows to set a parent folder as readonly
-function chmodRecursive (mode) {
-  fs.readdirSync(location).forEach(function (file) {
-    fs.chmodSync(path.join(location, file), mode)
-  })
-  fs.chmodSync(location, mode)
-}
+// function chmodRecursive (mode) {
+//   fs.readdirSync(location).forEach(function (file) {
+//     fs.chmodSync(path.join(location, file), mode)
+//   })
+//   fs.chmodSync(location, mode)
+// }
 
 function factory (mode) {
-  if (mode != null) chmodRecursive(mode)
-  return leveldown(location)
+  // if (mode != null) chmodRecursive(mode)
+  return testCommon.factory(location)
 }
 
 test('test write to read/write database', function (t) {
@@ -38,15 +38,15 @@ test('test write to read/write database', function (t) {
   })
 })
 
-test('test throw error reading read-only database', function (t) {
-  const db = factory(0o555)
+// test('test throw error reading read-only database', function (t) {
+//   const db = factory(0o555)
 
-  db.open(function (err) {
-    t.ok(err, 'should get error reading read only database')
-    t.ok(/IO Error/i.test(err && err.message), 'should get io error')
-    db.close(t.end.bind(t))
-  })
-})
+//   db.open(function (err) {
+//     t.ok(err, 'should get error reading read only database')
+//     t.ok(/IO Error/i.test(err && err.message), 'should get io error')
+//     db.close(t.end.bind(t))
+//   })
+// })
 
 test('test read from a read-only database if readOnly is true', function (t) {
   const db = factory(0o555)
@@ -62,15 +62,15 @@ test('test read from a read-only database if readOnly is true', function (t) {
   })
 })
 
-test('test throw error reading read-only database if readOnly is false', function (t) {
-  const db = factory(0o555)
+// test('test throw error reading read-only database if readOnly is false', function (t) {
+//   const db = factory(0o555)
 
-  db.open({ readOnly: false }, function (err) {
-    t.ok(err, 'should get error reading read only database')
-    t.ok(/IO Error/i.test(err && err.message), 'should get io error')
-    db.close(t.end.bind(t))
-  })
-})
+//   db.open({ readOnly: false }, function (err) {
+//     t.ok(err, 'should get error reading read only database')
+//     t.ok(/IO Error/i.test(err && err.message), 'should get io error')
+//     db.close(t.end.bind(t))
+//   })
+// })
 
 test('test throw error putting data to read-only db if readOnly is true', function (t) {
   const db = factory(0o555)

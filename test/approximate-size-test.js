@@ -96,7 +96,7 @@ test('test approximateSize()', function (t) {
     db.close(function (err) {
       t.error(err)
 
-      db.open(function (err) {
+      db.open({ compression: false }, function (err) {
         t.error(err)
 
         db.approximateSize('!', '~', function (err, size) {

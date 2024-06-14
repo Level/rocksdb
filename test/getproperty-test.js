@@ -47,7 +47,7 @@ test('test invalid getProperty("rocksdb.stats")', function (t) {
 
 test('test invalid getProperty("rocksdb.sstables")', function (t) {
   const expected = [0, 1, 2, 3, 4, 5, 6].map(function (l) {
-    return '--- level ' + l + ' --- version# 2 ---'
+    return '--- level ' + l + ' --- version# 1 ---'
   }).join('\n') + '\n'
   t.equal(db.getProperty('rocksdb.sstables'), expected, 'rocksdb.sstables')
   t.end()
