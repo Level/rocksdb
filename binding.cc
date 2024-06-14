@@ -1,18 +1,19 @@
-#define NAPI_VERSION 3
+#define NAPI_VERSION 8
 
 #include <napi-macros.h>
 #include <node_api.h>
 #include <assert.h>
 
-#include <rocksdb/db.h>
-#include <rocksdb/write_batch.h>
-#include <rocksdb/cache.h>
-#include <rocksdb/filter_policy.h>
-#include <rocksdb/cache.h>
-#include <rocksdb/comparator.h>
-#include <rocksdb/env.h>
-#include <rocksdb/options.h>
-#include <rocksdb/table.h>
+#include "aws/core/Aws.h"
+#include "aws/s3/S3Client.h"
+#include "rocksdb/cloud/db_cloud.h"
+#include "rocksdb/write_batch.h"
+#include "rocksdb/filter_policy.h"
+#include "rocksdb/cache.h"
+#include "rocksdb/comparator.h"
+#include "rocksdb/env.h"
+#include "rocksdb/options.h"
+#include "rocksdb/table.h"
 
 namespace leveldb = rocksdb;
 
@@ -548,24 +549,45 @@ struct Database
     }
   }
 
+  leveldb::Status ConnectAWS(
+      const std::string &location,
+      const rocksdb::CloudFileSystemOptions &cloud_fs_options,
+      rocksdb::CloudFileSystem **cfs)
+  {
+    Aws::InitAPI(Aws::SDKOptions());
+    return rocksdb::CloudFileSystemEnv::NewAwsFileSystem(
+        rocksdb::FileSystem::Default(),
+        cloud_fs_options.src_bucket.GetBucketName(),
+        location,
+        cloud_fs_options.src_bucket.GetRegion(),
+        cloud_fs_options.dest_bucket.GetBucketName(),
+        location,
+        cloud_fs_options.dest_bucket.GetRegion(),
+        cloud_fs_options,
+        nullptr,
+        cfs);
+  }
+
   leveldb::Status Open(const leveldb::Options &options,
                        bool readOnly,
                        const char *location)
   {
-    if (readOnly)
-    {
-      return rocksdb::DB::OpenForReadOnly(options, location, &db_);
-    }
-    else
-    {
-      return leveldb::DB::Open(options, location, &db_);
-    }
+    auto status = leveldb::DBCloud::Open(
+        options,
+        location,
+        "", /* persistent_cache_path */
+        0,  /* persistent_cache_size_gb */
+        &db_,
+        readOnly);
+    return status;
   }
 
   void CloseDatabase()
   {
     delete db_;
     db_ = NULL;
+
+    Aws::ShutdownAPI(Aws::SDKOptions());
   }
 
   leveldb::Status Put(const leveldb::WriteOptions &options,
@@ -661,7 +683,8 @@ struct Database
     return priorityWork_ > 0;
   }
 
-  leveldb::DB *db_;
+  std::unique_ptr<rocksdb::Env> env_;
+  leveldb::DBCloud *db_;
   uint32_t currentIteratorId_;
   BaseWorker *pendingCloseWorker_;
   std::map<uint32_t, Iterator *> iterators_;
@@ -1130,10 +1153,12 @@ struct OpenWorker final : public BaseWorker
              const uint32_t maxFileSize,
              const uint32_t cacheSize,
              const std::string &infoLogLevel,
-             const bool readOnly)
+             const bool readOnly,
+             const rocksdb::CloudFileSystemOptions &cloud_fs_options)
       : BaseWorker(env, database, callback, "leveldown.db.open"),
         readOnly_(readOnly),
-        location_(location)
+        location_(location),
+        cloud_fs_options_(cloud_fs_options)
   {
     options_.create_if_missing = createIfMissing;
     options_.error_if_exists = errorIfExists;
@@ -1197,9 +1222,21 @@ struct OpenWorker final : public BaseWorker
 
   void DoExecute() override
   {
+    rocksdb::CloudFileSystem *cfs;
+    auto s = database_->ConnectAWS(location_, cloud_fs_options_, &cfs);
+    if (!s.ok())
+    {
+      SetStatus(s);
+      return;
+    }
+    std::shared_ptr<rocksdb::FileSystem> cloud_fs(cfs);
+    database_->env_ = rocksdb::NewCompositeEnv(cloud_fs);
+    options_.env = database_->env_.get();
+
     SetStatus(database_->Open(options_, readOnly_, location_.c_str()));
   }
 
+  rocksdb::CloudFileSystemOptions cloud_fs_options_;
   leveldb::Options options_;
   bool readOnly_;
   std::string location_;
@@ -1217,7 +1254,7 @@ NAPI_METHOD(db_open)
   napi_value options = argv[2];
   const bool createIfMissing = BooleanProperty(env, options, "createIfMissing", true);
   const bool errorIfExists = BooleanProperty(env, options, "errorIfExists", false);
-  const bool compression = BooleanProperty(env, options, "compression", true);
+  const bool compression = BooleanProperty(env, options, "compression", false);
   bool readOnly = BooleanProperty(env, options, "readOnly", false);
 
   const std::string infoLogLevel = StringProperty(env, options, "infoLogLevel");
@@ -1230,13 +1267,53 @@ NAPI_METHOD(db_open)
                                                        "blockRestartInterval", 16);
   const uint32_t maxFileSize = Uint32Property(env, options, "maxFileSize", 2 << 20);
 
+  const std::string awsAccessKeyId = StringProperty(env, options, "awsAccessKeyId");
+  const std::string awsSecretAccessKey = StringProperty(env, options, "awsSecretAccessKey");
+  const std::string awsRegion = StringProperty(env, options, "awsRegion");
+  const std::string awsEndpointUrl = StringProperty(env, options, "awsEndpointUrl");
+  const std::string awsBucketName = StringProperty(env, options, "awsBucketName");
+
   napi_value callback = argv[3];
+
+  rocksdb::CloudFileSystemOptions cloud_fs_options;
+  cloud_fs_options.credentials.InitializeSimple(awsAccessKeyId, awsSecretAccessKey);
+  if (!cloud_fs_options.credentials.HasValid().ok())
+  {
+    fprintf(
+        stderr,
+        "Please set env variables "
+        "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY with cloud credentials");
+    napi_throw_error(env, NULL, "Invalid cloud credentials");
+    delete[] location;
+    return NULL;
+  }
+
+  cloud_fs_options.s3_client_factory = [awsEndpointUrl](
+                                           const std::shared_ptr<Aws::Auth::AWSCredentialsProvider> &creds,
+                                           const Aws::Client::ClientConfiguration &_config)
+  {
+    Aws::Client::ClientConfiguration config = _config;
+    config.endpointOverride = awsEndpointUrl;
+    config.scheme = Aws::Http::Scheme::HTTP;
+    config.verifySSL = false;
+
+    return std::make_shared<Aws::S3::S3Client>(
+        creds, config, Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never,
+        false /* useVirtualAddressing */);
+  };
+
+  cloud_fs_options.src_bucket.SetRegion(awsRegion);
+  cloud_fs_options.src_bucket.SetBucketName(awsBucketName, "");
+  cloud_fs_options.dest_bucket.SetRegion(awsRegion);
+  cloud_fs_options.dest_bucket.SetBucketName(awsBucketName, "");
+
   OpenWorker *worker = new OpenWorker(env, database, callback, location,
                                       createIfMissing, errorIfExists,
                                       compression, writeBufferSize, blockSize,
                                       maxOpenFiles, blockRestartInterval,
                                       maxFileSize, cacheSize,
-                                      infoLogLevel, readOnly);
+                                      infoLogLevel, readOnly, cloud_fs_options);
+
   worker->Queue(env);
   delete[] location;
 

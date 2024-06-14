@@ -1,8 +1,7 @@
 {
-  "name": "rocksdb",
-  "version": "5.2.1",
+  "name": "rocksdb-cloud-napi",
+  "version": "9.1.1",
   "description": "A low-level Node.js RocksDB binding",
-  "license": "MIT",
   "main": "leveldown.js",
   "scripts": {
     "install": "node-gyp-build",
@@ -62,14 +61,10 @@
   "gypfile": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Level/rocksdb.git"
+    "url": "https://github.com/epopsoft/rocksdb-cloud.git"
   },
-  "homepage": "https://github.com/Level/rocksdb",
-  "keywords": [
-    "leveldb",
-    "level"
-  ],
+  "homepage": "https://github.com/epopsoft/rocksdb-cloud",
   "engines": {
-    "node": ">=10.12.0"
+    "node": ">=18.0.0"
   }
 }

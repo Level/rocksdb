@@ -1,3 +1,5 @@
+Clone of https://github.com/Level/rocksdb
+
 ### AWS sdk cpp 빌드
 ```
 git submodule update --init --recursive

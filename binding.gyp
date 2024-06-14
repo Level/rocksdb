@@ -38,19 +38,19 @@
                   , '-Wno-ignored-qualifiers'
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
-                    '-mmacosx-version-min=13.0'
+                    '-mmacosx-version-min=13.6'
                   , '-std=c++17'
                   , '-stdlib=libc++'
-                  , '-arch x86_64'
                   , '-arch arm64'
                 ]
                 , 'OTHER_LDFLAGS': [
                     '-stdlib=libc++'
                   , '-arch arm64'
+                  , '-lcurl'
                 ]
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
-                , 'MACOSX_DEPLOYMENT_TARGET': '13.0'
+                , 'MACOSX_DEPLOYMENT_TARGET': '13.6'
             }
           }]
         , ['OS == "linux"', {
@@ -78,7 +78,6 @@
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-s3.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-sdkutils.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-checksums.a",
-
         ]
       , "include_dirs"  : [
             "<(module_root_dir)/deps/aws-sdk-cpp/include",
