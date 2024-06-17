@@ -11,7 +11,7 @@
     "test-prebuild": "cross-env PREBUILDS_ONLY=1 npm t",
     "coverage": "nyc report -r lcovonly",
     "rebuild": "npm run install --build-from-source",
-    "build-deps": "sh build_deps.sh",
+    "build-deps": "bash build_deps.sh",
     "build:dev": "node-gyp -j 16 build --debug",
     "rebuild:dev": "node-gyp -j 16 rebuild --debug",
     "prebuild": "prebuildify --napi --strip",
