@@ -4,7 +4,7 @@
   "description": "A low-level Node.js RocksDB-cloud binding",
   "main": "leveldown.js",
   "scripts": {
-    "install": "node-gyp-build",
+    "install": "sh build_deps.sh && node-gyp-build",
     "test": "standard && (nyc -s tape test/*-test.js | faucet) && nyc report",
     "test-gc": "node --expose-gc test/gc.js",
     "test-electron": "electron test/electron.js",
