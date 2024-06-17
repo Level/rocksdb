@@ -547,15 +547,23 @@ struct Database
       delete db_;
       db_ = NULL;
     }
+
+    if (env_.get() != nullptr)
+    {
+      env_.reset();
+    }
   }
 
-  leveldb::Status ConnectAWS(
-      const std::string &location,
-      const rocksdb::CloudFileSystemOptions &cloud_fs_options,
-      rocksdb::CloudFileSystem **cfs)
+  leveldb::Status Open(leveldb::Options &options,
+                       const rocksdb::CloudFileSystemOptions &cloud_fs_options,
+                       bool readOnly,
+                       const char *location)
   {
     Aws::InitAPI(Aws::SDKOptions());
-    return rocksdb::CloudFileSystemEnv::NewAwsFileSystem(
+
+    // Connect AWS
+    rocksdb::CloudFileSystem *cfs;
+    auto s = rocksdb::CloudFileSystemEnv::NewAwsFileSystem(
         rocksdb::FileSystem::Default(),
         cloud_fs_options.src_bucket.GetBucketName(),
         location,
@@ -565,27 +573,38 @@ struct Database
         cloud_fs_options.dest_bucket.GetRegion(),
         cloud_fs_options,
         nullptr,
-        cfs);
-  }
+        &cfs);
+    if (!s.ok())
+    {
+      return s;
+    }
 
-  leveldb::Status Open(const leveldb::Options &options,
-                       bool readOnly,
-                       const char *location)
-  {
-    auto status = leveldb::DBCloud::Open(
+    // Setup cloud file system
+    std::shared_ptr<rocksdb::FileSystem> cloud_fs(cfs);
+    env_ = rocksdb::NewCompositeEnv(cloud_fs);
+    options.env = env_.get();
+
+    // Open database
+    return leveldb::DBCloud::Open(
         options,
         location,
         "", /* persistent_cache_path */
         0,  /* persistent_cache_size_gb */
         &db_,
         readOnly);
-    return status;
   }
 
   void CloseDatabase()
   {
+    if (db_ != NULL)
+    {
+      db_->Flush(rocksdb::FlushOptions());
+    }
+
     delete db_;
     db_ = NULL;
+
+    env_.reset();
 
     Aws::ShutdownAPI(Aws::SDKOptions());
   }
@@ -1222,18 +1241,7 @@ struct OpenWorker final : public BaseWorker
 
   void DoExecute() override
   {
-    rocksdb::CloudFileSystem *cfs;
-    auto s = database_->ConnectAWS(location_, cloud_fs_options_, &cfs);
-    if (!s.ok())
-    {
-      SetStatus(s);
-      return;
-    }
-    std::shared_ptr<rocksdb::FileSystem> cloud_fs(cfs);
-    database_->env_ = rocksdb::NewCompositeEnv(cloud_fs);
-    options_.env = database_->env_.get();
-
-    SetStatus(database_->Open(options_, readOnly_, location_.c_str()));
+    SetStatus(database_->Open(options_, cloud_fs_options_, readOnly_, location_.c_str()));
   }
 
   rocksdb::CloudFileSystemOptions cloud_fs_options_;
@@ -1272,6 +1280,9 @@ NAPI_METHOD(db_open)
   const std::string awsRegion = StringProperty(env, options, "awsRegion");
   const std::string awsEndpointUrl = StringProperty(env, options, "awsEndpointUrl");
   const std::string awsBucketName = StringProperty(env, options, "awsBucketName");
+  const bool useSSL = BooleanProperty(env, options, "useSSL", true);
+
+  const uint32_t requestTimeoutMs = Uint32Property(env, options, "requestTimeoutMs", 0);
 
   napi_value callback = argv[3];
 
@@ -1288,14 +1299,21 @@ NAPI_METHOD(db_open)
     return NULL;
   }
 
-  cloud_fs_options.s3_client_factory = [awsEndpointUrl](
+  cloud_fs_options.s3_client_factory = [awsEndpointUrl, useSSL](
                                            const std::shared_ptr<Aws::Auth::AWSCredentialsProvider> &creds,
                                            const Aws::Client::ClientConfiguration &_config)
   {
     Aws::Client::ClientConfiguration config = _config;
     config.endpointOverride = awsEndpointUrl;
-    config.scheme = Aws::Http::Scheme::HTTP;
-    config.verifySSL = false;
+    if (useSSL)
+    {
+      config.scheme = Aws::Http::Scheme::HTTPS;
+    }
+    else
+    {
+      config.scheme = Aws::Http::Scheme::HTTP;
+      config.verifySSL = false;
+    }
 
     return std::make_shared<Aws::S3::S3Client>(
         creds, config, Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never,
@@ -1303,9 +1321,17 @@ NAPI_METHOD(db_open)
   };
 
   cloud_fs_options.src_bucket.SetRegion(awsRegion);
+  cloud_fs_options.src_bucket.SetBucketPrefix("");
   cloud_fs_options.src_bucket.SetBucketName(awsBucketName, "");
   cloud_fs_options.dest_bucket.SetRegion(awsRegion);
+  cloud_fs_options.dest_bucket.SetBucketPrefix("");
   cloud_fs_options.dest_bucket.SetBucketName(awsBucketName, "");
+  cloud_fs_options.cloud_file_deletion_delay = std::nullopt;
+
+  if (requestTimeoutMs > 0)
+  {
+    cloud_fs_options.request_timeout_ms = requestTimeoutMs;
+  }
 
   OpenWorker *worker = new OpenWorker(env, database, callback, location,
                                       createIfMissing, errorIfExists,

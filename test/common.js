@@ -15,7 +15,8 @@ module.exports = suite.common({
         awsSecretAccessKey: 'mrgnvEvu5h1kl4H7B1sXx7yGYtU4Z1fDmomSx6tz',
         awsRegion: 'ap-northeast-2',
         awsEndpointUrl: 'localhost:9000',
-        awsBucketName: 'rockset.rocksdb-test-bucket'
+        awsBucketName: 'rockset.rocksdb-test-bucket',
+        useSSL: false
       }
 
       if (typeof optionOrCallback === 'function') {

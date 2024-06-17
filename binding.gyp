@@ -61,6 +61,7 @@
         ]
       , "libraries": [
             "<(module_root_dir)/deps/zstd/lib/libzstd.a",
+            # "<(module_root_dir)/deps/rocksdb-cloud/lib/librocksdb_debug.a",
             "<(module_root_dir)/deps/rocksdb-cloud/lib/librocksdb.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-crt-cpp.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-kinesis.a",

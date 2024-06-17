@@ -103,8 +103,8 @@ test('test approximateSize()', function (t) {
           t.error(err)
 
           t.equal(typeof size, 'number')
-          // account for snappy compression, original would be ~100000
-          t.ok(size > 40000, 'size reports a reasonable amount (' + size + ')')
+          // account for zstd compression, original would be ~100000
+          t.ok(size > 1600, 'size reports a reasonable amount (' + size + ')')
           t.end()
         })
       })
