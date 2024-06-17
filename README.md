@@ -1,15 +1,8 @@
 # rocksdb
 
-> A low-level Node.js RocksDB binding. An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store.
+> A low-level Node.js RocksDB-cloud binding. An [`abstract-leveldown`](https://github.com/Level/abstract-leveldown) compliant store.
 
-[![level badge][level-badge]](https://github.com/Level/awesome)
-[![npm](https://img.shields.io/npm/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
-[![Node version](https://img.shields.io/node/v/rocksdb.svg)](https://www.npmjs.com/package/rocksdb)
-[![Test](https://img.shields.io/github/workflow/status/Level/rocksdb/Test?label=test)](https://github.com/Level/rocksdb/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/Level/rocksdb?label=\&logo=codecov\&logoColor=fff)](https://codecov.io/gh/Level/rocksdb)
-[![Standard](https://img.shields.io/badge/standard-informational?logo=javascript\&logoColor=fff)](https://standardjs.com)
-[![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
-[![Donate](https://img.shields.io/badge/donate-orange?logo=open-collective\&logoColor=fff)](https://opencollective.com/level)
+> This repository is forked from [`rocksdb Node.js binding`](https://github.com/Level/rocksdb)
 
 ## Table of Contents
 
@@ -25,6 +18,49 @@
 - [License](#license)
 
 </details>
+
+## How to build
+
+### 0. Update submodule
+```
+git submodule update --init --recursive
+```
+
+### 1. Build AWS sdk cpp
+```
+cd deps/aws-sdk-cpp
+mkdir -p build
+cd build
+cmake -DBUILD_ONLY="s3;kinesis;core;transfer" -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=.. ../aws-sdk-cpp/
+make -j8 install
+```
+
+### 2. Build zstd
+```
+cd deps/zstd
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=.. ../zstd/build/cmake
+make -j8 install
+```
+
+### 3. Build RocksDB-cloud
+```
+cd deps/rocksdb-cloud
+mkdir -p lib
+
+cd rocksdb-cloud
+
+CFLAGS='-I./../../zstd/include -I./../../aws-sdk-cpp/include -DUSE_AWS ' \
+    CXXFLAGS='-I./../../zstd/include -I./../../aws-sdk-cpp/include -DUSE_AWS' \
+    PLATFORM_LDFLAGS='-laws-cpp-sdk-s3 -laws-cpp-sdk-kinesis -laws-cpp-sdk-core -laws-cpp-sdk-transfer' \
+    EXTRA_CFLAGS='-Wno-format -Wno-unused-variable' \
+    EXTRA_CXXFLAGS='-Wno-format -Wno-unused-variable' \
+    USE_RTTI=1 make -j8 static_lib
+
+mv librocksdb.a ../lib/
+```
+
 
 ## Introduction
 
@@ -42,9 +78,6 @@ The `rocksdb` npm package ships with prebuilt binaries for popular 64-bit platfo
 
 - **Linux** (including ARM platforms such as Raspberry Pi and Kindle)
 - **Mac OS**
-- **Solaris** (SmartOS & Nodejitsu)
-- **FreeBSD**
-- **Windows**
 
 When installing `rocksdb`, [`node-gyp-build`](https://github.com/prebuild/node-gyp-build) will check if a compatible binary exists and fallback to a compile step if it doesn't. In that case you'll need a [valid `node-gyp` installation](https://github.com/nodejs/node-gyp#installation).
 
