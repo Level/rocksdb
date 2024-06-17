@@ -11,10 +11,10 @@ module.exports = suite.common({
     db.open = (optionOrCallback, callbackOrNull) => {
       let callback
       const options = {
-        awsAccessKeyId: 'rlbOQElLK2jQ41aXP1Jt',
-        awsSecretAccessKey: 'mrgnvEvu5h1kl4H7B1sXx7yGYtU4Z1fDmomSx6tz',
+        awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
         awsRegion: 'ap-northeast-2',
-        awsEndpointUrl: 'localhost:9000',
+        awsEndpointUrl: process.env.AWS_ENDPOINT_URL,
         awsBucketName: 'rockset.rocksdb-test-bucket',
         useSSL: false
       }
