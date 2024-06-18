@@ -1,5 +1,5 @@
 diff --git a/node_modules/prebuildify-cross/guest.js b/node_modules/prebuildify-cross/guest.js
-index dfd9eb7..7745971 100644
+index dfd9eb7..cfd4724 100644
 --- a/node_modules/prebuildify-cross/guest.js
 +++ b/node_modules/prebuildify-cross/guest.js
 @@ -6,7 +6,7 @@ const cp = require('child_process')
@@ -7,7 +7,7 @@ index dfd9eb7..7745971 100644
  // TODO: fix permissions of WORKDIR in prebuild images
  const cwd = '/home/node/app'
 -const files = JSON.parse(process.env.PREBUILDIFY_CROSS_FILES)
-+const files = JSON.parse(fs.readFileSync('.PREBUILDIFY_CROSS_FILES.json', 'utf-8'))
++const files = JSON.parse(fs.readFileSync('/input/.PREBUILDIFY_CROSS_FILES.json', 'utf-8'))
  const argv = process.argv.slice(2)
  
  // Copy host files to working directory
