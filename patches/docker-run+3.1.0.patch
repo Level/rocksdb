@@ -5,9 +5,9 @@ index ea7fc0d..d974bc0 100644
 @@ -14,7 +14,7 @@ var endsWith = function(str, suffix) {
  var run = function(image, opts) {
    if (!opts) opts = {}
- 
+
 -  var request = docker(opts.host, {version:'v1.14'})
-+  var request = docker(opts.host, {version:'v1.24'})
++  var request = docker(opts.host, {version:'v1.45'})
    var that = new events.EventEmitter()
    var tty = !!opts.tty
- 
+
