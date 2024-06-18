@@ -38,7 +38,8 @@
               'cflags': ['-fPIC']
             , 'cflags!': [ '-fno-tree-vrp', '-fno-exceptions' ]
             , 'cflags_cc!': [ '-fno-exceptions' ]
-            , 'libraries+': [ "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a" ]
+          }, {
+              'libraries!': [ "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a" ]
           }]
         ]
       , "libraries": [
@@ -62,6 +63,7 @@
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-mqtt.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-sdkutils.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-common.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a",
 
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-checksums.a",
 
