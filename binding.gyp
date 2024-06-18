@@ -3,25 +3,7 @@
       "target_name": "leveldown"
     , "conditions": [
           ["OS == 'win'", {
-              "defines": [
-                  "_HAS_EXCEPTIONS=1"
-                , "OS_WIN=1"
-              ]
-            , "msvs_settings": {
-                  "VCCLCompilerTool": {
-                      "RuntimeTypeInfo": "false"
-                    , "EnableFunctionLevelLinking": "true"
-                    , "ExceptionHandling": "2"
-                    , "DisableSpecificWarnings": [ "4355", "4530" ,"4267", "4244", "4506" ]
-                  }
-              , 'VCLinkerTool': {
-                    'AdditionalDependencies': [
-                        # SDK import libs.
-                        'Shlwapi.lib',
-                        'rpcrt4.lib'
-                    ]
-                }
-              }
+
           }, { # OS != 'win'
               'cflags!': [ '-fno-rtti' ]
             , 'cflags_cc!': [ '-fno-rtti' ]
@@ -56,8 +38,7 @@
               'cflags': ['-fPIC']
             , 'cflags!': [ '-fno-tree-vrp', '-fno-exceptions' ]
             , 'cflags_cc!': [ '-fno-exceptions' ]
-          }, {
-            'libraries!': [ "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a" ]
+            , 'libraries+': [ "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a" ]
           }]
         ]
       , "libraries": [
@@ -82,10 +63,12 @@
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-sdkutils.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-common.a",
 
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-checksums.a",
 
-            "-lcurl"
+            "-lcurl",
+        ]
+      , "dependencies": [
+            "<(module_root_dir)/deps/rocksdb-cloud/rocksdb-cloud.gyp:rocksdb-cloud",
         ]
       , "include_dirs"  : [
             "<(module_root_dir)/deps/aws-sdk-cpp/include",
