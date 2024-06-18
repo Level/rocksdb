@@ -19,6 +19,7 @@ fi
 mkdir -p lib
 cd rocksdb-cloud
 
+sed 's/-Woverloaded-virtual//g' Makefile > Makefile2 && mv Makefile2 Makefile # Dumb patch for removing -Woverloaded-virtual option.
 make -j4 static_lib
 
 mv librocksdb.a ../lib/
