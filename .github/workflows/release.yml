@@ -29,8 +29,6 @@ jobs:
           node-version: 18
       - name: Install
         run: npm install --ignore-scripts
-      - name: Build deps
-        run: npm run build-deps
       - name: Prebuild
         run: npm run prebuild-$BUILD_GROUP
         shell: bash
