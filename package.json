@@ -16,6 +16,7 @@
     "prebuild": "prebuildify --napi --strip",
     "prebuild-linux-x64": "prebuildify-cross -i centos7-devtoolset7 -i alpine --napi --strip",
     "prebuild-darwin-x64+arm64": "prebuildify --napi --strip --arch x64+arm64",
+    "prebuild-darwin-arm64": "prebuildify --napi --strip --arch arm64",
     "prebuild-win32-x64": "prebuildify --napi --strip",
     "download-prebuilds": "prebuildify-ci download",
     "hallmark": "hallmark fix",
