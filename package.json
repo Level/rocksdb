@@ -4,6 +4,7 @@
   "description": "A low-level Node.js RocksDB-cloud binding",
   "main": "leveldown.js",
   "scripts": {
+    "patch-package": "patch-package",
     "install": "node-gyp-build",
     "test": "standard && (nyc -s tape test/*-test.js | faucet) && nyc report",
     "test-gc": "node --expose-gc test/gc.js",
@@ -44,6 +45,7 @@
     "mkfiletree": "^2.0.0",
     "node-gyp": "^10.1.0",
     "nyc": "^15.0.0",
+    "patch-package": "^8.0.0",
     "prebuildify": "^5.0.0",
     "prebuildify-ci": "^1.0.4",
     "prebuildify-cross": "^5.0.0",

@@ -1,0 +1,13 @@
+diff --git a/node_modules/@vweevers/docker-pull/index.js b/node_modules/@vweevers/docker-pull/index.js
+index 67b3e73..bac4a84 100644
+--- a/node_modules/@vweevers/docker-pull/index.js
++++ b/node_modules/@vweevers/docker-pull/index.js
+@@ -12,7 +12,7 @@ var pull = function (image, opts, cb) {
+   image = parse(image)
+   if (!image) throw new Error('Invalid image')
+ 
+-  var request = docker({host: opts.host, version: opts.version || 'v1.21'})
++  var request = docker({host: opts.host, version: opts.version || 'v1.24'})
+   var that = new events.EventEmitter()
+   var layers = {}
+   var progress = {}
