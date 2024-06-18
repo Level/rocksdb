@@ -11,7 +11,7 @@
                 "lib/libaws-cpp-sdk-kinesis",
                 "lib/libaws-cpp-sdk-transfer"
             ],
-            "action": [ "bash", "build.sh" ],
+            "action": [ "sh", "build.sh" ],
             "message": "Building aws-sdk-cpp"
         }]
     }]

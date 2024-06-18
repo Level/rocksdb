@@ -6,7 +6,7 @@
             "action_name": "run build.sh",
             "inputs": [ "rocksdb-cloud" ],
             "outputs": [ "lib/librocksdb.a" ],
-            "action": [ "bash", "build.sh" ],
+            "action": [ "sh", "build.sh" ],
             "message": "Building rocksdb-cloud"
         }],
         "dependencies": [

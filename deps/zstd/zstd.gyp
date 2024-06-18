@@ -6,7 +6,7 @@
             "action_name": "run build sh",
             "inputs": [ "zstd" ],
             "outputs": [ "lib/libzstd.a" ],
-            "action": [ "bash", "build.sh" ],
+            "action": [ "sh", "build.sh" ],
             "message": "Building zstd"
         }],
     }]
