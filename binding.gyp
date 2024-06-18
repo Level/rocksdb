@@ -46,7 +46,6 @@
                 , 'OTHER_LDFLAGS': [
                     '-stdlib=libc++'
                   , '-arch arm64'
-                  , '-lcurl'
                 ]
                 , 'GCC_ENABLE_CPP_RTTI': 'YES'
                 , 'GCC_ENABLE_CPP_EXCEPTIONS': 'YES'
@@ -54,31 +53,39 @@
             }
           }]
         , ['OS == "linux"', {
-              'cflags': []
+              'cflags': ['-fPIC']
             , 'cflags!': [ '-fno-tree-vrp', '-fno-exceptions' ]
             , 'cflags_cc!': [ '-fno-exceptions' ]
+          }, {
+            'libraries!': [ "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a" ]
           }]
         ]
       , "libraries": [
             "<(module_root_dir)/deps/zstd/lib/libzstd.a",
-            # "<(module_root_dir)/deps/rocksdb-cloud/lib/librocksdb_debug.a",
             "<(module_root_dir)/deps/rocksdb-cloud/lib/librocksdb.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-crt-cpp.a",
+
+            # aws-sdk-cpp
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-kinesis.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-s3.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-core.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-transfer.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-cpp-sdk-core.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-crt-cpp.a",
+
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-s3.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-auth.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-cal.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-common.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-http.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-compression.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-event-stream.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-http.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-io.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-cal.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-mqtt.a",
-            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-s3.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-sdkutils.a",
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-c-common.a",
+
+            "<(module_root_dir)/deps/aws-sdk-cpp/lib/libs2n.a",
             "<(module_root_dir)/deps/aws-sdk-cpp/lib/libaws-checksums.a",
+
+            "-lcurl"
         ]
       , "include_dirs"  : [
             "<(module_root_dir)/deps/aws-sdk-cpp/include",
