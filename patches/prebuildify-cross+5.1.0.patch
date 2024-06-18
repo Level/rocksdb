@@ -1,0 +1,40 @@
+diff --git a/node_modules/prebuildify-cross/guest.js b/node_modules/prebuildify-cross/guest.js
+index dfd9eb7..7745971 100644
+--- a/node_modules/prebuildify-cross/guest.js
++++ b/node_modules/prebuildify-cross/guest.js
+@@ -6,7 +6,7 @@ const cp = require('child_process')
+ 
+ // TODO: fix permissions of WORKDIR in prebuild images
+ const cwd = '/home/node/app'
+-const files = JSON.parse(process.env.PREBUILDIFY_CROSS_FILES)
++const files = JSON.parse(fs.readFileSync('.PREBUILDIFY_CROSS_FILES.json', 'utf-8'))
+ const argv = process.argv.slice(2)
+ 
+ // Copy host files to working directory
+diff --git a/node_modules/prebuildify-cross/index.js b/node_modules/prebuildify-cross/index.js
+index 0c37045..d868052 100644
+--- a/node_modules/prebuildify-cross/index.js
++++ b/node_modules/prebuildify-cross/index.js
+@@ -1,6 +1,7 @@
+ 'use strict'
+ 
+ const packlist = require('npm-packlist')
++const fs = require('fs')
+ const tar = require('tar-fs')
+ const dockerPull = require('@vweevers/docker-pull')
+ const dockerRun = require('docker-run')
+@@ -81,12 +82,13 @@ module.exports = function (opts, callback) {
+       volumes[modules] = '/input/node_modules'
+     }
+ 
++    fs.writeFileSync('.PREBUILDIFY_CROSS_FILES.json', files)
++
+     const child = dockerRun(image, {
+       entrypoint: 'node',
+       argv: ['-'].concat(argv),
+       volumes,
+       env: {
+-        PREBUILDIFY_CROSS_FILES: files,
+         // Disable npm update check
+         NO_UPDATE_NOTIFIER: 'true'
+       }
