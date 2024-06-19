@@ -566,10 +566,10 @@ struct Database
     auto s = rocksdb::CloudFileSystemEnv::NewAwsFileSystem(
         rocksdb::FileSystem::Default(),
         cloud_fs_options.src_bucket.GetBucketName(),
-        location,
+        cloud_fs_options.src_bucket.GetObjectPath(),
         cloud_fs_options.src_bucket.GetRegion(),
         cloud_fs_options.dest_bucket.GetBucketName(),
-        location,
+        cloud_fs_options.dest_bucket.GetObjectPath(),
         cloud_fs_options.dest_bucket.GetRegion(),
         cloud_fs_options,
         nullptr,
@@ -1280,6 +1280,7 @@ NAPI_METHOD(db_open)
   const std::string awsRegion = StringProperty(env, options, "awsRegion");
   const std::string awsEndpointUrl = StringProperty(env, options, "awsEndpointUrl");
   const std::string awsBucketName = StringProperty(env, options, "awsBucketName");
+  const std::string awsObjectPrefix = StringProperty(env, options, "awsObjectPrefix");
   const bool useSSL = BooleanProperty(env, options, "useSSL", true);
 
   const uint32_t requestTimeoutMs = Uint32Property(env, options, "requestTimeoutMs", 0);
@@ -1323,9 +1324,11 @@ NAPI_METHOD(db_open)
   cloud_fs_options.src_bucket.SetRegion(awsRegion);
   cloud_fs_options.src_bucket.SetBucketPrefix("");
   cloud_fs_options.src_bucket.SetBucketName(awsBucketName, "");
+  cloud_fs_options.src_bucket.SetObjectPath(awsObjectPrefix);
   cloud_fs_options.dest_bucket.SetRegion(awsRegion);
   cloud_fs_options.dest_bucket.SetBucketPrefix("");
   cloud_fs_options.dest_bucket.SetBucketName(awsBucketName, "");
+  cloud_fs_options.dest_bucket.SetObjectPath(awsObjectPrefix);
   cloud_fs_options.cloud_file_deletion_delay = std::nullopt;
 
   if (requestTimeoutMs > 0)

@@ -16,6 +16,7 @@ module.exports = suite.common({
         awsRegion: 'ap-northeast-2',
         awsEndpointUrl: process.env.AWS_ENDPOINT_URL,
         awsBucketName: 'rockset.rocksdb-test-bucket',
+        awsObjectPrefix: location,
         useSSL: false
       }
 
