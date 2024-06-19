@@ -48,6 +48,7 @@ declare namespace RocksDBCloud {
         awsRegion: string;
         awsEndpointUrl: string;
         awsBucketName: string;
+        awsObjectPrefix: string;
         useSSL?: boolean | undefined;
     }
 
