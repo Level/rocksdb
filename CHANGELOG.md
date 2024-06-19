@@ -1,5 +1,7 @@
 # Changelog
 
+## [9.1.2] - 2024-06-19
+
 ## [9.1.1] - 2024-06-17
 
 ### Added
@@ -264,6 +266,8 @@ _If you are upgrading: please see [`UPGRADING.md`](UPGRADING.md)._
 ## [1.0.0] - 2017-07-01
 
 _Earlier versions were published before `v1.0.0` but the code was then a branch inside [`leveldown`](https://github.com/Level/leveldown). This version marks the point where that code was extracted into its own repository thanks to the work of [`@mcollina`](https://github.com/mcollina)._
+
+[9.1.2]: https://github.com/epopsoft/rocksdb-cloud/releases/tag/v9.1.2
 
 [9.1.1]: https://github.com/epopsoft/rocksdb-cloud/releases/tag/v9.1.1
 
