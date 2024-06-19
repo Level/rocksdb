@@ -12,7 +12,7 @@ index dfd9eb7..cfd4724 100644
  
  // Copy host files to working directory
 diff --git a/node_modules/prebuildify-cross/index.js b/node_modules/prebuildify-cross/index.js
-index 0c37045..d868052 100644
+index 0c37045..fac8eda 100644
 --- a/node_modules/prebuildify-cross/index.js
 +++ b/node_modules/prebuildify-cross/index.js
 @@ -1,6 +1,7 @@
@@ -23,14 +23,16 @@ index 0c37045..d868052 100644
  const tar = require('tar-fs')
  const dockerPull = require('@vweevers/docker-pull')
  const dockerRun = require('docker-run')
-@@ -81,12 +82,13 @@ module.exports = function (opts, callback) {
-       volumes[modules] = '/input/node_modules'
-     }
+@@ -25,6 +26,8 @@ module.exports = function (opts, callback) {
+   const modules = opts.modules ? path.resolve(cwd, opts.modules) : null
  
-+    fs.writeFileSync('.PREBUILDIFY_CROSS_FILES.json', files)
+   const files = JSON.stringify(packageFiles(cwd))
++  fs.writeFileSync('.PREBUILDIFY_CROSS_FILES.json', files)
 +
-     const child = dockerRun(image, {
-       entrypoint: 'node',
+   const prebuilds = path.join(cwd, 'prebuilds')
+   const log = logger.create(process.stderr, { showCursor: true })
+ 
+@@ -86,7 +89,6 @@ module.exports = function (opts, callback) {
        argv: ['-'].concat(argv),
        volumes,
        env: {
@@ -38,3 +40,14 @@ index 0c37045..d868052 100644
          // Disable npm update check
          NO_UPDATE_NOTIFIER: 'true'
        }
+@@ -142,8 +144,8 @@ function prebuildifyArgv (argv, image) {
+   }
+ 
+   // TODO: move this to the docker images (https://github.com/prebuild/docker-images/issues/11)
+-  if (/^(ghcr\.io\/)?prebuild\/(linux|android)-arm/.test(image)) argv.push('--tag-armv')
+-  if (/^(ghcr\.io\/)?prebuild\/(centos|alpine)/.test(image)) argv.push('--tag-libc')
++  if (/\/(linux|android)-arm/.test(image)) argv.push('--tag-armv')
++  if (/\/(centos|alpine)/.test(image)) argv.push('--tag-libc')
+ 
+   return argv
+ }
