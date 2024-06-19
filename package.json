@@ -48,7 +48,7 @@
     "patch-package": "^8.0.0",
     "prebuildify": "^5.0.0",
     "prebuildify-ci": "^1.0.4",
-    "prebuildify-cross": "^5.0.0",
+    "prebuildify-cross": "5.1.0",
     "readfiletree": "^1.0.0",
     "rimraf": "^3.0.0",
     "standard": "^16.0.3",

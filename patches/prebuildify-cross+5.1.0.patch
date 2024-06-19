@@ -1,8 +1,8 @@
 diff --git a/node_modules/prebuildify-cross/guest.js b/node_modules/prebuildify-cross/guest.js
-index dfd9eb7..cfd4724 100644
+index dfd9eb7..a0bd0a0 100644
 --- a/node_modules/prebuildify-cross/guest.js
 +++ b/node_modules/prebuildify-cross/guest.js
-@@ -6,7 +6,7 @@ const cp = require('child_process')
+@@ -6,17 +6,16 @@ const cp = require('child_process')
  
  // TODO: fix permissions of WORKDIR in prebuild images
  const cwd = '/home/node/app'
@@ -11,28 +11,62 @@ index dfd9eb7..cfd4724 100644
  const argv = process.argv.slice(2)
  
  // Copy host files to working directory
+ for (const file of files) {
++  console.error(`Copying ${file}`) // stdout is used for tar file stream
+   const a = path.join('/input', file)
+   const b = path.join(cwd, file)
+ 
+-  fs.mkdirSync(path.dirname(b), { recursive: true })
+-  fs.copyFileSync(a, b, fs.constants.COPYFILE_EXCL)
+-  fs.chmodSync(b, 0o644)
++  fs.cpSync(a, b, { recursive: true })
+ }
+ 
+ // Use node_modules of host to avoid a second install step
 diff --git a/node_modules/prebuildify-cross/index.js b/node_modules/prebuildify-cross/index.js
-index 0c37045..fac8eda 100644
+index 0c37045..1199c6e 100644
 --- a/node_modules/prebuildify-cross/index.js
 +++ b/node_modules/prebuildify-cross/index.js
-@@ -1,6 +1,7 @@
- 'use strict'
- 
- const packlist = require('npm-packlist')
-+const fs = require('fs')
- const tar = require('tar-fs')
- const dockerPull = require('@vweevers/docker-pull')
- const dockerRun = require('docker-run')
-@@ -25,6 +26,8 @@ module.exports = function (opts, callback) {
+@@ -24,13 +24,12 @@ module.exports = function (opts, callback) {
+   const cwd = path.resolve(opts.cwd || '.')
    const modules = opts.modules ? path.resolve(cwd, opts.modules) : null
  
-   const files = JSON.stringify(packageFiles(cwd))
-+  fs.writeFileSync('.PREBUILDIFY_CROSS_FILES.json', files)
-+
+-  const files = JSON.stringify(packageFiles(cwd))
    const prebuilds = path.join(cwd, 'prebuilds')
    const log = logger.create(process.stderr, { showCursor: true })
  
-@@ -86,7 +89,6 @@ module.exports = function (opts, callback) {
+   loop()
+ 
+-  function loop () {
++  function loop() {
+     let image = images.shift()
+     if (!image) return process.nextTick(callback)
+ 
+@@ -49,7 +48,7 @@ module.exports = function (opts, callback) {
+       .on('error', callback)
+       .on('end', end)
+ 
+-    function progress () {
++    function progress() {
+       if (process.env.CI) {
+         console.error(`> prebuildify-cross pull ${this.image}`)
+         return this.removeListener('progress', progress)
+@@ -61,12 +60,12 @@ module.exports = function (opts, callback) {
+       log(`> prebuildify-cross pull ${this.image}: ${count}, ${ratio}`)
+     }
+ 
+-    function end () {
++    function end() {
+       run(this.image)
+     }
+   }
+ 
+-  function run (image) {
++  function run(image) {
+     const argv = prebuildifyArgv(opts.argv || [], image)
+ 
+     console.error('> prebuildify-cross run %s', image)
+@@ -86,7 +85,6 @@ module.exports = function (opts, callback) {
        argv: ['-'].concat(argv),
        volumes,
        env: {
@@ -40,7 +74,37 @@ index 0c37045..fac8eda 100644
          // Disable npm update check
          NO_UPDATE_NOTIFIER: 'true'
        }
-@@ -142,8 +144,8 @@ function prebuildifyArgv (argv, image) {
+@@ -108,25 +106,25 @@ module.exports = function (opts, callback) {
+       .on('error', callback)
+   }
+ 
+-  function onexit (code) {
++  function onexit(code) {
+     if (code) return callback(new Error('Exited with code ' + code))
+   }
+ }
+ 
+-function packageFiles (path) {
++function packageFiles(path) {
+   return packlist.sync({ path }).filter(function (fp) {
+     return !/^prebuilds[/\\]/i.test(fp)
+   })
+ }
+ 
+-function guestScript () {
++function guestScript() {
+   return browserify(require.resolve('./guest.js'), {
+     basedir: __dirname,
+     node: true
+   }).bundle()
+ }
+ 
+-function prebuildifyArgv (argv, image) {
++function prebuildifyArgv(argv, image) {
+   argv = argv.slice()
+ 
+   for (let i = 0; i < argv.length - 1; i++) {
+@@ -142,13 +140,13 @@ function prebuildifyArgv (argv, image) {
    }
  
    // TODO: move this to the docker images (https://github.com/prebuild/docker-images/issues/11)
@@ -50,4 +114,18 @@ index 0c37045..fac8eda 100644
 +  if (/\/(centos|alpine)/.test(image)) argv.push('--tag-libc')
  
    return argv
+ }
+ 
+-function cygwin (fp) {
++function cygwin(fp) {
+   if (process.platform !== 'win32') return fp
+   if (!truthy(process.env.COMPOSE_CONVERT_WINDOWS_PATHS)) return fp
+ 
+@@ -158,6 +156,6 @@ function cygwin (fp) {
+   return drive ? '/' + drive[1].toLowerCase() + unix : unix
+ }
+ 
+-function truthy (str) {
++function truthy(str) {
+   return str === 'true' || str === '1'
  }
