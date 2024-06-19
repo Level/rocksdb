@@ -1,0 +1,44 @@
+name: Build test
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            build-group: linux-x64
+          # At the time of writing macos-latest is mac 10; we need 11 to build a universal binary.
+          - os: macos-latest
+            build-group: darwin-arm64
+    runs-on: ${{ matrix.os }}
+    name: Build ${{ matrix.build-group }}
+    env:
+      BUILD_GROUP: ${{ matrix.build-group }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install
+        run: npm install --ignore-scripts
+      - name: Patch package
+        run: npm run patch-package
+      - name: Prebuild
+        run: npm run prebuild-$BUILD_GROUP
+        shell: bash
+      - name: Prepare artifact
+        run: tar -zcvf $BUILD_GROUP.tar.gz -C prebuilds .
+        shell: bash
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BUILD_GROUP }}
+          path: ${{ env.BUILD_GROUP }}.tar.gz
+          retention-days: 1
