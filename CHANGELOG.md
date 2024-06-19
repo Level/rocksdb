@@ -1,5 +1,11 @@
 # Changelog
 
+## [9.1.4] - 2024-06-19
+
+### Added
+
+- Add awsObjectPrefix option
+
 ## [9.1.3] - 2024-06-19
 
 ### Added
