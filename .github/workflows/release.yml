@@ -63,7 +63,7 @@ jobs:
         with:
           args: artifacts/*/*.tar.gz
       - name: Extract artifacts
-        run: tar -zxvf artifacts/*/*.tar.gz -C ./prebuilds && rm artifacts/*/*.tar.gz
+        run: for i in artifacts/*/*.tar.gz; do tar -zxvf "$i" -C ./prebuilds ;done && rm artifacts/*/*.tar.gz
         shell: bash
       - name: Publish npm package
         uses: JS-DevTools/npm-publish@v3
