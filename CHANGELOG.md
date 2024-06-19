@@ -1,6 +1,16 @@
 # Changelog
 
+## [9.1.3] - 2024-06-19
+
+### Added
+
+- Add typescript type definition
+
 ## [9.1.2] - 2024-06-19
+
+### Changed
+
+- Change github action release workflow
 
 ## [9.1.1] - 2024-06-17
 
