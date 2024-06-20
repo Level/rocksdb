@@ -48,7 +48,38 @@ declare namespace RocksDBCloud {
         awsRegion: string;
         awsEndpointUrl: string;
         awsBucketName: string;
-        awsObjectPrefix: string;
+        sourceObjectPrefix: string;
+        /**
+         * It is good to set different prefix than source path when open readOnly replica.
+         * Default: sourceObjectPrefix
+         * */
+        destObjectPrefix?: string | undefined;
+
+        /**
+         * Experimental option!
+         * If false, we don't roll cloud manifest when opening the database.
+         * Default: true
+         * */
+        rollCloudManifestOnOpen?: boolean | undefined;
+
+        /**
+         * If true, we will sync local snapshot(i.e, CLOUDMANIFEST and MANIFEST files)
+         * when opening db from cloud.
+         * Otherwise, we will use local CLOUDMANIFEST and MANIFEST files directly if
+         * present.
+         *
+         * NOTE: if the files are not present locally, we will always fetch
+         * from cloud
+         *
+         * Default: false
+         */
+        resyncOnOpen?: boolean | undefined;
+
+        /**
+         * If use local s3 like minio, set this to true.
+         *
+         * Default: false
+         */
         useSSL?: boolean | undefined;
     }
 

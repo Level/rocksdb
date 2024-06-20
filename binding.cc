@@ -1274,13 +1274,17 @@ NAPI_METHOD(db_open)
   const uint32_t blockRestartInterval = Uint32Property(env, options,
                                                        "blockRestartInterval", 16);
   const uint32_t maxFileSize = Uint32Property(env, options, "maxFileSize", 2 << 20);
+  const bool rollCloudManifestOnOpen = BooleanProperty(env, options, "rollCloudManifestOnOpen", true);
+  const bool resyncOnOpen = BooleanProperty(env, options, "resyncOnOpen", true);
 
   const std::string awsAccessKeyId = StringProperty(env, options, "awsAccessKeyId");
   const std::string awsSecretAccessKey = StringProperty(env, options, "awsSecretAccessKey");
   const std::string awsRegion = StringProperty(env, options, "awsRegion");
   const std::string awsEndpointUrl = StringProperty(env, options, "awsEndpointUrl");
   const std::string awsBucketName = StringProperty(env, options, "awsBucketName");
-  const std::string awsObjectPrefix = StringProperty(env, options, "awsObjectPrefix");
+  const std::string sourceObjectPrefix = StringProperty(env, options, "sourceObjectPrefix");
+  std::string destObjectPrefix = StringProperty(env, options, "destObjectPrefix");
+  destObjectPrefix = destObjectPrefix.empty() ? sourceObjectPrefix : destObjectPrefix;
   const bool useSSL = BooleanProperty(env, options, "useSSL", true);
 
   const uint32_t requestTimeoutMs = Uint32Property(env, options, "requestTimeoutMs", 0);
@@ -1324,12 +1328,15 @@ NAPI_METHOD(db_open)
   cloud_fs_options.src_bucket.SetRegion(awsRegion);
   cloud_fs_options.src_bucket.SetBucketPrefix("");
   cloud_fs_options.src_bucket.SetBucketName(awsBucketName, "");
-  cloud_fs_options.src_bucket.SetObjectPath(awsObjectPrefix);
+  cloud_fs_options.src_bucket.SetObjectPath(sourceObjectPrefix);
   cloud_fs_options.dest_bucket.SetRegion(awsRegion);
   cloud_fs_options.dest_bucket.SetBucketPrefix("");
   cloud_fs_options.dest_bucket.SetBucketName(awsBucketName, "");
-  cloud_fs_options.dest_bucket.SetObjectPath(awsObjectPrefix);
-  cloud_fs_options.cloud_file_deletion_delay = std::nullopt;
+  cloud_fs_options.dest_bucket.SetObjectPath(destObjectPrefix);
+  cloud_fs_options.cloud_file_deletion_delay = std::chrono::seconds(5);
+  cloud_fs_options.roll_cloud_manifest_on_open = rollCloudManifestOnOpen;
+  cloud_fs_options.delete_cloud_invisible_files_on_open = !readOnly;
+  cloud_fs_options.resync_on_open = resyncOnOpen;
 
   if (requestTimeoutMs > 0)
   {
