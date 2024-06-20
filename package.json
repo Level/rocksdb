@@ -1,6 +1,6 @@
 {
   "name": "rocksdb-cloud",
-  "version": "9.1.4",
+  "version": "9.1.5",
   "description": "A low-level Node.js RocksDB-cloud binding",
   "main": "leveldown.js",
   "scripts": {
