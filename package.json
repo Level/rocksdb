@@ -64,7 +64,7 @@
   "gypfile": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/epopsoft/rocksdb-cloud.git"
+    "url": "git+https://github.com/epopsoft/rocksdb-cloud.git"
   },
   "homepage": "https://github.com/epopsoft/rocksdb-cloud",
   "engines": {
