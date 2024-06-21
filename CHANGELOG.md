@@ -1,5 +1,11 @@
 # Changelog
 
+## [9.1.7] - 2024-06-19
+
+### Changes
+
+- Change linux-x64 prebuilt library to libc (ubuntu) from musl (alpine)
+
 ## [9.1.5] - 2024-06-19
 
 ### Added
