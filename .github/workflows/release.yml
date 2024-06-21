@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             build-group: linux-x64
           # At the time of writing macos-latest is mac 10; we need 11 to build a universal binary.
           - os: macos-latest
@@ -31,6 +31,11 @@ jobs:
         run: npm install --ignore-scripts
       - name: Patch package
         run: npm run patch-package
+      - name: Install prerequisits
+        run: |
+          if [ ${{ matrix.os }} == 'ubuntu-latest' ]; then
+            sudo apt-get install -y libcurl4-openssl-dev
+          fi
       - name: Prebuild
         run: npm run prebuild-$BUILD_GROUP
         shell: bash

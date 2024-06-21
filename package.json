@@ -15,7 +15,7 @@
     "build:dev": "node-gyp -j 16 build --debug",
     "rebuild:dev": "node-gyp -j 16 rebuild --debug",
     "prebuild": "prebuildify --napi --strip",
-    "prebuild-linux-x64": "prebuildify-cross -i ghcr.io/epopsoft/prebuildify-alpine --napi --strip",
+    "prebuild-linux-x64": "prebuildify --napi --strip --arch x64",
     "prebuild-darwin-x64+arm64": "prebuildify --napi --strip --arch x64+arm64",
     "prebuild-darwin-arm64": "prebuildify --napi --strip --arch arm64",
     "prebuild-win32-x64": "prebuildify --napi --strip",
