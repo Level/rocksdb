@@ -13,7 +13,8 @@
         ]
     }
   , 'defines': [
-        'SNAPPY=1'
+          'SNAPPY=1'
+        , 'ROCKSDB_SUPPORT_THREAD_LOCAL=1'
     ]
   , 'include_dirs': [
         'rocksdb/'
@@ -80,7 +81,7 @@
           , 'cflags': [ '-std=c++0x' ]
           , 'cflags!': [ '-fno-tree-vrp', '-fno-rtti' ]
           , 'cflags_cc!': [ '-fno-rtti' ]
-          # , 'cflags_cc+': [ '-frtti' ]
+          , 'cflags_cc+': [ '-std=c++17' ]
         }]
       , ['OS != "win"' and 'OS != "freebsd"', {
             'cflags': [
@@ -162,7 +163,7 @@
                 ]
                 , 'OTHER_CPLUSPLUSFLAGS': [
                     '-mmacosx-version-min=10.8'
-                  , '-std=c++11'
+                  , '-std=c++17'
                   , '-stdlib=libc++'
                   , '-fno-omit-frame-pointer'
                   , '-momit-leaf-frame-pointer'
@@ -178,7 +179,12 @@
     ]
   , 'sources': [
         'rocksdb/cache/cache.cc'
+      , 'rocksdb/cache/cache_entry_roles.cc'
+      , 'rocksdb/cache/cache_key.cc'
+      , 'rocksdb/cache/cache_reservation_manager.cc'
       , 'rocksdb/cache/clock_cache.cc'
+      , 'rocksdb/cache/compressed_secondary_cache.cc'
+      , 'rocksdb/cache/fast_lru_cache.cc'
       , 'rocksdb/cache/lru_cache.cc'
       , 'rocksdb/cache/sharded_cache.cc'
       , 'rocksdb/db/arena_wrapped_db_iter.cc'
@@ -194,7 +200,6 @@
       , 'rocksdb/db/builder.cc'
       , 'rocksdb/db/c.cc'
       , 'rocksdb/db/column_family.cc'
-      , 'rocksdb/db/compacted_db_impl.cc'
       , 'rocksdb/db/compaction/compaction.cc'
       , 'rocksdb/db/compaction/compaction_iterator.cc'
       , 'rocksdb/db/compaction/compaction_picker.cc'
@@ -205,6 +210,7 @@
       , 'rocksdb/db/compaction/sst_partitioner.cc'
       , 'rocksdb/db/convenience.cc'
       , 'rocksdb/db/db_filesnapshot.cc'
+      , 'rocksdb/db/db_impl/compacted_db_impl.cc'
       , 'rocksdb/db/db_impl/db_impl.cc'
       , 'rocksdb/db/db_impl/db_impl_write.cc'
       , 'rocksdb/db/db_impl/db_impl_compaction_flush.cc'
@@ -257,15 +263,18 @@
       , 'rocksdb/db/write_thread.cc'
       , 'rocksdb/env/env.cc'
       , 'rocksdb/env/env_chroot.cc'
+      , 'rocksdb/env/composite_env.cc'
       , 'rocksdb/env/env_encryption.cc'
-      , 'rocksdb/env/env_hdfs.cc'
       , 'rocksdb/env/file_system.cc'
       , 'rocksdb/env/file_system_tracer.cc'
+      , 'rocksdb/env/fs_remap.cc'
       , 'rocksdb/env/mock_env.cc'
+      , 'rocksdb/env/unique_id_gen.cc'
       , 'rocksdb/file/delete_scheduler.cc'
       , 'rocksdb/file/file_prefetch_buffer.cc'
       , 'rocksdb/file/file_util.cc'
       , 'rocksdb/file/filename.cc'
+      , 'rocksdb/file/line_file_reader.cc'
       , 'rocksdb/file/random_access_file_reader.cc'
       , 'rocksdb/file/read_write_util.cc'
       , 'rocksdb/file/readahead_raf.cc'
@@ -353,6 +362,7 @@
       , 'rocksdb/table/table_factory.cc'
       , 'rocksdb/table/table_properties.cc'
       , 'rocksdb/table/two_level_iterator.cc'
+      , 'rocksdb/table/unique_id.cc'
       , 'rocksdb/test_util/sync_point.cc'
       , 'rocksdb/test_util/sync_point_impl.cc'
       , 'rocksdb/test_util/testutil.cc'
@@ -372,6 +382,7 @@
       , 'rocksdb/trace_replay/trace_replay.cc'
       , 'rocksdb/trace_replay/block_cache_tracer.cc'
       , 'rocksdb/trace_replay/io_tracer.cc'
+      , 'rocksdb/util/cleanable.cc'
       , 'rocksdb/util/coding.cc'
       , 'rocksdb/util/compaction_job_stats_impl.cc'
       , 'rocksdb/util/comparator.cc'
@@ -409,6 +420,7 @@
       # , 'rocksdb/utilities/cassandra/merge_operator.cc'
 
       , 'rocksdb/utilities/checkpoint/checkpoint_impl.cc'
+      , 'rocksdb/utilities/compaction_filters.cc'
       , 'rocksdb/utilities/compaction_filters/remove_emptyvalue_compactionfilter.cc'
       , 'rocksdb/utilities/debug.cc'
 
@@ -422,12 +434,13 @@
 
       , 'rocksdb/utilities/leveldb_options/leveldb_options.cc'
       , 'rocksdb/utilities/memory/memory_util.cc'
+      , 'rocksdb/utilities/merge_operators.cc'
+      , 'rocksdb/utilities/merge_operators/bytesxor.cc'
+      , 'rocksdb/utilities/merge_operators/sortlist.cc'
 
       # Unused
-      # , 'rocksdb/utilities/merge_operators/bytesxor.cc'
       # , 'rocksdb/utilities/merge_operators/max.cc'
       # , 'rocksdb/utilities/merge_operators/put.cc'
-      # , 'rocksdb/utilities/merge_operators/sortlist.cc'
       # , 'rocksdb/utilities/merge_operators/string_append/stringappend.cc'
       # , 'rocksdb/utilities/merge_operators/string_append/stringappend2.cc'
       # , 'rocksdb/utilities/merge_operators/uint64add.cc'
@@ -467,6 +480,7 @@
       , 'rocksdb/utilities/transactions/write_unprepared_txn.cc'
       , 'rocksdb/utilities/transactions/write_unprepared_txn_db.cc'
       , 'rocksdb/utilities/ttl/db_ttl_impl.cc'
+      , 'rocksdb/utilities/wal_filter.cc'
       , 'rocksdb/utilities/write_batch_with_index/write_batch_with_index.cc'
       , 'rocksdb/utilities/write_batch_with_index/write_batch_with_index_internal.cc'
 
