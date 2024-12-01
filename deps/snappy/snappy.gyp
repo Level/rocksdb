@@ -87,4 +87,8 @@
       , 'snappy-1.1.7/snappy.cc'
       , 'snappy-1.1.7/snappy.h'
     ]
-}]}
+  }],
+  'variables': {
+    'openssl_fips': ''
+  }
+}
